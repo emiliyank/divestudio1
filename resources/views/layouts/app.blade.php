@@ -23,6 +23,74 @@
         .fa-btn {
             margin-right: 6px;
         }
+        
+        .supplier, .organization{
+            display: none;
+        }
+        
+        #all_regions{
+            height: 160px;
+            padding: 0;
+        }
+        #cl_regions{
+            height: 130px;
+            overflow: hidden;
+            padding: 5px 15px;
+            overflow-y: auto;
+        }
+        #cl_regions label{
+            font-weight: normal;
+            display: inline;
+        }
+        #cl_regions input{
+            margin-right: 5px;
+        }
+        #all_services{
+            height: 210px;
+            margin-bottom: 15px;
+        }
+        #all_services table, #cl_services table{
+            margin: 0;
+            margin-top: -1px;
+        }
+        #all_services table th:nth-child(1){
+            padding-left: 35px;
+        }
+        #all_services table th:nth-child(2){
+            text-align: center;
+            width: 150px;
+        }
+        #cl_services{
+            height: 153px;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+        #cl_services table td{
+            border: 0;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
+        #cl_services table td:nth-child(1){
+            width: 30px;
+        }
+        #cl_services table td:nth-child(3){
+            width: 120px;
+        }
+        #cl_services table td input{
+            text-align: right;
+        }
+        #cl_languages{
+            height: 55px;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+        #cl_languages label{
+            font-weight: normal;
+            display: inline;
+        }
+        #cl_languages input{
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body id="app-layout">
@@ -48,6 +116,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/ads') }}">My Ads</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -78,5 +147,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            if ( $('#user_type').val() === '2'){ $('.supplier').show(); }
+            if ( $('#cl_organization_type_id').val() > 1){ $('.organization').show(); }
+            $('#user_type').on('change', function() {
+                if ($(this).val() === '2'){
+                    $('.supplier').fadeIn(800);
+                }
+                else{
+                    $('.supplier').fadeOut(800);
+                }
+            });
+            $('#cl_organization_type_id').on('change', function() {
+                if ($(this).val() > 1){
+                    $('.organization').fadeIn(800);
+                }
+                else{
+                    $('.organization').fadeOut(800);
+                }
+            });
+        });
+</script>
 </body>
 </html>
