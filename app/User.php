@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\CmAd;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -12,7 +13,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'cl_organization_type_id', 'user_type', 'description'
+        'name','email','phone','password','user_type','description','cl_organization_type_id',
+        'org_name','reg_number','is_receiving_emails'
     ];
 
     /**
@@ -23,4 +25,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function ads(){
+        return $this->hasMany(Ad::class);
+    }
 }

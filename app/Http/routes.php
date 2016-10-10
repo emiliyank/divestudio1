@@ -18,3 +18,8 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/ads', 'AdController@index');
+Route::get('/ad', 'AdController@add_form');
+Route::post('/ad', 'AdController@add_submit');
+Route::get('/ad/{cm_ad}', 'AdController@single_ad');
