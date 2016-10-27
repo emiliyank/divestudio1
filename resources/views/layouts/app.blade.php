@@ -115,9 +115,31 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
-                    <li><a href="{{ url('/ads') }}">My Ads</a></li>
+                    <li><a href="{{ url('/home') }}">{{trans('main_layout.menu_home')}}</a></li>
+                    <li><a href="{{ url('/ads') }}">{{trans('main_layout.menu_my_ads')}}</a></li>
                 </ul>
+
+                <!-- Switch Langueges -->
+                 <span class="pull-right">
+                     <form class="form" role="form" method="POST" action="{{ url('/postChangeLanguage') }}">
+                        {{ csrf_field() }}
+                            <div class="form-group col-md-3">
+                                <label>{{trans('main_layout.lang')}}</label>
+                                <?php
+                                    if (Session::has('language')) {
+                                        $language = Session::get('language');
+                                    }else{
+                                        $language = Config::get('app.locale');
+                                    }
+                                ?>
+                                <select name="lang" onchange="this.form.submit()">
+                                    <option value="bg" <?php echo ($language==='bg' ? 'selected' : '');?>> bg </option>
+                                    <option value="en" <?php echo ($language==='en' ? 'selected' : '');?>> en </option>
+                                </select>
+                            </div>
+                     </form>
+                 </span>
+                 <!-- /.switch languages -->
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
@@ -132,7 +154,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>{{trans('main_layout.menu_logout')}}</a></li>
                             </ul>
                         </li>
                     @endif

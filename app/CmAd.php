@@ -23,4 +23,8 @@ class CmAd extends Model
     public function clService(){
         return $this->belongsTo(ClService::class, 'service_id');
     }
+
+     public function cmOffers(){
+        return $this->hasMany(CmOffer::class);
+    }
 }
