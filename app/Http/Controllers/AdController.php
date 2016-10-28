@@ -82,3 +82,4 @@ class AdController extends Controller{
          ]);
     }
 }
+

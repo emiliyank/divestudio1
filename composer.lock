@@ -6,6 +6,7 @@
     ],
     "hash": "1b480bd01b3080ca15265423af9cf87f",
     "content-hash": "234442fb971380e6e0fab050c1517ea7",
+
     "packages": [
         {
             "name": "classpreloader/classpreloader",
