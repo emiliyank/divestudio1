@@ -13,13 +13,13 @@
         <div class="form-group form-horizontal">
             <label class="col-sm-3 control-label">{{trans('ads.service')}}</label>
             <div class="col-sm-6">
-                {{$service->service_en}}
+                {{$service->getTranslation(\Session::get('language'))->service}}
             </div>
         </div><br/><br/>
         <div class="form-group form-horizontal">
             <label class="col-sm-3 control-label">{{trans('ads.region')}}</label>
             <div class="col-sm-6">
-                {{$region->region_en}}
+                {{$region->getTranslation(\Session::get('language'))->region}}
             </div>
         </div><br/><br/>
         <div class="form-group form-horizontal">
@@ -64,10 +64,22 @@
                                 <div>{{ $offer->price }}</div>
                             </td>
                             <td class="table-text">
-                                <div>{{ $offer->comment }}</div>
+                                <div>
+                                    @if($offer->hasTranslation(\Session::get('language')))
+                                        {{ $offer->getTranslation(\Session::get('language'))->comment }}
+                                    @else
+                                        <?php
+                                            echo link_to_route('route.offer_translate', $title = trans('common.btn_add_translation'), $parameters = array('cm_ad' => $cm_ad->id, 'cm_offer' => $offer->id), $attributes = array('class' =>"btn btn-warning", 'title' => "{{trans('offers.offer_translate')}}")); 
+                                        ?>
+                                    @endif
+                                </div>
                             </td>
                             <td class="table-text">
-                                <div>{{ $offer->type }}</div>
+                                <div>
+                                    @if($offer->hasTranslation(\Session::get('language')))
+                                        {{ $offer->getTranslation(\Session::get('language'))->type }}
+                                    @endif
+                                </div>
                             </td>
                             <td class="table-text">
                                 <div>{{ $offer->deadline }}</div>

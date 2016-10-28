@@ -26,6 +26,6 @@ return [
     'offer_title' => 'Оферта',
     'price' => 'Цена',
     'comment' => 'Коментар',
-    'deadline' => 'Заглавие',
+    'deadline' => 'Краен срок',
     'btn_add' => 'Добави',
 ];

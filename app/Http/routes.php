@@ -35,3 +35,13 @@ Route::get('/ad_offers/{cm_ad}', 'CmOfferController@ad_offers_list');
 Route::get('/offer/{cm_ad}', 'CmOfferController@add_form');
 Route::post('/offer', 'CmOfferController@add_submit');
 Route::post('/approve_offer/{cm_offer}', 'CmOfferController@approve_offer');
+
+Route::get('/offer-translate/{cm_ad}/{cm_offer}',[
+    'as' => 'route.offer_translate',
+    'uses' => 'CmOfferController@add_translation_form'
+	]);
+Route::post('/offer-translate/{cm_offer}',[
+    'as' => 'route.offer_translate_submit',
+    'uses' => 'CmOfferController@add_translation_submit'
+	]);
+
