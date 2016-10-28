@@ -1,11 +1,12 @@
 <?php
 
 namespace App;
-
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class ClService extends Model
 {
-    protected $fillable = ['id','service_bg','service_en'];
+	use Translatable;
+	public $translatedAttributes = ['service'];
 }
 

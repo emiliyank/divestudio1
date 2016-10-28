@@ -13,13 +13,13 @@
         <div class="form-group form-horizontal">
             <label class="col-sm-3 control-label">{{trans('ads.service')}}</label>
             <div class="col-sm-6">
-                {{$service->getTranslation(\Session::get('language'))->service}}
+                {{$service->service_en}}
             </div>
         </div><br/><br/>
         <div class="form-group form-horizontal">
             <label class="col-sm-3 control-label">{{trans('ads.region')}}</label>
             <div class="col-sm-6">
-                {{$region->getTranslation(\Session::get('language'))->region}}
+                {{$region->region_en}}
             </div>
         </div><br/><br/>
         <div class="form-group form-horizontal">
@@ -56,27 +56,34 @@
         @endforeach
     </div>
     @endif
-    {!! Form::open(array('url' => 'offer', 'method' => 'post', 'class' => 'form-horizontal')) !!}
+    {!! Form::model($cm_offer, array('route' => array('route.offer_translate_submit', $cm_offer->id), 'method' => 'post')) !!}
 <?php
+    echo Form::hidden('cm_offer_id', $cm_offer->id, array('class' => 'form-control'));
     echo Form::hidden('cm_ad_id', $cm_ad->id, array('class' => 'form-control'));
-    echo Form::hidden('ad_user_id', $cm_ad->created_by, array('class' => 'form-control'));
 
     echo '<div class="row">';
     echo '<div class="form-group col-md-9 col-md-push-1">';
         echo Form::label('price', trans('offers.price'));
-        echo Form::text('price', e(old('price')), array('class' => 'form-control'));
+        echo Form::text('price', $cm_offer->price, array('class' => 'form-control', 'disabled'));
     echo '</div> </div>';
 
     echo '<div class="row">';
     echo '<div class="form-group col-md-9 col-md-push-1">';
         echo Form::label('comment', trans('offers.comment'));
-        echo Form::textarea ('comment', e(old('comment')), array('class' => 'form-control'));
+        if($cm_offer->hasTranslation(\Session::get('language')))
+        {
+            $comment = $cm_offer->getTranslation(\Session::get('language'))->comment;
+            echo Form::textarea ('comment', $comment, array('class' => 'form-control', 'disabled'));
+        }else
+        {
+            echo Form::textarea ('comment', e(old('comment')), array('class' => 'form-control'));
+        }
     echo '</div> </div>';
 
     echo '<div class="row">';
     echo '<div class="form-group col-md-9 col-md-push-1" id="datetimepicker1">';
         echo Form::label('deadline', trans('offers.deadline'));
-        echo Form::text('deadline', e(old('deadline')), array('class' => 'form-control'));
+        echo Form::text('deadline', $cm_offer->deadline, array('class' => 'form-control', 'disabled'));
     echo '</div> </div>';
 
     echo Form::submit(trans('offers.btn_add'), array('class' => 'btn btn-primary pull-right'));
