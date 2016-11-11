@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (session('rating_ad_privillege'))
+        <h3 class="alert alert-danger">
+            {{ session('rating_ad_privillege') }}
+        </h3>
+    @endif
+
+    @if (session('rating_ad_expired'))
+        <h3 class="alert alert-danger">
+            {{ session('rating_ad_expired') }}
+        </h3>
+    @endif
     <div class="container">
         <div class="form-group form-horizontal">
             <label class="col-sm-3 control-label">Title</label>

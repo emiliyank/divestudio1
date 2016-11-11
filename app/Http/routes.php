@@ -11,16 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::auth();
 
-Route::post('/postChangeLanguage', 'CommonController@postChangeLanguage');
+Route::get('/postChangeLanguage/{language}', 'CommonController@postChangeLanguage');
 
-Route::get('/home', 'HomeController@index');
-
+/* ---Ads--- */
 Route::get('/ads', 'AdController@index');
 Route::get('/ad', 'AdController@add_form');
 Route::post('/ad', 'AdController@add_submit');
@@ -31,6 +26,7 @@ Route::get('/ads',[
     'uses' => 'AdController@index'
 	]);
 
+/* ---Offers--- */
 Route::get('/ad_offers/{cm_ad}', 'CmOfferController@ad_offers_list');
 Route::get('/offer/{cm_ad}', 'CmOfferController@add_form');
 Route::post('/offer', 'CmOfferController@add_submit');
@@ -45,3 +41,19 @@ Route::post('/offer-translate/{cm_offer}',[
     'uses' => 'CmOfferController@add_translation_submit'
 	]);
 
+/* ---Ratings--- */
+Route::get('/add-rating/{cm_ad}/{cm_offer}',[
+    'as' => 'route.add_rating',
+    'uses' => 'CmRatingController@add_form'
+    ])->middleware('ratingPrivilleges');
+Route::post('/add-rating',[
+    'as' => 'route.add_rating',
+    'uses' => 'CmRatingController@add_submit'
+    ]);
+
+
+/* --- Static Pages --- */
+Route::get('/',[
+    'as' => 'route.homepage',
+    'uses' => 'StaticPagesController@index'
+    ]);

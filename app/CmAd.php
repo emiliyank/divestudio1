@@ -16,7 +16,7 @@ class CmAd extends Model
         'user_id' => 'int',
     ];
     
-    public function user(){
+    public function createdBy(){
         return $this->belongsTo(User::class,'created_by');
     }
     

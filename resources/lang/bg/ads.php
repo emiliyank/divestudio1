@@ -12,12 +12,21 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
+    'ad_title' => 'Обява',
+    'service' => 'Категория',
     'title' => 'Заглавие',
-    'service' => 'Услуга',
-    'region' => 'Регион',
+
+    'placeholder_title' => 'Име на обявата*:',
+    'placeholder_service' => 'Изберете категория*:',
+    'placeholder_content' => 'Описание*:',
+    'placeholder_budget' => 'Бюджет',
+    'placeholder_deadline' => 'ДД-ММ-ГГГГ',
+
+    'region' => 'В региона на:',
     'content' => 'Съдържание',
-    'deadline' => 'Краен срок',
-    'budget' => 'Бюджет',
+    'deadline' => 'Срок за получаване на оферти:',
+    'budget' => 'Бюджет за изпълнение:',
+    'author' => 'Публикувана от: ',
+    'created_at' => 'Публикувана на: ',
 
 ];

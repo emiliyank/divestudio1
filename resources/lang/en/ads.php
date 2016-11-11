@@ -12,6 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'ad_title' => 'Ad',
 
     'title' => 'Title',
     'service' => 'Service',
