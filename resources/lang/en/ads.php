@@ -13,12 +13,18 @@ return [
     |
     */
     'ad_title' => 'Ad',
+    'service' => 'Category:',
+    'title' => 'Title:',
+    'region' => 'Region:',
+    'content' => 'Content:',
+    'deadline' => 'Deadline:',
+    'budget' => 'Budget:',
+    'author' => 'Published By: ',
+    'created_at' => 'Published On: ',
 
-    'title' => 'Title',
-    'service' => 'Service',
-    'region' => 'Region',
-    'content' => 'Content',
-    'deadline' => 'Deadline',
-    'budget' => 'Budget',
-
+    'placeholder_title' => 'Ad Name*:',
+    'placeholder_service' => 'Select Category*:',
+    'placeholder_content' => 'Content*:',
+    'placeholder_budget' => 'Budget*',
+    'placeholder_deadline' => 'dd-mm-yyyy',
 ];
