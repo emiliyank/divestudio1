@@ -15,13 +15,6 @@ return [
     'ad_title' => 'Обява',
     'service' => 'Категория',
     'title' => 'Заглавие',
-
-    'placeholder_title' => 'Име на обявата*:',
-    'placeholder_service' => 'Изберете категория*:',
-    'placeholder_content' => 'Описание*:',
-    'placeholder_budget' => 'Бюджет',
-    'placeholder_deadline' => 'ДД-ММ-ГГГГ',
-
     'region' => 'В региона на:',
     'content' => 'Съдържание',
     'deadline' => 'Срок за получаване на оферти:',
@@ -29,4 +22,9 @@ return [
     'author' => 'Публикувана от: ',
     'created_at' => 'Публикувана на: ',
 
+    'placeholder_title' => 'Име на обявата*:',
+    'placeholder_service' => 'Изберете категория*:',
+    'placeholder_content' => 'Описание*:',
+    'placeholder_budget' => 'Бюджет',
+    'placeholder_deadline' => 'ДД-ММ-ГГГГ',
 ];

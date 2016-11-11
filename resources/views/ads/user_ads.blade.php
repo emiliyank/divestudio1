@@ -19,16 +19,19 @@
         <div class="box">
             
             @foreach($ads as $cm_ad)
+            @if($cm_ad->hasTranslation(\Session::get('language')))
             <div class="user-box">
                 <div class="header">
-                    <h5>{{$cm_ad->title}}</h5>
+                    <h5>
+                        {{$cm_ad->getTranslation(\Session::get('language'))->title}}
+                    </h5>
                 </div>
                 <div class="container">
                     <p class="author">{{trans('ads.author')}} <span>{{$cm_ad->createdBy->name}}</span></p>
                     <p class="tags">{{trans('ads.service')}} <span>{{$cm_ad->clService->getTranslation(\Session::get('language'))->service}}</span></p>
                     <p class="date">{{trans('ads.created_at')}} <span>{{$cm_ad->created_at}}</span></p>
                     <p>
-                        {{trans('ads.content')}}
+                        {{$cm_ad->getTranslation(\Session::get('language'))->content}}
                     </p>
                     <p class="budget">{{trans('ads.budget')}} <span>{{$cm_ad->budget}}</span></p>
                     <p class="region">{{trans('ads.region')}} <span></span></p>
@@ -50,7 +53,7 @@
                     <p class="center"><em>Нямате съобщения</em></p>
                 </div>
             </div> 
-                
+            @endif
             @endforeach
         </div>
             
