@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<!--Header-->
+
+<div class="header small">
+    <div class="overlay">
+        <h2>Регистрация</h2>
+    </div>
+</div>
+
+<!--Header END-->
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

@@ -24,23 +24,11 @@ class CommonController extends Controller
             ]);
     }
 
-    public function postChangeLanguage(Request $request) 
+    public function postChangeLanguage($language) 
     {
-        $rules = [
-        'language' => 'in:en,bg' //list of supported languages of your application.
-        ];
-
-        $language = $request->lang;
-        //Input::get('lang'); //lang is name of form select field.
-        //$language = Session::get('language',Config::get('app.locale'));
-
-        $validator = Validator::make(compact($language),$rules);
-
-        if($validator->passes())
-        {
-            Session::put('language',$language);
-            App::setLocale($language);
-        }
+        Session::put('language',$language);
+        App::setLocale($language);
+        
         return Redirect::back();
     }
 }

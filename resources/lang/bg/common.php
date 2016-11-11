@@ -12,6 +12,8 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'btn_add' => 'Добави',
+    'btn_cancel' => 'Отказ',
 
     'btn_add_translation' => 'Добави превод',
 ];

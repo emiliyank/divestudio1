@@ -1,0 +1,438 @@
+<!DOCTYPE HTML>
+<html lang="bg" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Регистрация - Schetovodno.com - Портал за счетоводни услуги</title>
+<meta name="description" content="Порталът Schetovodno.com предлага търсене и предлагане на счетоводни услуги в цялата страна">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" media="screen" href="scr/schetistyle.css">
+<link rel="stylesheet" media="screen" href="scr/lightgallery.css">
+<!--[if lte IE 9]><link rel="stylesheet" href="scr/style_ie9.css" type="text/css" media="screen" /><![endif]-->
+<!--[if lte IE 8]><link rel="stylesheet" href="scr/style_ie8.css" type="text/css" media="screen" /><![endif]-->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css">
+<link rel="stylesheet" media="screen" href="scr/jquery.bxslider.css">
+<link rel="stylesheet" media="screen" href="scr/extras.css">
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="scr/jquery.bxslider.js"></script>
+<script type="text/javascript" src="scr/jquery.parallax-1.1.3.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.5/waypoints.min.js"></script>
+<script type="text/javascript" src="scr/lightgallery-all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+<script type="text/javascript" src="scr/jquery-scrolltofixed-min.js"></script>
+<!--<script type="text/javascript" src="scr/jquery.mixitup.js"></script>-->
+<!--<script type="text/javascript" src="scr/isotope.pkgd.min.js"></script>-->
+<!--<script type="text/javascript" src="scr/masonry.pkgd.min.js"></script>
+<script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>-->
+<!--<script async defer data-pin-hover="true" data-pin-round="true" data-pin-save="false" src="//assets.pinterest.com/js/pinit.js"></script>-->
+<script type="text/javascript" src="scr/schetiscript.js"></script>
+<script type="text/javascript" src="scr/modernizr.js"></script>
+
+
+<meta name="theme-color" content="#252525">
+<link rel="apple-touch-icon" href="img/icon/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="img/icon/icon_195.png">
+<link rel="shortcut icon" type="image/x-icon" href="img/icon/favicon.ico">
+<link rel="image_src" type="image/jpeg" href="img/icon/image_src.jpg">
+</head>
+
+<body>
+
+
+
+
+<header>
+<!--Loader-->
+    <div class="loader">
+      <div class="loader-icon"></div>
+      <div class="loader-label">Зарежда се</div>
+    </div>
+<!--Loader END-->
+    <div class="container">
+
+        <h1><a href="index.html" title="Портал за счетоводни услуги - Schetovodno.com">Schetovodno.com</a></h1>
+
+        <nav>
+            <ul>
+                <li><a href="#">Как работи</a></li>
+                <li class="act"><a href="#">Регистрирай се</a></li>
+                <li><a href="#">Статии</a></li>
+                <li class="contract"><a href="#">Търся</a></li>
+                <li class="employ"><a href="#">Предлагам</a></li>
+                <li class="login"><a href="#">Вход</a></li>
+                <li class="language"><a href="#">EN<span class="temp-hide">GLISH</span></a></li>
+			</ul>
+            
+        </nav>
+		
+        
+        
+    </div>
+</header>
+
+<!--Header-->
+
+<div class="header small">
+	<div class="overlay">
+    	<h2>Регистрация</h2>
+    </div>
+</div>
+
+<!--Header END-->
+
+<div class="content"><!--Content Starts-->
+
+<section>
+	<div class="container">
+    	
+		<h4>Роля</h4>
+        <p class="center">Моля изберете вашата роля. (Прочетете <a href="#">повече за ролите тук</a>.)</p>
+        
+        
+        <ul class="role-select">
+        	<li><a href="javascript:void(0)" onClick="$('#contract').fadeIn(); $('#employ').fadeOut();">Търсещ</a></li>
+            <li><a href="javascript:void(0)" onClick="$('#contract').fadeOut(); $('#employ').fadeIn();">Предлагащ</a></li>
+        </ul>
+        
+        <div id="contract">
+            
+            <h4>Търсещ услуга</h4>
+            
+            <form id="demand-registration-form" method="post" action="/">
+            <fieldset>
+            	
+                <p>Информация за потребителя:</p>
+                
+                <label for="demand-email">Email<span class="red">*</span>:</label>
+                <input type="email" name="demand-email" id="demand-email" class="email" required placeholder="Email*">
+                
+                <label for="demand-password">Парола<span class="red">*</span>:</label>
+                <input type="password" name="demand-password" id="demand-password" class="password" required placeholder="Парола*">
+                
+                <label for="demand-password-retype">Повтори парола<span class="red">*</span>:</label>
+                <input type="password" name="demand-password-retype" id="demand-password-retype" class="password" required placeholder="Повтори парола*">
+                
+                <label for="demand-username">Потребителско име<span class="red">*</span>:</label>
+                <input type="text" name="demand-username" id="demand-username" class="username" required placeholder="Потребителско име*">
+                
+                <p>Допълнителна информация:</p>
+                
+                <label for="demand-name">Вашето име<span class="red">*</span>:</label>
+                <input type="text" name="demand-name" id="demand-name" class="name" required placeholder="Вашето име*">
+                
+                <label for="demand-phone">Телефон за връзка<span class="red">*</span>:</label>
+                <input type="tel" name="demand-phone" id="demand-phone" class="telephone" required placeholder="Телефон за връзка*">
+                
+                <label for="demand-objectype">Вид правен субект:</label>
+                <select name="demand-objectype" id="demand-objectype">
+                    <option value="" selected>Вид правен субект:</option>
+                    <option value="Person">Физическо лице</option>
+                    <option value="Company">Фирма</option>
+                    <option value="ET">Едноличен търговец</option>
+                    <option value="Subcontractior">Подизпълнител</option>
+                </select>
+                
+                <label for="demand-company">Име на фирма:</label>
+                <input type="text" name="demand-company" id="demand-company" class="company" placeholder="Име на фирма">
+                
+                <label for="demand-number">ЕИК номер:</label>
+                <input type="text" name="demand-number" id="demand-number" class="eik" placeholder="ЕИК номер">
+                
+                <label for="demand-vat">ДДС номер:</label>
+                <input type="text" name="demand-vat" id="demand-vat" class="dds" placeholder="ДДС номер">
+                
+                <label for="demand-address">Адрес:</label>
+                <input type="text" name="demand-address" id="demand-address" class="address" placeholder="Адрес">
+                
+                <div class="checkbox">
+                <input type="checkbox" name="demand-agreement" id="demand-agreement" required value="Agreed with Ptivacy Policy">
+                <label for="demand-agreement">Прочел съм и съм съгласен с <a href="#" target="_blank">Общите условия</a><span class="red">*</span></label>
+                </div>
+                
+                <input type="submit" value="Продължи">
+                
+            </fieldset>
+            </form>               
+
+
+
+    </div>
+    
+    <div id="employ" style="display:none;">
+            
+            <h4>Предлагащ услуга</h4>
+            
+            <form id="supply-registration-form" method="post" action="/">
+            <fieldset>
+            	
+                <p>Информация за потребителя:</p>
+                
+                <label for="supply-email">Email<span class="red">*</span>:</label>
+                <input type="email" name="supply-email" id="supply-email" class="email" required placeholder="Email*">
+                
+                <label for="supply-password">Парола<span class="red">*</span>:</label>
+                <input type="password" name="supply-password" id="supply-password" class="password" required placeholder="Парола*">
+                
+                <label for="supply-password-retype">Повтори парола<span class="red">*</span>:</label>
+                <input type="password" name="supply-password-retype" id="supply-password-retype" class="password" required placeholder="Повтори парола*">
+                
+                <label for="supply-username">Потребителско име<span class="red">*</span>:</label>
+                <input type="text" name="supply-username" id="supply-username" class="username" required placeholder="Потребителско име*">
+                
+                <p>Допълнителна информация:</p>
+                
+                <label for="supply-name">Вашето име<span class="red">*</span>:</label>
+                <input type="text" name="supply-name" id="supply-name" class="name" required placeholder="Вашето име*">
+                
+                <label for="supply-phone">Телефон за връзка<span class="red">*</span>:</label>
+                <input type="tel" name="supply-phone" id="supply-phone" class="telephone" required placeholder="Телефон за връзка*">
+                
+                <label for="supply-objectype">Вид правен субект:</label>
+                <select name="supply-objectype" id="supply-objectype">
+                    <option value="">Вид правен субект:</option>
+                    <option value="Person">Физическо лице</option>
+                    <option value="Company">Фирма</option>
+                    <option value="ET">Едноличен търговец</option>
+                    <option value="Subcontractior">Подизпълнител</option>
+                </select>
+                
+                <label for="supply-company">Име на фирма:</label>
+                <input type="text" name="supply-company" id="supply-company" class="company" placeholder="Име на фирма">
+                
+                <label for="supply-number">ЕИК номер:</label>
+                <input type="text" name="supply-number" id="supply-number" class="eik" placeholder="ЕИК номер">
+                
+                <label for="supply-vat">ДДС номер:</label>
+                <input type="text" name="supply-vat" id="supply-vat" class="dds" placeholder="ДДС номер">
+                
+                <label for="supply-address">Адрес:</label>
+                <input type="text" name="supply-address" id="supply-address" class="address" placeholder="Адрес">
+                
+                <!--<label for="supply-regions">Изберете град(ове) на дейност:</label>
+                <select name="supply-regions" id="supply-regions">
+                    <option value="" selected>Изберете град(ове) на дейност:</option>
+                    <option value="All">Всички</option>
+                    <option value="Sofia">София</option>
+                    <option value="Varna">Варна</option>
+                    <option value="Бургас">Бургас</option>
+                    <option value="Plovdiv">Пловдив</option>
+                    <option value="Ruse">Русе</option>
+                </select>-->
+                
+                <p>Региони на дейност:</p>
+                <hr>
+                <p style="font-size: 26px;"><a href="javascript:void(0)" onclick="$('.checkboxes-group :checkbox').prop('checked', true); $(this).blur()"><i class="fa fa-check-square"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript:void(0)" onclick="$('.checkboxes-group :checkbox').prop('checked', false); $(this).blur()"><i class="fa fa-square"></i></a></p>
+                <div class="checkboxes-group">
+                	<input type="checkbox" name="regions[1]" id="regions[1]" value="1"><label for="regions[1]">Благоевград</label><br>
+                    <input type="checkbox" name="regions[2]" id="regions[2]" value="2"><label for="regions[2]">Бургас</label><br>
+                    <input type="checkbox" name="regions[3]" id="regions[3]" value="3"><label for="regions[3]">Варна</label><br>
+                    <input type="checkbox" name="regions[4]" id="regions[4]" value="4"><label for="regions[4]">Велико Търново</label><br>
+                    <input type="checkbox" name="regions[5]" id="regions[5]" value="5"><label for="regions[5]">Видин</label><br>
+                    <input type="checkbox" name="regions[6]" id="regions[6]" value="6"><label for="regions[6]">Враца</label><br>
+                    <input type="checkbox" name="regions[7]" id="regions[7]" value="7"><label for="regions[7]">Габрово</label><br>
+                    <input type="checkbox" name="regions[8]" id="regions[8]" value="8"><label for="regions[8]">Добрич</label><br>
+                    <input type="checkbox" name="regions[9]" id="regions[9]" value="9"><label for="regions[9]">Кърджали</label><br>
+                    <input type="checkbox" name="regions[10]" id="regions[10]" value="10"><label for="regions[10]">Кюстендил</label><br>
+                    <input type="checkbox" name="regions[11]" id="regions[11]" value="11"><label for="regions[11]">Ловеч</label><br>
+                    <input type="checkbox" name="regions[12]" id="regions[12]" value="12"><label for="regions[12]">Монтана</label><br>
+                    <input type="checkbox" name="regions[13]" id="regions[13]" value="13"><label for="regions[13]">Пазарджик</label><br>
+                    <input type="checkbox" name="regions[14]" id="regions[14]" value="14"><label for="regions[14]">Перник</label><br>
+                    <input type="checkbox" name="regions[15]" id="regions[15]" value="15"><label for="regions[15]">Плевен</label><br>
+                    <input type="checkbox" name="regions[16]" id="regions[16]" value="16"><label for="regions[16]">Пловдив</label><br>
+                    <input type="checkbox" name="regions[17]" id="regions[17]" value="17"><label for="regions[17]">Разград</label><br>
+                    <input type="checkbox" name="regions[18]" id="regions[18]" value="18"><label for="regions[18]">Русе</label><br>
+                    <input type="checkbox" name="regions[19]" id="regions[19]" value="19"><label for="regions[19]">Силистра</label><br>
+                    <input type="checkbox" name="regions[20]" id="regions[20]" value="20"><label for="regions[20]">Сливен</label><br>
+                    <input type="checkbox" name="regions[21]" id="regions[21]" value="21"><label for="regions[21]">Смолян</label><br>
+                    <input type="checkbox" name="regions[22]" id="regions[22]" value="22"><label for="regions[22]">София-област</label><br>
+                    <input type="checkbox" name="regions[23]" id="regions[23]" value="23"><label for="regions[23]">София-град</label><br>
+                    <input type="checkbox" name="regions[24]" id="regions[24]" value="24"><label for="regions[24]">Стара Загора</label><br>
+                    <input type="checkbox" name="regions[25]" id="regions[25]" value="25"><label for="regions[25]">Търговище</label><br>
+                    <input type="checkbox" name="regions[26]" id="regions[26]" value="26"><label for="regions[26]">Хасково</label><br>
+                    <input type="checkbox" name="regions[27]" id="regions[27]" value="27"><label for="regions[27]">Шумен</label><br>
+                    <input type="checkbox" name="regions[28]" id="regions[28]" value="28"><label for="regions[28]">Ямбол</label><br>
+                    
+                
+                </div>
+                
+                <p>Сфери на дейност и минимален бюджет (в лева):<br>
+				<em>(Оставете празно или нула за неограничен бюджет)</em></p>
+                <hr>
+
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed1" id="supply-filed1" value="filed1"  data-related-item="supply-budget1">
+                <label for="supply-filed1">Комплексно счетоводно обслужване</label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget1">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget1" id="supply-budget1" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed2" id="supply-filed2" value="filed2"  data-related-item="supply-budget2">
+                <label for="supply-filed2">Оперативно счетоводство </label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget2">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget2" id="supply-budget2" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed3" id="supply-filed3" value="filed3"  data-related-item="supply-budget3">
+                <label for="supply-filed3">Главен счетоводител</label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget3">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget3" id="supply-budget3" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed4" id="supply-filed4" value="filed4"  data-related-item="supply-budget4">
+                <label for="supply-filed4">Годишно приключване (ГФО)</label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget4">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget4" id="supply-budget4" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed5" id="supply-filed5" value="filed5"  data-related-item="supply-budget5">
+                <label for="supply-filed5">Междинни финансови отчети </label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget5">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget5" id="supply-budget5" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed6" id="supply-filed6" value="filed6"  data-related-item="supply-budget6">
+                <label for="supply-filed6">Пейрол услуги</label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget6">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget6" id="supply-budget6" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed7" id="supply-filed7" value="filed7"  data-related-item="supply-budget7">
+                <label for="supply-filed7">HR услуги </label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget7">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget7" id="supply-budget7" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed8" id="supply-filed8" value="filed8"  data-related-item="supply-budget8">
+                <label for="supply-filed8">Еднократни счетоводни и данъчни консултации</label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget8">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget8" id="supply-budget8" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-filed9" id="supply-filed9" value="filed9"  data-related-item="supply-budget9">
+                <label for="supply-filed9">Изготвяне на счетоводна политика, сметкоплан, счетоводна отчетност</label>
+                </div>
+                <div style="display: none;">
+                <label for="supply-budget9">Минимален бюджет:</label>
+                <input type="number" min="0" name="supply-budget9" id="supply-budget9" class="budget" placeholder="Минимален бюджет">
+                </div>
+                
+                <p>Език:</p>
+                <hr>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-lang-bg" id="supply-lang-bg" checked value="BG">
+                <label for="supply-lang-bg">Български</label>
+                </div>
+                <div class="checkbox">
+                <input type="checkbox" name="supply-lang-en" id="supply-lang-en" value="EN">
+                <label for="supply-lang-en">Английски</label>
+                </div>
+                
+                <script type="text/javascript">
+					$('#supply-lang-en').change(function() {
+						$('#supply-english-description-wrapper').slideToggle();
+					});
+				</script>
+                
+                <p>Описание на профила:</p>
+                
+                <label for="supply-description-bg">Описание на български език<span class="red">*</span>:</label>
+        		<textarea name="supply-description-bg" id="supply-description-bg" placeholder="Описание на български език*" onFocus="focusLink(true)" onBlur="focusLink(false)"></textarea>
+                
+                <div id="supply-english-description-wrapper" style="display: none;">
+                <label for="supply-description-en">Описание на английски език<span class="red">*</span>:</label>
+        		<textarea name="supply-description-en" id="supply-description-en" placeholder="Описание на английски език*" onFocus="focusLink(true)" onBlur="focusLink(false)"></textarea>
+                </div>
+                
+                <div class="checkbox">
+                <input type="checkbox" name="supply-agreement" id="supply-agreement" required value="Agreed with Ptivacy Policy">
+                <label for="supply-agreement">Прочел съм и съм съгласен с <a href="#" target="_blank">Общите условия</a><span class="red">*</span></label>
+                </div>
+                
+                <input type="submit" value="Продължи">
+                
+            </fieldset>
+            </form>               
+		</div>
+
+
+    </div>
+    
+	
+</section>
+
+
+	   
+
+</div><!--Content Ends-->
+
+<footer>
+	<div class="footer-top">
+    	<div class="container">
+            <div class="float-left">
+                <ul class="footer-nav">
+                    <li><a href="#">Начало</a></li>
+                    <li><a href="#">Как работи</a></li>
+                    <li><a href="#">Статии</a></li>
+                    <li><a href="#">Регистрация</a></li>
+                    <li><a href="#">Вход</a></li>
+                    <li><a href="#">За нас</a></li>
+                    <li><a href="#">Контакти</a></li>
+                    <li><a href="#">Общи условия</a></li>
+                </ul>
+            </div>
+            <div class="float-right">
+                <ul class="footer-social">
+                    <li class="facebook"><a href="https://www.facebook.com" target="_blank">Facebook</a></li>
+                    <li class="twitter"><a href="https://www.twitter.com" target="_blank">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+    	<div class="float-left">
+        	<h4><a href="#">Schetovodno.com</a></h4>
+        </div>
+        <div class="float-right">
+        	<p class="copyright">Schetovodno.com &copy; 2016 | <a href="http://www.dive-studio.com" target="_blank" title="Web design by DIVE Studio">Webdesign</a> by DIVE Studio</p>
+        </div>
+    </div>
+
+</footer>
+
+
+
+</body>
+</html>

@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Mail;
+
 use App\CmAd;
+use App\User;
 use App\CmAdTranslation;
 use App\CmOffer;
 use App\CmOfferTranslation;
@@ -63,7 +66,7 @@ class CmOfferController extends Controller{
         $translation = $offer->getNewTranslation(\Session::get('language'));
         $translation->cm_offer_id = $offer->id;
         $translation->comment = $request->comment;
-        
+
         if(\Auth::id() == $request->ad_user_id)
         {
             if(\Session::get('language') == 'bg')
@@ -79,7 +82,18 @@ class CmOfferController extends Controller{
             }else{
                 $translation->type = 'supplier';
             }
-            //TODO: send notification email to the client
+
+            //Send notification email to the client
+            $user = User::where('id', $request->ad_user_id)->first();
+            $to = $user->email;
+            $data = array('from' => "You have new offer!");
+            Mail::queue('emails.offer_sent', $data, function ($message) use ($to){
+                $message->from('no-reply@divestudio.com', 'Inveitix');
+                $message->to($to);
+                $message->subject('DiveStudio Platform');
+            });
+            //TODO for windows&xampp: https://laracasts.com/discuss/channels/general-discussion/curl-error-60-ssl-certificate-problem-unable-to-get-local-issuer-certificate/replies/37017
+
         }
         $translation->save();
         

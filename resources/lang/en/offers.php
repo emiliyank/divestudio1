@@ -26,6 +26,6 @@ return [
     'offer_title' => 'Offer',
     'price' => 'Price',
     'comment' => 'Comment',
-    'deadline' => 'Title',
+    'deadline' => 'Deadline',
     'btn_add' => 'Add',
 ];
