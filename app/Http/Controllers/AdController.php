@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\CmAd;
 use App\ClRegion;
 use App\ClService;
+use App\ConAdRegion;
 
 class AdController extends Controller{
 
@@ -20,7 +21,7 @@ class AdController extends Controller{
 
     public function index(){
         
-        $ads = CmAd::where('created_by', \Auth::id())->get();
+        $ads = CmAd::with(array('clRegion', 'clService', 'createdBy'))->where('created_by', \Auth::id())->get();
         
         return view('ads.user_ads', [
             'ads' => $ads,
@@ -29,21 +30,12 @@ class AdController extends Controller{
 
     public function add_form(){
 
-        $regions_data = ClRegion::orderBy('region_order', 'desc')->orderBy('region_en', 'asc')->get();
-        $cl_regions = array();
-        foreach ($regions_data as $region) {
-            $cl_regions[$region['id']] = $region['region_en'];
-        }
-
-        $services_data = ClService::get();
-        $cl_services = array();
-        foreach ($services_data as $service) {
-            $cl_services[$service['id']] = $service['service_en'];
-        }
+        $regions_data = ClRegion::orderBy('region_order', 'desc')->get();
+        $services_data = ClService::get();        
         
         return view('ads.add_ad', [
-            'cl_regions' => $cl_regions,
-            'cl_services' => $cl_services
+            'cl_regions' => $regions_data,
+            'cl_services' => $services_data
         ]);
     }
 
@@ -51,22 +43,29 @@ class AdController extends Controller{
         $this->validate($request, [
             'title' => 'required|max:200',
             'service_id' => 'required',
-            'cl_region_id' => 'required',
+            'regions' => 'required',
             'content' => 'required|max:2000',
-            'deadline' => 'required|date_format:Y-m-d H:i',
+            'deadline' => 'required|date_format:d-m-Y',
             'budget' => 'required|integer|min:1',
-	]);
+	   ]);
         
         $ad = new CmAd;
         $ad->title = $request->title;
         $ad->created_by = \Auth::id();
         $ad->service_id = $request->service_id;
-        $ad->cl_region_id = $request->cl_region_id;
         $ad->content = $request->content;
-        $ad->deadline = date('Y-m-d H:i',strtotime($request->deadline));
+        $ad->deadline = date('Y-m-d',strtotime($request->deadline));
         $ad->budget = $request->budget;
         
         $ad->save();
+
+        $ad_id = $ad->id;
+        foreach ($request->regions as $region) {
+            $con_ad_region = new ConAdRegion;
+            $con_ad_region->cm_ad_id = $ad_id;
+            $con_ad_region->cl_region_id = $region;
+            $con_ad_region->save();
+        }
         
         return redirect('/ads');
     }
@@ -82,3 +81,4 @@ class AdController extends Controller{
          ]);
     }
 }
+

@@ -1,0 +1,1 @@
+You have received offer for your ad ???. Check the offer <a href="#"> here(TODO link) </a>.
