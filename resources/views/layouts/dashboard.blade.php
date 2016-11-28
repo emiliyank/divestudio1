@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('layout')
+@section('template')
 
 <header>
 <!--Loader-->
