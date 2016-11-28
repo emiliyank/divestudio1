@@ -9,13 +9,13 @@ use App\Http\Controllers\Controller;
 
 class StaticPagesController extends Controller{
 
-    public function __construct()
-    {
+	public function __construct()
+	{
         //$this->middleware('auth');
-    }
+	}
 
-    public function index()
-    {
-        return view('static.index');
-    }
+	public function index()
+	{
+		return view('static.index');
+	}
 }

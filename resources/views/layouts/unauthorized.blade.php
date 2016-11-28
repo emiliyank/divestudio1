@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('layout')
+@section('template')
 
 <header>
 <!--Loader-->
@@ -47,3 +47,5 @@
 </header>
 
     @yield('content')
+    
+@endsection
