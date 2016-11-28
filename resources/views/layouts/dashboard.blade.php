@@ -48,9 +48,9 @@
     <div class="box">
         <ul class="user-nav" id="user-nav">
             <li><a href="#">Моят профил</a></li>
-            <li><a href="#">Моите данни</a></li>
-            <li><a href="#">Моите настройки</a></li>
-            <li class="act"><a href="<?php echo url('ads'); ?>">Моите обяви</a></li>
+            <li><a href="<?php echo url('account'); ?>">Моите данни</a></li>
+            <li><a href="<?php echo url('user-details'); ?>">Моите настройки</a></li>
+            <li><a href="<?php echo url('ads'); ?>">Моите обяви</a></li>
             <li><a href="#">Получени обяви (1)</a></li>
             <li><a href="#">Съобщения</a></li>
             <li><a href="#">Архив</a></li>

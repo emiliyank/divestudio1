@@ -14,4 +14,5 @@ return [
     */
 
     'btn_add_translation' => 'Add Translation',
+    'btn_save' => 'Save',
 ];

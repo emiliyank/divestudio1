@@ -3,18 +3,22 @@
 namespace App;
 
 use App\CmAd;
+use Dimsav\Translatable\Translatable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Translatable;
+    public $translatedAttributes = ['name', 'org_name', 'address', 'description'];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name','email','phone','password','user_type','description','cl_organization_type_id',
-        'org_name','reg_number','is_receiving_emails'
+        'email','phone','password','user_type','cl_organization_type_id',
+        'reg_number','is_receiving_emails'
     ];
 
     /**
@@ -28,5 +32,20 @@ class User extends Authenticatable
     
     public function ads(){
         return $this->hasMany(Ad::class);
+    }
+
+    public function conUserServices()
+    {
+        return $this->hasMany(ConUserService::class);
+    }
+
+    public function conUserRegions()
+    {
+        return $this->hasMany(ConUserRegion::class);
+    }
+
+    public function conUserLanguages()
+    {
+        return $this->hasMany(ConUserLanguage::class);
     }
 }

@@ -24,7 +24,7 @@ class CmRatingController extends Controller{
         
         return view('ads.user_ads', [
             'ads' => $ads,
-        ]);
+            ]);
     }
 
     public function add_form(CmAd $cm_ad, CmOffer $cm_offer)
@@ -37,13 +37,13 @@ class CmRatingController extends Controller{
             'cm_offer' => $cm_offer,
             'region' => $cl_region,
             'service' => $cl_service,
-        ]);
+            ]);
     }
 
     public function add_submit(Request $request){
         $this->validate($request, [
             'grade' => 'required|integer|min:1|max:5',
-	   ]);
+            ]);
         
         $cm_rating = new CmRating;
         $cm_rating->grade = $request->grade;
