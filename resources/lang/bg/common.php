@@ -14,6 +14,7 @@ return [
     */
     'btn_add' => 'Добави',
     'btn_cancel' => 'Отказ',
+    'btn_save' => 'Запиши',
 
     'btn_add_translation' => 'Добави превод',
 ];

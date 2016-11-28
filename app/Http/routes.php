@@ -51,6 +51,24 @@ Route::post('/add-rating',[
     'uses' => 'CmRatingController@add_submit'
     ]);
 
+/* --- User Profile --- */
+Route::get('/user-details',[
+    'as' => 'route.edit_user_details',
+    'uses' => 'UserController@edit_user_details_form'
+    ]);
+Route::post('/user-details',[
+    'as' => 'route.edit_user_details_submit',
+    'uses' => 'UserController@edit_user_details_submit'
+    ]);
+
+Route::get('/account',[
+    'as' => 'route.edit_account_info',
+    'uses' => 'UserController@edit_account_info_form'
+    ]);
+Route::post('/account',[
+    'as' => 'route.edit_account_info_submit',
+    'uses' => 'UserController@edit_account_submit'
+    ]);
 
 /* --- Static Pages --- */
 Route::get('/',[

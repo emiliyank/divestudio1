@@ -35,7 +35,7 @@ class CmOfferController extends Controller{
             'cm_offers' => $cm_offers,
             'region' => $cl_region,
             'service' => $cl_service,
-        ]);
+            ]);
     }
 
     public function add_form(CmAd $cm_ad)
@@ -46,7 +46,7 @@ class CmOfferController extends Controller{
             'cm_ad' => $cm_ad,
             'region' => $cl_region,
             'service' => $cl_service,
-         ]);
+            ]);
     }
 
     public function add_submit(Request $request){
@@ -54,7 +54,7 @@ class CmOfferController extends Controller{
             'price' => 'required|integer|min:1',
             'comment' => 'required|max:200',
             'deadline' => 'required|date_format:Y-m-d H:i',
-	   ]);
+            ]);
         
         $offer = new CmOffer;
         $offer->cm_ad_id = $request->cm_ad_id;
@@ -124,13 +124,13 @@ class CmOfferController extends Controller{
             'region' => $cl_region[0],
             'service' => $cl_service[0],
             'cm_offer' => $cm_offer,
-         ]);
+            ]);
     }
 
     public function add_translation_submit(CmOffer $cm_offer, Request $request){
         $this->validate($request, [
             'comment' => 'required|max:200',
-       ]);
+            ]);
 
         //$cm_offer = CmOffer::where('id', $request->cm_offer_id)->get();
 
@@ -141,7 +141,7 @@ class CmOfferController extends Controller{
             $translation = $cm_offer->getNewTranslation($lang);
             $translation->cm_offer_id = $cm_offer->id;
             $translation->comment = $request->comment;
-        
+
             if(\Auth::id() == $request->cm_ad_id)
             {
                 if(\Session::get('language') == 'bg')
