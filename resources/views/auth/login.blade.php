@@ -80,8 +80,8 @@
             </div>
         </div>
     </div>
+    </div>
     </section>
     </div><!--Content Ends-->
 
-</div>
 @endsection
