@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.unauthorized')
 
 @section('content')
 <!--Header-->
@@ -10,239 +10,142 @@
 </div>
 
 <!--Header END-->
+<div class="content"><!--Content Starts-->
+    <section>
+        <div class="container">
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                        {{ csrf_field() }}
+            <h4>Роля</h4>
+            <p class="center">Моля изберете вашата роля. (Прочетете <a href="#">повече за ролите тук</a>.)</p>
+            <ul class="role-select">
+        	<li><a href="javascript:void(0)" onClick="$('.supply').hide(); $('.demand').fadeIn(); $('#user_type').val('1');">Търсещ</a></li>
+                <li><a href="javascript:void(0)" onClick="$('.demand').hide(); $('.supply').fadeIn(); $('#user_type').val('2');">Предлагащ</a></li>
+            </ul>
+            
+            <div id="contract">
+                <h4 class="demand" style="{{old('user_type')!=2 ? '' : 'display:none'}}">Търсещ услуга</h4>
+                <h4 class="supply" style="{{old('user_type')==2 ? '' : 'display:none'}}">Предлагащ услуга</h4>
+                @if ($errors->any())
+@foreach($errors->all() as $error)
+<p>{{$error}}</p>
+@endforeach
+                @endif            
+                <form id="registration-form" method="post" action="{{ url('/register') }}">
+                <fieldset>
+                    {{ csrf_field() }}
+                    <input type="hidden" name="user_type" id="user_type" value="{{old('user_type')==2 ? '2' : '1'}}"/>
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}">
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                    <p>Информация за потребителя:</p>
+                    
+                    <label for="email">Email<span class="red">*</span>:</label>
+@if ($errors->has('email'))<strong>{{$errors->first('email')}}</strong>@endif
+                    <input type="email" name="email" id="email" class="email" required placeholder="Email*" value="{{ old('email') }}">
+
+                    <label for="password">Парола<span class="red">*</span>:</label>
+@if ($errors->has('password'))<strong>{{$errors->first('password')}}</strong>@endif
+                    <input type="password" name="password" id="password" class="password" required placeholder="Парола*">
+                    
+                    <label for="password_confirmation">Повтори парола<span class="red">*</span>:</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="password" required placeholder="Повтори парола*">
+                    
+                    <label for="username">Потребителско име<span class="red">*</span>:</label>
+@if ($errors->has('username'))<strong>{{ $errors->first('username') }}</strong>@endif
+                    <input type="text" name="username" id="username" class="username" required placeholder="Потребителско име*" value="{{ old('username') }}">
+                    
+                    <p>Допълнителна информация:</p>
+                    
+                    <label for="name">Вашето име<span class="red">*</span>:</label>
+@if ($errors->has('name'))<strong>{{ $errors->first('name') }}</strong>@endif
+                    <input type="text" name="name" id="name" class="name" required placeholder="Вашето име*" value="{{ old('name') }}">
+                
+                    <label for="phone">Телефон за връзка<span class="red">*</span>:</label>
+@if ($errors->has('phone'))<strong>{{ $errors->first('phone') }}</strong>@endif
+                    <input type="tel" name="phone" id="phone" class="telephone" required placeholder="Телефон за връзка*" value="{{ old('phone') }}">
+
+                    <label for="cl_organization_type_id">Вид правен субект:</label>
+@if ($errors->has('cl_organization_type_id'))<strong>{{ $errors->first('cl_organization_type_id') }}</strong>@endif
+                    <select name="cl_organization_type_id" id="cl_organization_type_id">
+                        <option value="" selected style="display: none">Вид правен субект:</option>
+@foreach($cl_organization_types as $id => $organization_type)
+                        <option value="{{$id}}" {{(old('cl_organization_type_id')==$id) ? "selected":""}}>{{$organization_type}}</option>
+@endforeach
+                    </select>
+                    
+                    <label for="org_name">Име на фирма:</label>
+                    <input type="text" name="org_name" id="org_name" class="company" placeholder="Име на фирма" value="{{ old('org_name') }}">
+                
+                    <label for="reg_number">ЕИК номер:</label>
+                    <input type="text" name="reg_number" id="reg_number" class="eik" placeholder="ЕИК номер" value="{{ old('reg_number') }}">
+                
+                    <label for="vat_number">ДДС номер:</label>
+                    <input type="text" name="vat_number" id="vat_number" class="dds" placeholder="ДДС номер" value="{{ old('vat_number') }}">
+                
+                    <label for="address">Адрес:</label>
+                    <input type="text" name="address" id="address" class="address" placeholder="Адрес" value="{{ old('address') }}">
+
+                    <div class="supply" style="{{old('user_type')==2 ? '' : 'display:none'}}">
+                        <p>Региони на дейност:</p>
+                        <hr>
+                        <p style="font-size: 26px;">
+                            <a href="javascript:void(0)" onclick="$('.checkboxes-group :checkbox').prop('checked', true); $(this).blur()"><i class="fa fa-check-square"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="javascript:void(0)" onclick="$('.checkboxes-group :checkbox').prop('checked', false); $(this).blur()"><i class="fa fa-square"></i></a>
+                        </p>
+                        <div class="checkboxes-group">
+@foreach($cl_regions as $region)
+                            <input type="checkbox" {{(old('regions.'.$region->id) == $region->id) ? "checked":""}} name="regions[{{$region->id}}]" id="regions[{{$region->id}}]" value="{{$region->id}}">
+                            <label for="regions[{{$region->id}}]">{{$region->getTranslation(\Session::get('language'))->region}}</label><br/>
+@endforeach
                         </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                       
+                        <p>Сфери на дейност и минимален бюджет (в лева):<br/>
+                        <em>(Оставете празно или нула за неограничен бюджет)</em></p>
+                        <hr>
+@foreach($cl_services as $service)
+                        <div class="checkbox">
+                            <input type="checkbox" {{(old('services.'.$service->id) == $service->id) ? "checked":""}} name="services[{{$service->id}}]" id="supply-filed{{$service->id}}" value="{{$service->id}}" data-related-item="supply-budget{{$service->id}}">
+                            <label for="supply-filed{{$service->id}}">{{$service->getTranslation(\Session::get('language'))->service}}</label>
                         </div>
-
-                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-                            <label for="phone" class="col-md-4 control-label">Phone</label>
-                            <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}">
-                                @if ($errors->has('phone'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('phone') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                        <div style="display: none;">
+                            <label for="supply-budget{{$service->id}}">Минимален бюджет:</label>
+                            <input type="number" min="0" name="budget[{{$service->id}}]" id="supply-budget{{$service->id}}" class="budget" placeholder="Минимален бюджет" value="{{ old('budget.'.$service->id) }}">
                         </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+@endforeach
+                        <p>Език:</p>
+@if ($errors->has('cl_languages'))<strong>{{$errors->first('cl_languages')}}</strong>@endif
+                        <hr> 
+@foreach($cl_languages as $id => $language)
+                        <div class="checkbox">
+                            <input type="checkbox" name="cl_languages[{{$language}}]" id="cl_languages{{$id}}" value="{{$language}}" onchange="toggle_description({{$id}})" {{(old('cl_languages.'.$language) == $language) ? "checked":""}}>
+                            <label for="cl_languages{{$id}}">{{$language}}</label>
                         </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('user_type') ? ' has-error' : '' }}">
-                            <label for="user_type" class="col-md-4 control-label">User Type</label>
-                            <div class="col-md-6">
-                                <select name="user_type" class="form-control" id="user_type">
-                                    <option value=""> </option>
-                                    <option value="1" {{(old('user_type') == 1) ? "selected":""}}> Client</option>
-                                    <option value="2" {{(old('user_type') == 2) ? "selected":""}}> Supplier</option>
-                                </select>
-                                @if ($errors->has('user_type'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('user_type') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group {{ $errors->has('cl_organization_type_id') ? ' has-error' : '' }}">
-                            <label for="cl_organization_type_id" class="col-md-4 control-label">Organization Type</label>
-                            <div class="col-md-6">
-                                <select id="cl_organization_type_id" class="form-control" name="cl_organization_type_id">
-                                    <option value=""> </option>
-                                    @foreach($cl_organization_types as $id => $organization_type)
-                                        <option value="{{$id}}" {{(old('cl_organization_type_id') == $id) ? "selected":""}}>{{$organization_type}}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('cl_organization_type_id'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('cl_organization_type_id') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group {{ $errors->has('org_name') ? ' has-error' : '' }}">
-                            <label for="org_name" class="col-md-4 control-label">{{trans('auth.org_name')}}</label>
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="org_name" value="{{ old('org_name') }}">
-                                @if ($errors->has('org_name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('org_name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group organization{{ $errors->has('reg_number') ? ' has-error' : '' }}">
-                            <label for="reg_number" class="col-md-4 control-label">Registration Number</label>
-                            <div class="col-md-6">
-                                <input id="reg_number" type="text" class="form-control" name="reg_number" value="{{ old('reg_number') }}">
-                                @if ($errors->has('reg_number'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('reg_number') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('cl_languages') ? ' has-error' : '' }}">
-                            <label for="cl_languages" class="col-md-4 control-label">Languages</label>
-                            <div class="col-md-6">
-                                <div id="cl_languages" class="form-control">
-                                    @foreach($cl_languages as $language)
-                                    <label>
-                                        <input type="checkbox" {{(old('cl_languages.'.$language) == $language) ? "checked":""  }} name="cl_languages[{{$language}}]" value="{{$language}}"> {{$language}}<br>
-                                    </label>
-                                    @endforeach
-                                </div>
-                                @if ($errors->has('cl_languages'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('cl_languages') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+@endforeach
+                        <p>Описание на профила:</p>
+                        <label for="description0">Описание на български език<span class="red">*</span>:</label>
+        		<textarea name="description" id="description0" placeholder="Описание на български език*" onFocus="focusLink(true)" onBlur="focusLink(false)"></textarea>
+                        <div id="description-wrapper1" style="display: none;">
+                            <label for="description1">Описание на английски език<span class="red">*</span>:</label>
+                            <textarea name="description" id="description1" placeholder="Описание на английски език*" onFocus="focusLink(true)" onBlur="focusLink(false)"></textarea>
                         </div>
                         
-                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label for="description" class="col-md-4 control-label">Description</label>
-                            <div class="col-md-6">
-                                <textarea id="description" class="form-control" name="description">{{old('description')}}</textarea>
-                                @if ($errors->has('description'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('description') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                        <script type="text/javascript">
+                            function toggle_description(id){
+                                if ($('#cl_languages'+id).is(':checked')){ $('#description-wrapper'+id).slideDown(); }
+                                else{ $('#description-wrapper'+id).slideUp(); }
+                            }
+			</script>
 
-                        <div class="form-group{{ $errors->has('is_receiving_emails') ? ' has-error' : '' }}">
-                            <label for="is_receiving_emails" class="col-md-4 control-label">To Receive e-mails</label>
-                            <div class="col-md-6">
-                                <label class="control-label">
-                                    <input id="is_receiving_emails" type="radio" name="is_receiving_emails" value="0" {{(old('is_receiving_emails') === '0') ? "checked":""  }}> No &nbsp; &nbsp;
-                                </label>
-                                <label class="control-label">
-                                    <input type="radio" name="is_receiving_emails" value="1" {{(old('is_receiving_emails') === '1') ? "checked":""  }}> Yes
-                                </label>
-                                @if ($errors->has('is_receiving_emails'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('is_receiving_emails') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="form-group supplier">
-                            <label for="cl_regions" class="col-md-4 control-label">Regions</label>
-                            <div class="col-md-6">
-                                <div id="all_regions" class="form-control">
-                                    &nbsp; &nbsp;
-                                    <a href="javascript:void(0)" onclick="$('#cl_regions :checkbox').prop('checked', true); $(this).blur()"><small>Select All</small></a>
-                                    &nbsp; &nbsp;
-                                    <a href="javascript:void(0)" onclick="$('#cl_regions :checkbox').prop('checked', false); $(this).blur()"><small>Deselect All</small></a>
-                                    <div id="cl_regions">
-                                        @foreach($cl_regions as $id => $region)
-                                        <label>
-                                            <input type="checkbox" {{(old('regions.'.$id) == $id) ? "checked":""  }} name="regions[{{$id}}]" value="{{$id}}"> {{$region}}<br>
-                                        </label>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                         <div id="all_services" class="form-control supplier">
-                             <table class="table">
-                                 <thead> 
-                                     <tr> 
-                                         <th>Services</th>
-                                         <th>Min. budget /BGN/</th>
-                                     </tr>
-                                 </thead>
-                             </table>
-                             <div id="cl_services">
-                                 <table class="table table-striped">
-                                    @foreach($cl_services as $id => $service)
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" {{(old('services.'.$id) == $id) ? "checked":""  }} name="services[{{$id}}]" value="{{$id}}">
-                                        </td>
-                                        <td>
-                                            {{$service}}
-                                        </td>
-                                        <td>
-                                            <input id="budget_{{$id}}" type="text" class="form-control" name="budget[{{$id}}]" value="{{ old('budget.'.$id) }}">
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                 </table>
-                             </div>
-                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i> Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="agreement" id="agreement" required {{(old('agreement') == "Agreed with Ptivacy Policy") ? "checked":""  }} value="Agreed with Ptivacy Policy">
+                        <label for="agreement">Прочел съм и съм съгласен с <a href="#" target="_blank">Общите условия</a><span class="red">*</span></label>
+                    </div>
+                
+                    <input type="submit" value="Продължи">
+                    
+                </fieldset>
+                </form> 
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</div><!--Content Ends-->
 @endsection
