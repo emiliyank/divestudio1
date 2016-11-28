@@ -50,20 +50,29 @@ class AuthController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
+    protected function validator(array $data){
         return Validator::make($data, [
-            'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'phone' => 'required|max:45',
             'password' => 'required|min:6|confirmed',
-            'user_type' => 'required',
-            'description' => 'max:1000',
+            'username' => 'required|max:255',
+            'name' => 'required|max:255',
+            'phone' => 'required|max:45',
             'cl_organization_type_id' => 'required',
-            'reg_number' => 'max:90',
-            'is_receiving_emails' => 'required',
-            'cl_languages' => 'required',
+            'cl_languages' => 'required_if:user_type,2',
+            'agreement' => 'required'
         ]);
+//        return Validator::make($data, [
+//            'name' => 'required|max:255',
+//            'email' => 'required|email|max:255|unique:users',
+//            'phone' => 'required|max:45',
+//            'password' => 'required|min:6|confirmed',
+//            'user_type' => 'required',
+//            'description' => 'max:1000',
+//            'cl_organization_type_id' => 'required',
+//            'reg_number' => 'max:90',
+//            'is_receiving_emails' => 'required',
+//            'cl_languages' => 'required',
+//        ]);
     }
 
     /**
@@ -74,22 +83,21 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        $user_data=array(
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => bcrypt($data['password']),
+        $user_data=array( // Общи полета за ТЪРСЕЩ и ПРЕДЛАГАЩ
             'user_type' => $data['user_type'],
-            'description' => $data['description'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'username' => $data['username'],
+            'phone' => $data['phone'],
             'cl_organization_type_id' => $data['cl_organization_type_id'],
-            'org_name' => $data['org_name'],
-            'is_receiving_emails' => $data['is_receiving_emails'],
+            'reg_number' => $data['reg_number'],
+            'vat_number' => $data['vat_number'],
         );
-        if ($data['cl_organization_type_id'] > 1){
-            $user_data['reg_number'] = $data['reg_number'];
-        }
+//        if ($data['cl_organization_type_id'] > 1){
+//            $user_data['reg_number'] = $data['reg_number'];
+//        }
         $new_user = User::create($user_data);
-        if ($new_user->id){
+        if ($new_user->id && $new_user->user_type == 2){ // Полета само за ПРЕДЛАГАЩ
             if (isset($data['cl_languages'])){
                 $user_languages = array();
                 foreach ($data['cl_languages'] as $language){
@@ -100,7 +108,7 @@ class AuthController extends Controller
                 }
                 ConUserLanguage::insert($user_languages);
             }
-            if (isset($data['regions']) && $data['user_type'] == 2){
+            if (isset($data['regions'])){
                 $user_regions = array();
                 foreach ($data['regions'] as $region){
                     $user_regions[] = array(
@@ -110,7 +118,7 @@ class AuthController extends Controller
                 }
                 ConUserRegion::insert($user_regions);
             }
-            if (isset($data['services']) && $data['user_type'] == 2){
+            if (isset($data['services'])){
                 $user_services = array();
                 foreach ($data['services'] as $key => $service){
                     $user_services[] = array(
