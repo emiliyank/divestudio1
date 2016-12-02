@@ -97,3 +97,4 @@ Route::post('/approve-article',[
     'as' => 'route.approve_article',
     'uses' => 'CmArticleController@approve_article'
     ]);
+Route::get('/contact', 'ContactController@index');
