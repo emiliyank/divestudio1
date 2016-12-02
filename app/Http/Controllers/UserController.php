@@ -130,7 +130,7 @@ class UserController extends Controller
     $user = User::where('id', $request->user_id)->first();
 
     $translation_bg = $user->translateOrNew(\Config::get('constants.LANGUAGE_BG'));
-    $translation_bg->user_id = \Auth::id();        
+    $translation_bg->user_id = \Auth::id();
     $translation_bg->description = $request->description_bg;
     $translation_bg->save();
 

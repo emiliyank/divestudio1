@@ -15,4 +15,8 @@ return [
 
     'btn_add_translation' => 'Add Translation',
     'btn_save' => 'Save',
+
+    'no_translation' => 'No English translation. Please switch to Bulgarian.',
+    'created_at' => 'Date created:',
+    'published_by' => 'Published by:',
 ];

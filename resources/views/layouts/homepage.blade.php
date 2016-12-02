@@ -78,3 +78,5 @@
 <!--Slider END-->
 
     @yield('content')
+
+@endsection
