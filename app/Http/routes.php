@@ -75,3 +75,5 @@ Route::get('/',[
     'as' => 'route.homepage',
     'uses' => 'StaticPagesController@index'
     ]);
+
+Route::get('/contact', 'ContactController@index');

@@ -57,7 +57,7 @@
                     <li><a href="#">Регистрация</a></li>
                     <li><a href="#">Вход</a></li>
                     <li><a href="#">За нас</a></li>
-                    <li><a href="#">Контакти</a></li>
+                    <li><a href="{{url('/contact')}}">Контакти</a></li>
                     <li><a href="#">Общи условия</a></li>
                 </ul>
             </div>
