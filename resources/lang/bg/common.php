@@ -15,6 +15,20 @@ return [
     'btn_add' => 'Добави',
     'btn_cancel' => 'Отказ',
     'btn_save' => 'Запиши',
-
+    'btn_continue' => 'Продължи',
     'btn_add_translation' => 'Добави превод',
+
+    'no_translation' => 'Няма наличен превод на български език. Моля превключете на Английски език.',
+    'created_at' => 'От дата:',
+    'published_by' => 'Публикувано от:',
+    'btn_seeking' => 'Търсещ',
+    'btn_supplier' => 'Предлагащ',
+    
+    'search_services' => 'Търсещ услуга',
+    'offers_services' => 'Предлагащ услуга',
+    'password' => 'Парола',
+    'password_confirmation' => 'Повтори парола',
+    'username' => 'Потребителско име',
+    'have_read' => 'Прочел съм и съм съгласен с',
+    'terms_and_conditions' => 'Общите условия',
 ];

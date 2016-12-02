@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\ConUserRegion;
 use App\ConUserService;
 use App\ConUserLanguage;
+use App\UserTranslation;
 
 class AuthController extends Controller
 {
@@ -51,6 +52,7 @@ class AuthController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data){
+        if ($data['user_type'] != 2){ unset($data['cl_languages']); } // ТЪРСЕЩ 
         return Validator::make($data, [
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
@@ -59,20 +61,9 @@ class AuthController extends Controller
             'phone' => 'required|max:45',
             'cl_organization_type_id' => 'required',
             'cl_languages' => 'required_if:user_type,2',
-            'agreement' => 'required'
+            'description.*' => 'required_with:cl_languages.*',
+            'agreement' => 'required',
         ]);
-//        return Validator::make($data, [
-//            'name' => 'required|max:255',
-//            'email' => 'required|email|max:255|unique:users',
-//            'phone' => 'required|max:45',
-//            'password' => 'required|min:6|confirmed',
-//            'user_type' => 'required',
-//            'description' => 'max:1000',
-//            'cl_organization_type_id' => 'required',
-//            'reg_number' => 'max:90',
-//            'is_receiving_emails' => 'required',
-//            'cl_languages' => 'required',
-//        ]);
     }
 
     /**
@@ -93,18 +84,31 @@ class AuthController extends Controller
             'reg_number' => $data['reg_number'],
             'vat_number' => $data['vat_number'],
         );
-//        if ($data['cl_organization_type_id'] > 1){
-//            $user_data['reg_number'] = $data['reg_number'];
-//        }
         $new_user = User::create($user_data);
-        if ($new_user->id && $new_user->user_type == 2){ // Полета само за ПРЕДЛАГАЩ
+        $translation = $new_user->getNewTranslation(\Session::get('language'));
+        $translation->user_id = $new_user->id;
+        $translation->name = $data['name'];
+        $translation->org_name = $data['org_name'];
+        $translation->address = $data['address'];
+        if ($new_user->user_type == 2){
+            $translation->description = $data['description'][\Session::get('language')];
+        }
+        $translation->save();
+        
+        if ($new_user->user_type == 2){ // Полета само за ПРЕДЛАГАЩ
             if (isset($data['cl_languages'])){
                 $user_languages = array();
-                foreach ($data['cl_languages'] as $language){
+                foreach ($data['cl_languages'] as $language_code => $language){
                     $user_languages[] = array(
                         'user_id'=>$new_user->id,
                         'cl_language_id'=>$language
                     );
+                    if ($language_code != \Session::get('language')){
+                        $translation = $new_user->getNewTranslation($language_code);
+                        $translation->user_id = $new_user->id;
+                        $translation->description = $data['description'][$language_code];
+                        $translation->save();
+                    }
                 }
                 ConUserLanguage::insert($user_languages);
             }
