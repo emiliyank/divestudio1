@@ -17,6 +17,10 @@ return [
     'btn_save' => 'Запиши',
     'btn_continue' => 'Продължи',
     'btn_add_translation' => 'Добави превод',
+
+    'no_translation' => 'Няма наличен превод на български език. Моля превключете на Английски език.',
+    'created_at' => 'От дата:',
+    'published_by' => 'Публикувано от:',
     'btn_seeking' => 'Търсещ',
     'btn_supplier' => 'Предлагащ',
     

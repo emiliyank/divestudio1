@@ -76,4 +76,25 @@ Route::get('/',[
     'uses' => 'StaticPagesController@index'
     ]);
 
+/* ---Articles--- */
+Route::get('/add-article',[
+    'as' => 'route.add_article',
+    'uses' => 'CmArticleController@add_form'
+    ]);
+Route::post('/add-article',[
+    'as' => 'route.add_article',
+    'uses' => 'CmArticleController@add_submit'
+    ]);
+Route::get('/user-articles',[
+    'as' => 'route.user_articles',
+    'uses' => 'CmArticleController@user_articles'
+    ]);
+Route::get('/single-article/{cm_article}',[
+    'as' => 'route.single_article',
+    'uses' => 'CmArticleController@single_article'
+    ]);
+Route::post('/approve-article',[
+    'as' => 'route.approve_article',
+    'uses' => 'CmArticleController@approve_article'
+    ]);
 Route::get('/contact', 'ContactController@index');
