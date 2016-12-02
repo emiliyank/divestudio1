@@ -15,6 +15,16 @@ return [
     'btn_add' => 'Добави',
     'btn_cancel' => 'Отказ',
     'btn_save' => 'Запиши',
-
+    'btn_continue' => 'Продължи',
     'btn_add_translation' => 'Добави превод',
+    'btn_seeking' => 'Търсещ',
+    'btn_supplier' => 'Предлагащ',
+    
+    'search_services' => 'Търсещ услуга',
+    'offers_services' => 'Предлагащ услуга',
+    'password' => 'Парола',
+    'password_confirmation' => 'Повтори парола',
+    'username' => 'Потребителско име',
+    'have_read' => 'Прочел съм и съм съгласен с',
+    'terms_and_conditions' => 'Общите условия',
 ];

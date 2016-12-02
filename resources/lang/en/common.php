@@ -12,7 +12,19 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
-    'btn_add_translation' => 'Add Translation',
+    'btn_add' => 'Add',
+    'btn_cancel' => 'Cancel',
     'btn_save' => 'Save',
+    'btn_continue' => 'Continue',
+    'btn_add_translation' => 'Add Translation',
+    'btn_seeking' => 'Seeking',
+    'btn_supplier' => 'Supplier',
+    
+    'search_services' => 'Search services',
+    'offers_services' => 'Offers services',
+    'password' => 'Password',
+    'password_confirmation' => 'Confirm Password',
+    'username' => 'Username',
+    'have_read' => 'I have read and agree to the',
+    'terms_and_conditions' => 'Terms and Conditions',
 ];
