@@ -8,5 +8,5 @@ return [
     'user_information' => 'Информация за потребителя',
     'additional_information' => 'Допълнителна информация',
     'forgotten_password' => 'Забравена парола',
-    'send_password_reset_link' => 'Изпрати link за нова парола',
+    'send_password_reset_link' => 'Изпрати линк за нова парола',
 ];
