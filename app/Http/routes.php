@@ -98,3 +98,6 @@ Route::post('/approve-article',[
     'uses' => 'CmArticleController@approve_article'
     ]);
 Route::get('/contact', 'ContactController@index');
+Route::post('/contact', 'ContactController@add_submit');
+Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });
+Route::post('/contact/ok', function(){ return redirect('/'); });

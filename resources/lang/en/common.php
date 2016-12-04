@@ -31,4 +31,6 @@ return [
     'username' => 'Username',
     'have_read' => 'I have read and agree to the',
     'terms_and_conditions' => 'Terms and Conditions',
+    'please_select' => 'Please select',
+    'asked_questions' => 'Frequently asked questions',
 ];
