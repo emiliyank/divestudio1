@@ -31,4 +31,6 @@ return [
     'username' => 'Потребителско име',
     'have_read' => 'Прочел съм и съм съгласен с',
     'terms_and_conditions' => 'Общите условия',
+    'please_select' => 'Моля изберете',
+    'asked_questions' => 'Често задавани въпроси',
 ];
