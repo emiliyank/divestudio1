@@ -27,4 +27,13 @@ return [
     'placeholder_content' => 'Описание*:',
     'placeholder_budget' => 'Бюджет',
     'placeholder_deadline' => 'ДД-ММ-ГГГГ',
+    
+    'received_ads' => 'Получени обяви',
+    'not_specified' => 'Не е посочен',
+    'all' => 'Всички',
+    'view_profile' => 'Прегледай профила',
+    'messages' => 'Съобщения',
+    'write_message' => 'Напиши съобщение',
+    'btn_sned' => 'Изпрати',
+    'btn_reply' => 'Отговор',
 ];

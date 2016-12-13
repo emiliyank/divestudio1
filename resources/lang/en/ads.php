@@ -27,4 +27,13 @@ return [
     'placeholder_content' => 'Content*:',
     'placeholder_budget' => 'Budget*',
     'placeholder_deadline' => 'dd-mm-yyyy',
+    
+    'received_ads' => 'Received ads',
+    'not_specified' => 'Not specified',
+    'all' => 'All',
+    'view_profile' => 'View Profile',
+    'messages' => 'Messages',
+    'write_message' => 'Write Message',
+    'btn_sned' => 'Send',
+    'btn_reply' => 'Reply',
 ];
