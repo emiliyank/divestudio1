@@ -1,4 +1,4 @@
-@extends('layouts.unauthorized')
+@extends('layouts.dashboard')
 
 @section('content')
 <!--Header-->
@@ -150,8 +150,5 @@
                     
                 </fieldset>
                 </form> 
-            </div>
-        </div>
-    </section>
-</div><!--Content Ends-->
+
 @endsection

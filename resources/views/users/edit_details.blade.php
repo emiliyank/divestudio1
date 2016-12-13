@@ -52,12 +52,12 @@
                                 }
                                 ?>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="services[{{$service->id}}]" id="services[{{$service->id}}]" value="{{$service->id}}"  data-related-item="min_budget[{{$service->id}}]" {{$selected}}>
+                                    <input type="checkbox" name="services[{{$service->id}}]" id="services[{{$service->id}}]" value="{{$service->id}}"  data-related-item="supply-budget{{$service->id}}" {{$selected}}>
                                     <label for="services[{{$service->id}}]">{{$service->getTranslation(\Session::get('language'))->service}}</label>
                                 </div>
-                                <div>
-                                    <label for="min_budget[{{$service->id}}]">{{trans('services.minimal_budget')}}</label>
-                                    <input type="number" min="0" name="min_budget[{{$service->id}}]" id="min_budget[{{$service->id}}]" class="budget" placeholder="{{trans('users.min_budget_placeholder')}}" value="{{$min_budget}}">
+                                <div style="display: none;">
+                                    <label for="supply-budget{{$service->id}}">{{trans('services.minimal_budget')}}</label>
+                                    <input type="number" min="0" name="min_budget[{{$service->id}}]" id="supply-budget{{$service->id}}" class="budget" placeholder="{{trans('users.min_budget_placeholder')}}" value="{{$min_budget}}">
                                 </div>
                                 @endforeach
 
@@ -92,13 +92,13 @@
                                 }
                                 ?>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="languages[{{$i}}]" id="languages[{{$i}}]" value="{{$language->language}}" {{$selected}}>
-                                    <label for="languages[{{$i}}]">{{$language->language}}</label>
+                                    <input type="checkbox" name="languages[{{$i}}]" id="languages_{{$i}}" value="{{$language->language}}" {{$selected}}>
+                                    <label for="languages_{{$i}}">{{$language->language}}</label>
                                 </div>
                                 @endforeach
 
                                 <script type="text/javascript">
-                                $('#languages[1]').change(function() {
+                                $('#languages_1').change(function() {
                                     $('#supply-english-description-wrapper').slideToggle(200, function() {equalheight('.boxes .box');});
                                 });
                                 </script>
@@ -106,11 +106,11 @@
                                 <p>{{trans('users.description_label')}}</p>
 
                                 <label for="description_bg"><span class="red">*</span>:</label>
-                                <textarea name="description_bg" id="description_bg" placeholder="{{trans('users.description_bg')}}" onFocus="focusLink(true)" onBlur="focusLink(false)">@if($user->hasTranslation(\Config::get('constants.LANGUAGE_BG'))) {{$user->getTranslation(\Config::get('constants.LANGUAGE_BG'))->description}} @endif </textarea>
+                                <textarea name="description_bg" id="description_bg" placeholder="{{trans('users.description_bg')}}" onFocus="focusLink(true)" onBlur="focusLink(false)">@if($user->hasTranslation(\Config::get('constants.LANGUAGE_BG'))){{$user->getTranslation(\Config::get('constants.LANGUAGE_BG'))->description}}@endif</textarea>
 
                                 <div id="supply-english-description-wrapper">
                                     <label for="description_en">{{trans('users.description_en')}}<span class="red">*</span>:</label>
-                                    <textarea name="description_en" id="description_en" placeholder="{{trans('users.description_en')}}">@if($user->hasTranslation(\Config::get('constants.LANGUAGE_EN'))) {{$user->getTranslation(\Config::get('constants.LANGUAGE_EN'))->description}} @endif </textarea>
+                                    <textarea name="description_en" id="description_en" placeholder="{{trans('users.description_en')}}">@if($user->hasTranslation(\Config::get('constants.LANGUAGE_EN'))){{$user->getTranslation(\Config::get('constants.LANGUAGE_EN'))->description}}@endif </textarea>
                                 </div>
 
                                 <input type="submit" value="{{trans('common.btn_save')}}">

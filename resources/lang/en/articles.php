@@ -12,8 +12,10 @@ return [
     'status' => 'Status: ',
     'select_status' => 'Select Article\'s Status',
     'paid_article' => 'Only for registered users',
-    'free_article' => 'Visible for all users',    
+    'free_article' => 'Visible for all users',   
+    'waiting_approval_status' => 'Wait approval from administrator',   
     'rate_article' => 'Rate this article:',
     'similar_articles' => 'Similar Articles',
     'btn_to_all_articles' => 'To All Articles',
+    'btn_approve' => 'Change the Status of Article',
 ];

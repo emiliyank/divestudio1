@@ -1,4 +1,4 @@
-@extends('layouts.unauthorized')
+@extends('layouts.dashboard')
 
 @section('content')
 <!--Header-->
@@ -79,9 +79,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-    </section>
-    </div><!--Content Ends-->
-
+        
 @endsection

@@ -17,12 +17,6 @@ use App\User;
 use Image;
 
 class CmArticleController extends Controller{
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function add_form()
     {
         $cl_article_types = ClArticleType::get();
@@ -35,7 +29,7 @@ class CmArticleController extends Controller{
         $this->validate($request, [
             'cl_article_type_id' => 'required|integer|min:1',
             'topic' => 'required|max:300',
-            'content' => 'required|max:2000',
+            'content' => 'required|max:8000',
             ]);
         
         $cm_article = new CmArticle;
@@ -118,5 +112,16 @@ class CmArticleController extends Controller{
         $cm_article->save();
         
         return redirect("/single-article/$cm_article->id");
+    }
+
+    public function articles_list()
+    {
+        $cm_articles = CmArticle::with('clArticleType', 'createdBy')->where('status', '>', 0)->get();
+        $cl_article_types = ClArticleType::get();
+
+        return view('articles.articles_list',[
+            'cm_articles' => $cm_articles,
+            'cl_article_types' => $cl_article_types,
+            ]);
     }
 }
