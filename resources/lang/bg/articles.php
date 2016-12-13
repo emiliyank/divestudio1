@@ -13,9 +13,9 @@ return [
     'select_status' => 'Изберете статус на обявата',
     'private_article' => 'Само за регистрирани потребители',
     'public_article' => 'Видима за всички',  
-    'waiting_approval_status' => 'Очаква одобрение',  
+    'waiting_approval_status' => 'Очаква одобрение от администратор',  
     'rate_article' => 'Оцени статията:',
     'similar_articles' => 'подобни статии',
     'btn_to_all_articles' => 'към всички статии',
-    'btn_approve' => 'Одобри статията за публикуване',
+    'btn_approve' => 'Промени статута на статията',
 ];

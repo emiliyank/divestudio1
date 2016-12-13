@@ -1,4 +1,4 @@
-@extends('layouts.master-admin')
+@extends('layouts.dashboard')
 
 @section('switch_languages')
 Session data:

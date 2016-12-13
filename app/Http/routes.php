@@ -84,15 +84,15 @@ Route::get('/',[
 Route::get('/add-article',[
     'as' => 'route.add_article',
     'uses' => 'CmArticleController@add_form'
-    ]);
+    ])->middleware('auth');
 Route::post('/add-article',[
     'as' => 'route.add_article',
     'uses' => 'CmArticleController@add_submit'
-    ]);
+    ])->middleware('auth');
 Route::get('/user-articles',[
     'as' => 'route.user_articles',
     'uses' => 'CmArticleController@user_articles'
-    ]);
+    ])->middleware('auth');
 Route::get('/single-article/{cm_article}',[
     'as' => 'route.single_article',
     'uses' => 'CmArticleController@single_article'
@@ -100,9 +100,17 @@ Route::get('/single-article/{cm_article}',[
 Route::post('/approve-article',[
     'as' => 'route.approve_article',
     'uses' => 'CmArticleController@approve_article'
-    ]);
+    ])->middleware('auth');
+
 /* ---Contacts--- */
 Route::get('/contact', 'ContactController@index');
+
+Route::get('/articles',[
+    'as' => 'route.articles_list',
+    'uses' => 'CmArticleController@articles_list'
+    ]);
+
 Route::post('/contact', 'ContactController@add_submit');
 Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });
 Route::post('/contact/ok', function(){ return redirect('/'); });
+

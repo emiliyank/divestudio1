@@ -21,7 +21,7 @@ class AdController extends Controller{
 
     public function index(){
         
-        $ads = CmAd::with(array('clRegion', 'clService', 'createdBy'))->where('created_by', \Auth::id())->get();
+        $ads = CmAd::with(array('clRegions', 'clService', 'createdBy'))->where('created_by', \Auth::id())->get();
         
         return view('ads.user_ads', [
             'ads' => $ads,
@@ -50,16 +50,20 @@ class AdController extends Controller{
 	   ]);
         
         $ad = new CmAd;
-        $ad->title = $request->title;
         $ad->created_by = \Auth::id();
         $ad->service_id = $request->service_id;
-        $ad->content = $request->content;
         $ad->deadline = date('Y-m-d',strtotime($request->deadline));
         $ad->budget = $request->budget;
-        
         $ad->save();
-
         $ad_id = $ad->id;
+
+        $translation = $ad->getNewTranslation(\Session::get('language'));
+        $translation->cm_ad_id = $ad_id;
+        $translation->title = $request->title;
+        $translation->content = $request->content;
+        $translation->save();
+
+        
         foreach ($request->regions as $region) {
             $con_ad_region = new ConAdRegion;
             $con_ad_region->cm_ad_id = $ad_id;

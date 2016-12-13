@@ -17,7 +17,7 @@
             <ul>
                 <li><a href="#">Как работи</a></li>
                 <li><a href="#">Регистрирай се</a></li>
-                <li><a href="#">Статии</a></li>
+                <li><a href="{{url('/articles')}}">Статии</a></li>
                 <li class="contract"><a href="#">Търся</a></li>
                 <li class="employ"><a href="#">Предлагам</a></li>
                 <li class="login"><a href="{{url('/login')}}">Вход</a></li>
