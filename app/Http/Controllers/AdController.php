@@ -84,5 +84,16 @@ class AdController extends Controller{
             'service' => $cl_service[0],
          ]);
     }
+    
+    protected function show_ad(CmAd $cm_ad){
+        $cl_service = $cm_ad->clService()->get();
+        return view('ads.show_ad',[
+            'ad' => $cm_ad,
+            'regions' => $cm_ad->clRegions()->get(),
+            'service' => $cl_service[0],
+            'count_all_regions' => ClRegion::get()->count(),
+         ]);
+    }
+    
 }
 

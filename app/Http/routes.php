@@ -26,6 +26,8 @@ Route::get('/ads',[
     'uses' => 'AdController@index'
 	]);
 
+Route::get('/show_ad/{cm_ad}', 'AdController@show_ad');
+
 /* ---Offers--- */
 Route::get('/ad_offers/{cm_ad}', 'CmOfferController@ad_offers_list');
 Route::get('/offer/{cm_ad}', 'CmOfferController@add_form');
@@ -70,6 +72,8 @@ Route::post('/account',[
     'uses' => 'UserController@edit_account_submit'
     ]);
 
+Route::get('/ads_list', 'UserController@ads_list');
+
 /* --- Static Pages --- */
 Route::get('/',[
     'as' => 'route.homepage',
@@ -97,6 +101,8 @@ Route::post('/approve-article',[
     'as' => 'route.approve_article',
     'uses' => 'CmArticleController@approve_article'
     ])->middleware('auth');
+
+/* ---Contacts--- */
 Route::get('/contact', 'ContactController@index');
 
 Route::get('/articles',[

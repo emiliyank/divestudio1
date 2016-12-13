@@ -21,6 +21,7 @@ use App\ClService;
 use App\ClRegion;
 use App\ClLanguage;
 use App\ClOrganizationType;
+use App\CmAd;
 
 class UserController extends Controller
 {
@@ -252,4 +253,87 @@ class UserController extends Controller
     Session::flash('updated_data', trans('common.flash_update_success'));
     return redirect("/user-details");
 }
+    public function ads_list(){
+        $user_id = \Auth::id();
+        $user = User::where('id', $user_id)->first();
+        if ($user->user_type == 2){ // Предлагащ услуги
+            $user_services_data = $user->conUserServices()->get();
+            $user_services = [];
+            foreach ($user_services_data as $user_service) {
+                $user_services[$user_service->cl_service_id] = $user_service->min_budget;
+            }
+            $user_regions_data = $user->conUserRegions()->get();
+            $user_regions = [];
+            foreach ($user_regions_data as $user_region) {
+                $user_regions[$user_region->cl_region_id] = $user_region->cl_region_id;
+            }
+            $cl_languages = ClLanguage::get();
+            $languages = [];
+            foreach ($cl_languages as $language){
+                $languages[$language->language] = $language->locale_code;
+            }
+            $user_languages_data = $user->conUserLanguages()->get();
+            $user_languages = [];
+            foreach ($user_languages_data as $user_language) {
+                $user_languages[$languages[$user_language->cl_language_id]] = $user_language->cl_language_id;
+            }
+//            $cl_services = ClService::get();
+//            $cl_regions = ClRegion::get();
+            $all_ads = CmAd::with(array('createdBy','clRegions'))
+                    ->whereNull('date_accepted')
+                    ->whereNull('date_deleted')
+                    ->where([
+                                ['created_by', '<>', \Auth::id()],
+                                ['deadline','>=',date('Y-m-d').' 00:00:00']])
+                    ->whereIn('service_id', array_keys($user_services))
+                    //->whereIn('locale', array_keys($user_languages))
+                    ->orderBy('cm_ads.id', 'desc')
+                    ->get();
+            $unanswered = array();
+            $answered = array();
+            foreach ($all_ads as $ad){
+                $ad_regions = array();
+                foreach($ad->clRegions as $region){
+                    $ad_regions[] = $region['id'];
+                }
+                if ($ad->budget >= $user_services[$ad->service_id] && 
+                        array_intersect($user_regions,$ad_regions)
+                ){
+                    if($ad->hasTranslation('bg')){
+                        $unanswered[$ad->id]['title'] = $ad->getTranslation('bg')->title;
+                    }
+                    else{
+                        $unanswered[$ad->id]['title'] = $ad->getTranslation('en')->title;
+                    }
+                    if ($ad->createdBy->getTranslation(\Session::get('language'))->org_name){
+                        $unanswered[$ad->id]['from'] = $ad->createdBy->getTranslation(\Session::get('language'))->org_name.' - '.
+                                                       $ad->createdBy->getTranslation(\Session::get('language'))->name;
+                    }
+                    else{
+                        $unanswered[$ad->id]['from'] = $ad->createdBy->getTranslation(\Session::get('language'))->name;
+                    }
+                    $unanswered[$ad->id]['budget'] = $ad->budget;
+                    $unanswered[$ad->id]['deadline'] = date('d.m.Y',strtotime($ad->deadline));
+                }
+            }
+            return view ('ads.ads_list', [
+                'unanswered' => $unanswered,
+                'answered' => $answered,
+            ]);
+//            echo "<pre>";
+//            print_r($user);
+//            echo "=============<br/>";
+//            print_r($user_services);
+//            echo "=============<br/>";
+//            print_r($user_regions);
+//            echo "=============<br/>";
+//            print_r($user_languages);
+////            echo implode(',',array_keys($user_languages));
+//            echo "=============<br/>";
+//            print_r($all_ads);
+//            echo "=====================================================<br/>";
+//            print_r($unanswered);
+//            echo "</pre>";
+        }
+    }
 }
