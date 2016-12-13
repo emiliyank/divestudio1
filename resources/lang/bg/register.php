@@ -7,5 +7,6 @@ return [
     'more_for_roles' => 'повече за ролите тук',
     'user_information' => 'Информация за потребителя',
     'additional_information' => 'Допълнителна информация',
-    
+    'forgotten_password' => 'Забравена парола',
+    'send_password_reset_link' => 'Изпрати линк за нова парола',
 ];

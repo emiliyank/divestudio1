@@ -98,7 +98,13 @@ Route::post('/approve-article',[
     'uses' => 'CmArticleController@approve_article'
     ])->middleware('auth');
 Route::get('/contact', 'ContactController@index');
+
 Route::get('/articles',[
     'as' => 'route.articles_list',
     'uses' => 'CmArticleController@articles_list'
     ]);
+
+Route::post('/contact', 'ContactController@add_submit');
+Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });
+Route::post('/contact/ok', function(){ return redirect('/'); });
+

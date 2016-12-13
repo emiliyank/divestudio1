@@ -36,4 +36,7 @@ return [
     'view_profile' => 'View Profile',
     'write_msg' => 'Write Messgae',
     'no_msgs' => 'No Messages',
+    
+    'please_select' => 'Please select',
+    'asked_questions' => 'Frequently asked questions',
 ];
