@@ -5,7 +5,7 @@
 
 <div class="header small">
     <div class="overlay">
-        <h2>Моите обяви</h2>
+        <h2>{{trans('ads.user_ads_title')}}</h2>
     </div>
 </div>
 
@@ -34,11 +34,17 @@
                         {{$cm_ad->getTranslation(\Session::get('language'))->content}}
                     </p>
                     <p class="budget">{{trans('ads.budget')}} <span>{{$cm_ad->budget}}</span></p>
-                    <p class="region">{{trans('ads.region')}} <span></span></p>
+                    <p class="region">{{trans('ads.region')}}
+                        @foreach($cm_ad->clRegions as $cl_region)
+                        <span>
+                            {{ $cl_region->getTranslation(\Session::get('language'))->region }}
+                        </span>
+                        @endforeach
+                    </p>
                     <p class="due-date">{{trans('ads.deadline')}} <span>{{$cm_ad->deadline}}</span></p>
                     <hr>
-                    <p class="view-profile center"><a href="#">Прегледай профила</a></p>
-                    <p class="send-message center"><a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper1').slideToggle(200, function() {equalheight('.boxes .box');});">Напиши съобщение</a></p>
+                    <p class="view-profile center"><a href="#">{{trans('common.view_profile')}}</a></p>
+                    <p class="send-message center"><a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper1').slideToggle(200, function() {equalheight('.boxes .box');});">{{trans('common.write_msg')}}</a></p>
                     <div id="conversation-reply-wrapper1" style="display: none;">
                         <form id="reply-form1" method="post" action="/">
                         <fieldset>
@@ -50,7 +56,7 @@
                 </div>
                 <div class="messages">
                     <hr>
-                    <p class="center"><em>Нямате съобщения</em></p>
+                    <p class="center"><em>{{trans('common.no_msgs')}}</em></p>
                 </div>
             </div> 
             @endif

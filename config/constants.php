@@ -10,4 +10,8 @@ return [
     'ARTICLE_WAITING_APPROVAL' => 0,
     'ARTICLE_PRIVATE' => 1,
     'ARTICLE_PUBLIC' => 2,
+
+    'USER_ROLE_CLIENT' => 1,
+    'USER_ROLE_SUPPLIER' => 2,
+    'USER_ROLE_ADMIN' => 999,
 ];

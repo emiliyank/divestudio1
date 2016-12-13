@@ -8,5 +8,9 @@ class ClRegion extends Model
 {
 	use Translatable;
 	public $translatedAttributes = ['region'];
+
+	public function cmAds(){
+        return $this->belongsToMany(CmAd::class, 'con_ad_regions');
+    }
 }
 

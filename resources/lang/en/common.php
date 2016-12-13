@@ -15,6 +15,7 @@ return [
     'btn_add' => 'Add',
     'btn_cancel' => 'Cancel',
     'btn_save' => 'Save',
+    'btn_go_to_login' => 'Go to Log in',
 
     'no_translation' => 'No English translation. Please switch to Bulgarian.',
     'created_at' => 'Date created:',
@@ -31,4 +32,8 @@ return [
     'username' => 'Username',
     'have_read' => 'I have read and agree to the',
     'terms_and_conditions' => 'Terms and Conditions',
+
+    'view_profile' => 'View Profile',
+    'write_msg' => 'Write Messgae',
+    'no_msgs' => 'No Messages',
 ];
