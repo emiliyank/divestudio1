@@ -20,27 +20,7 @@
 <div class="content"><!--Content Starts-->
     <section>
      <div class="container">
-
-        <div class="article-data center">
-        	<p>{{trans('common.created_at')}} <span class="date">{{$cm_article->created_at}}</span> 
-                {{trans('common.published_by')}} <span class="author">{{$cm_article->createdBy['org_name']}}</span> 
-                {{trans('articles.category')}} <span class="tags">{{$cm_article->clArticleType->getTranslation(\Session::get('language'))->article_type}}</span> 
-                {{trans('articles.status')}} 
-                
-                    @if($cm_article->status === \Config::get('constants.ARTICLE_PRIVATE'))
-                    <span class="status-private">
-                    {{trans('articles.private_article')}}
-                    @elseif($cm_article->status === \Config::get('constants.ARTICLE_PUBLIC'))
-                    <span class="status-public">
-                    {{trans('articles.public_article')}}
-                    @else
-                    <span>
-                    {{trans('articles.waiting_approval_status')}}
-                    
-                    @endif
-                </span>
-            </p>
-            @if($cm_article->status === \Config::get('constants.ARTICLE_WAITING_APPROVAL'))
+        @if( ! empty(\Auth::id()) && \Session::get('user_type') === \Config::get('constants.USER_ROLE_ADMIN'))
             <p>
                 <form action="{{ url('/approve-article') }}" method="post">
                     <fieldset>
@@ -55,7 +35,28 @@
                     </fieldset>
                 </form>
             </p>
-            @endif
+        @endif
+
+        @if($cm_article->status === \Config::get('constants.ARTICLE_WAITING_APPROVAL') && \Auth::id() != $cm_article->created_by)
+        <span>
+            {{trans('articles.waiting_approval_status')}}
+        </span>
+        @else
+        <div class="article-data center">
+        	<p>{{trans('common.created_at')}} <span class="date">{{$cm_article->created_at}}</span> 
+                {{trans('common.published_by')}} <span class="author">{{$cm_article->createdBy['org_name']}}</span> 
+                {{trans('articles.category')}} <span class="tags">{{$cm_article->clArticleType->getTranslation(\Session::get('language'))->article_type}}</span> 
+                {{trans('articles.status')}} 
+                
+                    @if($cm_article->status === \Config::get('constants.ARTICLE_PRIVATE'))
+                    <span class="status-private">
+                    {{trans('articles.private_article')}}
+                    @elseif($cm_article->status === \Config::get('constants.ARTICLE_PUBLIC'))
+                    <span class="status-public">
+                    {{trans('articles.public_article')}}                    
+                    @endif
+                </span>
+            </p>
         </div>
         
         <div class="advertising">
@@ -65,11 +66,16 @@
         
         <article>
          @if($cm_article->hasTranslation(\Session::get('language')))
-        {{$cm_article->getTranslation(\Session::get('language'))->content}}
+            @if(($cm_article->status === \Config::get('constants.ARTICLE_PRIVATE')) && empty(\Auth::id()))
+                {!! substr($cm_article->getTranslation(\Session::get('language'))->content, 0, 100) !!}...
+                <div class="next"><a href="{{url('/login')}}">{{trans('common.btn_go_to_login')}}</a></div>
+            @else
+                {!! $cm_article->getTranslation(\Session::get('language'))->content !!}
+            @endif
         @else
         {{trans('common.no_translation')}}
         @endif
-
+        
         <div class="rate-form">
             <fieldset class="rating">
             	<legend>{{trans('articles.rate_article')}}</legend>
@@ -80,6 +86,7 @@
                 <input type="radio" id="4star1" name="rating4" value="1"><label for="4star1" title="Слабо">Слабо</label>
             </fieldset>
         </div>
+        @endif
     </article>
 
     <hr>

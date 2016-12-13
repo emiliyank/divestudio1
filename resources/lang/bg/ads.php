@@ -27,4 +27,6 @@ return [
     'placeholder_content' => 'Описание*:',
     'placeholder_budget' => 'Бюджет',
     'placeholder_deadline' => 'ДД-ММ-ГГГГ',
+
+    'user_ads_title' => 'Моите обяви',
 ];

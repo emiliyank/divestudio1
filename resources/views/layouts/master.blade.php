@@ -33,6 +33,7 @@
     <script type="text/javascript" src="{{asset('/design/scr/modernizr.js')}}"></script>
 
     <script src="{{asset('/jquery-ui-1.12.0/jquery-ui.js')}}"></script>
+    <script src="{{asset('/ckeditor/ckeditor.js')}}"></script>
     <link href="{{asset('design/scr/jquery-ui.css')}}" rel="stylesheet" property="stylesheet">
 
     <meta name="theme-color" content="#252525">

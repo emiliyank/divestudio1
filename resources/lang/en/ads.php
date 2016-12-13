@@ -27,4 +27,6 @@ return [
     'placeholder_content' => 'Content*:',
     'placeholder_budget' => 'Budget*',
     'placeholder_deadline' => 'dd-mm-yyyy',
+
+    'user_ads_title' => 'My Ads',
 ];

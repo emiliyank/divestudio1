@@ -20,8 +20,8 @@ class CmAd extends Model
         return $this->belongsTo(User::class,'created_by');
     }
     
-    public function clRegion(){
-        return $this->belongsTo(ClRegion::class, 'cl_region_id');
+    public function clRegions(){
+        return $this->belongsToMany(ClRegion::class, 'con_ad_regions');
     }
     
     public function clService(){

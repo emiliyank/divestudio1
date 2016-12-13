@@ -35,21 +35,36 @@
                             <select name="cl_article_type_id" id="demand-objectype" required>
                                 <option value="">{{trans('articles.article_type_default')}}</option>
                                 @foreach($cl_article_types as $article_type)
-                                <option value="{{$article_type->id}}">{{$article_type->getTranslation(\Session::get('language'))->article_type}}</option>
+                                <?php
+                                    $selected = '';
+                                    if($article_type->id == old('cl_article_type_id'))
+                                    {
+                                        $selected = 'selected';
+                                    }
+                                ?>
+                                <option value="{{$article_type->id}}" {{$selected}}>{{$article_type->getTranslation(\Session::get('language'))->article_type}}</option>
                                 @endforeach
                             </select>
 
                             <label for="topic">{{trans('articles.topic')}}<span class="red">*</span>:</label>
-                            <input type="text" name="topic" id="topic" required placeholder="{{trans('articles.topic')}}*">
+                            <input type="text" name="topic" id="topic" required placeholder="{{trans('articles.topic')}}*" value="{{old('topic')}}">
 
                             <label for="content">{{trans('articles.content')}}<span class="red">*</span>:</label>
-                            <textarea name="content" id="content" placeholder="{{trans('articles.content')}}*" onFocus="focusLink(true)" onBlur="focusLink(false)" required></textarea>
+                            <textarea name="content" id="content" placeholder="{{trans('articles.content')}}*" onFocus="focusLink(true)" onBlur="focusLink(false)" required>{{old('content')}}</textarea>
 
                             <label for="picture">{{trans('articles.picture')}}</label>
                             <input type="file" name="picture" id="picture" placeholder="{{trans('articles.picture')}}">
 
                             <div class="checkbox">
-                                <input type="checkbox" name="is_paid" id="is_paid" value="1">
+                                <?php
+                                if( ! empty(old('is_paid')))
+                                {
+                                    $checked = 'checked';
+                                }else{
+                                    $checked = '';
+                                }
+                                ?>
+                                <input type="checkbox" name="is_paid" id="is_paid" value="1" {{$checked}}>
                                 <label for="is_paid">{{trans('articles.is_paid')}}</label>
                             </div>
 
@@ -58,6 +73,10 @@
                     </form>
 
                 </div>
+
+<script>
+    CKEDITOR.replace( 'content' );
+</script>
 
                 @endsection
 
