@@ -12,13 +12,15 @@
 <!--Header END-->
 
 <div class="content"><!--Content Starts-->
-
+<script>
+    $(document).ready(function(){
+        CKEDITOR.replace( 'content' );
+    });    
+</script>
     <section class="profile">
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
-                    <h4>{{trans('articles.add_article_subtitle')}}</h4>
-
                     @if($errors->any())
                     <div class="alert alert-danger">
                         @foreach($errors->all() as $error)
@@ -30,7 +32,7 @@
                     <form action="{{ url('/add-article') }}" method="post" enctype="multipart/form-data">
                         <fieldset>
                             {{ csrf_field() }}
-
+                            <h4>{{trans('articles.add_article_subtitle')}}</h4>
                             <label for="demand-objectype">{{trans('articles.article_type')}}</label>
                             <select name="cl_article_type_id" id="demand-objectype" required>
                                 <option value="">{{trans('articles.article_type_default')}}</option>
@@ -73,11 +75,6 @@
                     </form>
 
                 </div>
-
-<script>
-    CKEDITOR.replace( 'content' );
-</script>
-
                 @endsection
 
 
