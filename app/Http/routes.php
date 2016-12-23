@@ -72,7 +72,8 @@ Route::post('/account',[
     'uses' => 'UserController@edit_account_submit'
     ]);
 
-Route::get('/ads_list', 'UserController@ads_list');
+Route::get('/ads_list', 'UserController@ads_list_ver'); //Кратък списък
+Route::get('/ads-list', 'UserController@ads_list');
 
 /* --- Static Pages --- */
 Route::get('/',[
