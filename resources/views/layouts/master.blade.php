@@ -73,7 +73,7 @@
     
     <div class="container">
     	<div class="float-left">
-        	<h4><a href="#">Schetovodno.com</a></h4>
+        	<h4><a href="{{url('/')}}">Schetovodno.com</a></h4>
         </div>
         <div class="float-right">
         	<p class="copyright">Schetovodno.com &copy; 2016 | <a href="http://www.dive-studio.com" target="_blank" title="Web design by DIVE Studio">Webdesign</a> by DIVE Studio</p>

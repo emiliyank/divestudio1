@@ -4,7 +4,7 @@
 <!--Header-->
 
 <div class="header article-header" style="background-image:url({{asset('/design/img/icon/demo_pic_01_large.png')}});">
-	<div class="overlay">
+    <div class="overlay">
      <h2>
         @if($cm_article->hasTranslation(\Session::get('language')))
         {{$cm_article->getTranslation(\Session::get('language'))->topic}}
@@ -20,7 +20,7 @@
 <div class="content"><!--Content Starts-->
     <section>
      <div class="container">
-        @if( ! empty(\Auth::id()) && \Session::get('user_type') === \Config::get('constants.USER_ROLE_ADMIN'))
+        @if( ! empty(\Auth::id()) && \Session::get('user_type') == \Config::get('constants.USER_ROLE_ADMIN'))
             <p>
                 <form action="{{ url('/approve-article') }}" method="post">
                     <fieldset>
@@ -43,17 +43,20 @@
         </span>
         @else
         <div class="article-data center">
-        	<p>{{trans('common.created_at')}} <span class="date">{{$cm_article->created_at}}</span> 
+            <p>{{trans('common.created_at')}} <span class="date">{{$cm_article->created_at}}</span> 
                 {{trans('common.published_by')}} <span class="author">{{$cm_article->createdBy['org_name']}}</span> 
                 {{trans('articles.category')}} <span class="tags">{{$cm_article->clArticleType->getTranslation(\Session::get('language'))->article_type}}</span> 
                 {{trans('articles.status')}} 
                 
-                    @if($cm_article->status === \Config::get('constants.ARTICLE_PRIVATE'))
+                    @if($cm_article->status == \Config::get('constants.ARTICLE_PRIVATE'))
                     <span class="status-private">
                     {{trans('articles.private_article')}}
-                    @elseif($cm_article->status === \Config::get('constants.ARTICLE_PUBLIC'))
+                    @elseif($cm_article->status == \Config::get('constants.ARTICLE_PUBLIC'))
                     <span class="status-public">
-                    {{trans('articles.public_article')}}                    
+                    {{trans('articles.public_article')}}
+                    @else
+                    <span>
+                    {{trans('articles.waiting_approval_status')}}
                     @endif
                 </span>
             </p>
@@ -78,7 +81,7 @@
         
         <div class="rate-form">
             <fieldset class="rating">
-            	<legend>{{trans('articles.rate_article')}}</legend>
+                <legend>{{trans('articles.rate_article')}}</legend>
                 <input type="radio" id="4star5" name="rating4" value="5"><label for="4star5" title="Отлично">Отлично</label>
                 <input type="radio" id="4star4" name="rating4" value="4"><label for="4star4" title="Много добро">Много добро</label>
                 <input type="radio" id="4star3" name="rating4" value="3"><label for="4star3" title="Добро">Добро</label>
@@ -165,7 +168,7 @@
 </div>
 
 <div class="article-navigation">
- <div class="back"><a href="#">{{trans('articles.btn_to_all_articles')}}</a></div>
+ <div class="back"><a href="<?php echo url('articles'); ?>">{{trans('articles.btn_to_all_articles')}}</a></div>
 </div><!--Content Ends-->
 
 @endsection

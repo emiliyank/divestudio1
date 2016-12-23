@@ -31,8 +31,8 @@
                         <fieldset>
                             {{ csrf_field() }}
 
-                            <label for="demand-objectype">{{trans('articles.article_type')}}</label>
-                            <select name="cl_article_type_id" id="demand-objectype" required>
+                            <label for="cl_article_type_id">{{trans('articles.article_type')}}</label>
+                            <select name="cl_article_type_id" id="cl_article_type_id" required>
                                 <option value="">{{trans('articles.article_type_default')}}</option>
                                 @foreach($cl_article_types as $article_type)
                                 <?php

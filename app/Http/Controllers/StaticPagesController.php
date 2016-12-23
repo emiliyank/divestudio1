@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\CmStaticPage;
+use App\CmArticle;
 
 class StaticPagesController extends Controller{
 
@@ -16,6 +18,88 @@ class StaticPagesController extends Controller{
 
 	public function index()
 	{
-		return view('static.index');
+		$latest_articles = CmArticle::with('clArticleType', 'createdBy')
+			->where('status', '>', 0)
+			->orderBy('date_approved', 'desc')
+			->take(2)->get();
+
+		return view('static.index',[
+			'latest_articles' => $latest_articles,
+			]);
+	}
+
+	public function add_static_page()
+	{
+		return view('static.add_static_page');
+	}
+
+	public function add_static_page_submit(Request $request)
+	{
+		$this->validate($request, [
+            'topic' => 'required|max:300',
+            'content' => 'required',
+            ]);
+        
+        $cm_static_page = new CmStaticPage;
+        $cm_static_page->created_by = \Auth::id();
+        $cm_static_page->save();
+
+        if(empty(\Session::get('language')))
+        {
+            $locale = \Config::get('constants.LANGUAGE_BG');
+        }else{
+            $locale = \Session::get('language');
+        }
+
+        $translation = $cm_static_page->getNewTranslation($locale);
+        $translation->cm_static_page_id = $cm_static_page->id;
+        $translation->topic = $request->topic;
+        $translation->content = $request->content;
+        $translation->locale = $locale;
+
+        $translation->save();
+        
+        return redirect("/static-page/$cm_static_page->id");
+	}
+
+	public function static_page(CmStaticPage $cm_static_page)
+	{
+		return view('static.static_page',[
+			'cm_static_page' => $cm_static_page
+			]);
+	}
+
+	public function edit_static_page(CmStaticPage $cm_static_page)
+	{
+		return view('static.edit_static_page',[
+			'cm_static_page' => $cm_static_page
+			]);
+	}
+
+	public function edit_static_page_submit(Request $request)
+	{
+		$this->validate($request, [
+            'topic' => 'required|max:300',
+            'content' => 'required',
+            ]);
+
+		$cm_static_page = CmStaticPage::where('id', $request->cm_static_page_id)->first();
+
+        if(empty(\Session::get('language')))
+        {
+            $locale = \Config::get('constants.LANGUAGE_BG');
+        }else{
+            $locale = \Session::get('language');
+        }
+
+        $translation = $cm_static_page->getNewTranslation($locale);
+        $translation->cm_static_page_id = $cm_static_page->id;
+        $translation->topic = $request->topic;
+        $translation->content = $request->content;
+        $translation->locale = $locale;
+
+        $translation->save();
+        
+        return redirect("/static-page/$cm_static_page->id");
 	}
 }

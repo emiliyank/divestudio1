@@ -124,4 +124,15 @@ class CmArticleController extends Controller{
             'cl_article_types' => $cl_article_types,
             ]);
     }
+
+    public function pending_articles()
+    {
+        $cm_articles = CmArticle::with('clArticleType', 'createdBy')->where('status', '=', 0)->get();
+        $cl_article_types = ClArticleType::get();
+
+        return view('articles.articles_list',[
+            'cm_articles' => $cm_articles,
+            'cl_article_types' => $cl_article_types,
+            ]);
+    }
 }

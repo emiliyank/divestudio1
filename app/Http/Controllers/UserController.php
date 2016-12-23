@@ -17,6 +17,7 @@ use App\UserTranslation;
 use App\ConUserService;
 use App\ConUserRegion;
 use App\ConUserLanguage;
+use App\ConRoleAccess;
 use App\ClService;
 use App\ClRegion;
 use App\ClLanguage;
@@ -28,6 +29,24 @@ class UserController extends Controller
 	public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function user_profile()
+    {
+        $user_id = \Auth::id();
+        $user = User::with('userType')->where('id', $user_id)->first();
+        $user_accesses = ConRoleAccess::with(array('clRoles', 'clAccesses'))
+            ->where('cl_role_id', $user->user_type)->get();
+
+        //TODO: translation NOT working because of different primary key: code instead of id
+        // var_dump($user);
+        // echo '<hr><br/>';
+        // var_dump($user->userType->getTranslation(\Session::get('language'))->role);
+
+        return view ('users.profile', [
+            'user' => $user,
+            'user_accesses' => $user_accesses,
+            ]);
     }
 
     public function edit_account_info_form()
@@ -252,11 +271,13 @@ class UserController extends Controller
 
     Session::flash('updated_data', trans('common.flash_update_success'));
     return redirect("/user-details");
-}
-    public function ads_list(){
+    }
+
+    public function ads_list()
+    {
         $user_id = \Auth::id();
         $user = User::where('id', $user_id)->first();
-        if ($user->user_type == 2){ // Предлагащ услуги
+        if ($user->user_type == 2 || $user->user_type == 999){ // Предлагащ услуги
             $user_services_data = $user->conUserServices()->get();
             $user_services = [];
             foreach ($user_services_data as $user_service) {
@@ -316,6 +337,7 @@ class UserController extends Controller
                     $unanswered[$ad->id]['deadline'] = date('d.m.Y',strtotime($ad->deadline));
                 }
             }
+
             return view ('ads.ads_list', [
                 'unanswered' => $unanswered,
                 'answered' => $answered,
@@ -328,12 +350,15 @@ class UserController extends Controller
 //            print_r($user_regions);
 //            echo "=============<br/>";
 //            print_r($user_languages);
-////            echo implode(',',array_keys($user_languages));
+// //            echo implode(',',array_keys($user_languages));
 //            echo "=============<br/>";
 //            print_r($all_ads);
 //            echo "=====================================================<br/>";
 //            print_r($unanswered);
 //            echo "</pre>";
+        }else{
+            echo "За да имате получени обяви трябва да сте регистриран като потребител Предлагащ услуги, а вие не сте. 
+            Нямате получени обяви!";
         }
     }
 }

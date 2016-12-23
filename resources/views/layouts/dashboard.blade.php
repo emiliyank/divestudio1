@@ -11,7 +11,7 @@
 <!--Loader END-->
     <div class="container">
 
-        <h1><a href="index.html" title="Портал за счетоводни услуги - Schetovodno.com">Schetovodno.com</a></h1>
+        <h1><a href="{{url('/')}}" title="Портал за счетоводни услуги - Schetovodno.com">Schetovodno.com</a></h1>
         <?php
             if (Session::has('language')) {
                 $current_language = Session::get('language');
@@ -33,8 +33,8 @@
             <ul>
                 <li><a href="#">Как работи</a></li>
                 <li><a href="{{url('/articles')}}">Статии</a></li>
-                <li class="contract"><a href="<?php echo url('ad'); ?>">Нова обява</a></li>
-                <li class="login"><a href="#">Моят профил</a></li>
+                <li class="contract"><a href="{{url('/ad')}}">Нова обява</a></li>
+                <li class="login"><a href="{{url('/user-profile')}}">Моят профил</a></li>
                 <li class="message"><a href="#"><span class="temp-hide">Нови съобщения: </span>1</a></li>
                 <li class="language"><a href="<?php echo url('postChangeLanguage/' . $select_language); ?>">{{$language_label}}</a></li>
             </ul>
@@ -58,17 +58,20 @@
     @if(Auth::check())
     <div class="box">
         <ul class="user-nav" id="user-nav">
-            <li><a href="#">Моят профил</a></li>
-            <li><a href="<?php echo url('account'); ?>">Моите данни</a></li>
+            <li><a href="{{url('/user-profile')}}">Моят профил</a></li>
+            <li><a href="{{url('/account')}}">Моите данни</a></li>
             @if(Session::has('user_type') && 
                 (Session::get('user_type') === Config::get('constants.USER_ROLE_SUPPLIER') || Session::get('user_type') === Config::get('constants.USER_ROLE_ADMIN')))
-            <li><a href="<?php echo url('user-details'); ?>">Моите настройки</a></li>
+            <li><a href="{{url('/user-details')}}">Моите настройки</a></li>
+            <li><a href="{{url('/ads_list')}}">Получени обяви</a></li>
             @endif
-            <li><a href="<?php echo url('ads'); ?>">Моите обяви</a></li>
-            <li><a href="#">Получени обяви (1)</a></li>
+            @if(Session::has('user_type') && 
+                (Session::get('user_type') === Config::get('constants.USER_ROLE_ADMIN')))
+                <li><a href="{{url('/pending-articles')}}">Статии чакащи потвърждение</a></li>
+            @endif
+            <li><a href="{{url('/ads')}}">Моите обяви</a></li>
             <li><a href="#">Съобщения</a></li>
-            <li><a href="#">Архив</a></li>
-            <li class="logout"><a href="<?php echo url('logout'); ?>">Изход</a></li>
+            <li class="logout"><a href="{{url('/logout')}}">Изход</a></li>
         </ul>
     </div>
 

@@ -39,4 +39,5 @@ return [
     
     'please_select' => 'Please select',
     'asked_questions' => 'Frequently asked questions',
+    'rating_of' => 'Rating of',
 ];

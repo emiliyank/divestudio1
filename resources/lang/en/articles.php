@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'articles_list_title' => 'Articles',
     'add_article_title' => 'Article',
     'add_article_subtitle' => 'Add New Article',
     'article_type_default' => 'Select Article Category',

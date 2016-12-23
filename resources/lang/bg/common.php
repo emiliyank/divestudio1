@@ -39,4 +39,5 @@ return [
 
     'please_select' => 'Моля изберете',
     'asked_questions' => 'Често задавани въпроси',
+    'rating_of' => 'Оценка на',
 ];

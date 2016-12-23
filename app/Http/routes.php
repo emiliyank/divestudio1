@@ -54,6 +54,10 @@ Route::post('/add-rating',[
     ]);
 
 /* --- User Profile --- */
+Route::get('/user-profile',[
+    'as' => 'route.user_profile',
+    'uses' => 'UserController@user_profile'
+    ]);
 Route::get('/user-details',[
     'as' => 'route.edit_user_details',
     'uses' => 'UserController@edit_user_details_form'
@@ -79,6 +83,26 @@ Route::get('/',[
     'as' => 'route.homepage',
     'uses' => 'StaticPagesController@index'
     ]);
+Route::get('/add-static-page',[
+    'as' => 'route.add_static_page',
+    'uses' => 'StaticPagesController@add_static_page'
+    ])->middleware('auth');
+Route::post('/add-static-page',[
+    'as' => 'route.add_static_page_submit',
+    'uses' => 'StaticPagesController@add_static_page_submit'
+    ])->middleware('auth');
+Route::get('/static-page/{cm_static_page}',[
+    'as' => 'route.cm_static_page_id',
+    'uses' => 'StaticPagesController@static_page'
+    ]);
+Route::get('/edit-static-page/{cm_static_page}',[
+    'as' => 'route.edit_static_page',
+    'uses' => 'StaticPagesController@edit_static_page'
+    ])->middleware('auth');
+Route::post('/edit-static-page',[
+    'as' => 'route.edit_static_page_submit',
+    'uses' => 'StaticPagesController@edit_static_page_submit'
+    ])->middleware('auth');
 
 /* ---Articles--- */
 Route::get('/add-article',[
@@ -101,14 +125,19 @@ Route::post('/approve-article',[
     'as' => 'route.approve_article',
     'uses' => 'CmArticleController@approve_article'
     ])->middleware('auth');
-
-/* ---Contacts--- */
-Route::get('/contact', 'ContactController@index');
-
 Route::get('/articles',[
     'as' => 'route.articles_list',
     'uses' => 'CmArticleController@articles_list'
     ]);
+Route::get('/pending-articles',[
+    'as' => 'route.pending_articles',
+    'uses' => 'CmArticleController@pending_articles'
+    ])->middleware('auth');
+
+/* ---Contacts--- */
+Route::get('/contact', 'ContactController@index');
+
+
 
 Route::post('/contact', 'ContactController@add_submit');
 Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });

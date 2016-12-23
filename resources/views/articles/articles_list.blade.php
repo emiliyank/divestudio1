@@ -50,10 +50,10 @@
                     <p class="date">{{$cm_article->date_approved}}</p>
                     <p class="author">{{trans('common.published_by')}} <strong>{{$cm_article->createdBy['org_name']}}</strong></p>
                     <p class="status"> {{trans('articles.status')}} 
-                            @if($cm_article->status === \Config::get('constants.ARTICLE_PRIVATE'))
+                            @if($cm_article->status == \Config::get('constants.ARTICLE_PRIVATE'))
                                 <span class="status-private">
                                 {{trans('articles.private_article')}}
-                            @elseif($cm_article->status === \Config::get('constants.ARTICLE_PUBLIC'))
+                            @elseif($cm_article->status == \Config::get('constants.ARTICLE_PUBLIC'))
                                 <span class="status-public">
                                 {{trans('articles.public_article')}}
                             @else

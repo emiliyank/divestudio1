@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class CmArticle extends Model
 {
     use Translatable;
-    public $translatedAttributes = ['title','content'];
+    public $translatedAttributes = ['topic','content'];
 
     protected $fillable = ['is_public', 'cl_article_type_id', 'picture', 'picture_thumb', 'is_paid'];
     protected $casts = [
