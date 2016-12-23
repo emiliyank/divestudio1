@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\CmStaticPage;
 use App\CmArticle;
+use DateTime;
+use DateTimeZone;
 
 class StaticPagesController extends Controller{
 
@@ -25,6 +27,15 @@ class StaticPagesController extends Controller{
 
 		return view('static.index',[
 			'latest_articles' => $latest_articles,
+			]);
+	}
+
+	public function list_static_pages()
+	{
+		$static_pages = CmStaticPage::with('createdBy')->whereNull('date_deleted')->get();
+
+		return view('static.list_all',[
+			'static_pages' => $static_pages,
 			]);
 	}
 
@@ -101,5 +112,20 @@ class StaticPagesController extends Controller{
         $translation->save();
         
         return redirect("/static-page/$cm_static_page->id");
+	}
+
+	public function delete_static_page(CmStaticPage $cm_static_page)
+	{
+		$tz = 'Europe/Sofia';
+        $timestamp = time();
+        $dt = new DateTime("now", new DateTimeZone($tz));
+        $dt->setTimestamp($timestamp);
+        $now = $dt->format('Y-m-d H:i:s');
+
+		$cm_static_page->date_deleted = $now;
+		$cm_static_page->deleted_by = \Auth::id();
+
+		$cm_static_page->save();
+		return redirect("/list-static-pages");
 	}
 }

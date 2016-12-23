@@ -76,13 +76,18 @@ Route::post('/account',[
     'uses' => 'UserController@edit_account_submit'
     ]);
 
-Route::get('/ads_list', 'UserController@ads_list');
+Route::get('/ads_list', 'UserController@ads_list_ver'); //Кратък списък
+Route::get('/ads-list', 'UserController@ads_list');
 
 /* --- Static Pages --- */
 Route::get('/',[
     'as' => 'route.homepage',
     'uses' => 'StaticPagesController@index'
     ]);
+Route::get('/list-static-pages',[
+    'as' => 'route.list_static_pages',
+    'uses' => 'StaticPagesController@list_static_pages'
+    ])->middleware('auth');
 Route::get('/add-static-page',[
     'as' => 'route.add_static_page',
     'uses' => 'StaticPagesController@add_static_page'
@@ -95,6 +100,10 @@ Route::get('/static-page/{cm_static_page}',[
     'as' => 'route.cm_static_page_id',
     'uses' => 'StaticPagesController@static_page'
     ]);
+Route::get('/delete-static-page/{cm_static_page}',[
+    'as' => 'route.delete_static_page',
+    'uses' => 'StaticPagesController@delete_static_page'
+    ])->middleware('auth');
 Route::get('/edit-static-page/{cm_static_page}',[
     'as' => 'route.edit_static_page',
     'uses' => 'StaticPagesController@edit_static_page'

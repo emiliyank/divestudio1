@@ -831,3 +831,24 @@ footer .footer-social li { display: inline-block; margin: 0 10px 0 0; font-size:
 	.cd-top { height: 40px; width: 40px; bottom: 10px; right: 10px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%;}
 	.cd-top:before {  line-height: 36px; width: 40px; height: 40px; }
 }
+
+.article-data{
+    cursor: pointer;
+}
+.article-content{
+    height: 80px;
+    overflow: hidden;
+    padding-top: 15px;
+}
+.article-content p,
+.article-content ul,
+.article-content ol,
+.article-content blockquote,
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6{
+    margin: 0;
+}

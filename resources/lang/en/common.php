@@ -20,6 +20,7 @@ return [
     'no_translation' => 'No English translation. Please switch to Bulgarian.',
     'created_at' => 'Date created:',
     'published_by' => 'Published by:',
+    'validate_page_deletion' => 'Do you really want to delete this page?',
     'btn_continue' => 'Continue',
     'btn_add_translation' => 'Add Translation',
     'btn_seeking' => 'Seeking',

@@ -271,10 +271,76 @@ class UserController extends Controller
 
     Session::flash('updated_data', trans('common.flash_update_success'));
     return redirect("/user-details");
+<<<<<<< HEAD
     }
 
     public function ads_list()
     {
+=======
+}
+
+    public function ads_list(){
+        $user=User::where('id', \Auth::id())->first();
+        if ($user->user_type == 2){ // Предлагащ услуги
+            //==================================================================
+            $unanswered=array();
+            $answered=array();
+//            $cl_services = ClService::get();
+//            $cl_regions = ClRegion::get();
+            $cl_languages = ClLanguage::get();
+            $languages = [];
+            foreach ($cl_languages as $language){
+                $languages[$language->language] = $language->locale_code;
+            }
+            //==================================================================
+            $user_services_data = $user->conUserServices()->get();
+            $user_services = [];
+            foreach ($user_services_data as $user_service) {
+                $user_services[$user_service->cl_service_id] = $user_service->min_budget;
+            }
+            $user_regions_data = $user->conUserRegions()->get();
+            $user_regions = [];
+            foreach ($user_regions_data as $user_region) {
+                $user_regions[$user_region->cl_region_id] = $user_region->cl_region_id;
+            }
+            $user_languages_data = $user->conUserLanguages()->get();
+            $user_languages = [];
+            foreach ($user_languages_data as $user_language) {
+                $user_languages[$languages[$user_language->cl_language_id]] = $user_language->cl_language_id;
+            }
+            //==================================================================
+            $all_ads = CmAd::with(array('createdBy','clRegions','clService'))
+                    ->whereNull('date_accepted')
+                    ->whereNull('date_deleted')
+                    ->where([['created_by', '<>', \Auth::id()],
+                             ['deadline','>=',date('Y-m-d').' 00:00:00']])
+                    ->whereIn('service_id', array_keys($user_services))
+                    ->orderBy('cm_ads.id', 'desc')
+                    ->get();
+            //==================================================================
+            foreach ($all_ads as $ad){
+                $ad_regions = array();
+                foreach($ad->clRegions as $region){
+                    $ad_regions[] = $region['id'];
+                }
+                $ad_locale = $ad->getTranslation()['locale'];
+                if (isset($user_languages[$ad_locale]) &&
+                    $ad->budget >= $user_services[$ad->service_id] && 
+                    array_intersect($user_regions,$ad_regions)){
+                    $unanswered[] = $ad;
+                }
+            }
+            //==================================================================
+            return view ('ads.ads_list', [
+                'unanswered' => $unanswered,
+                'answered' => $answered,
+                'count_all_regions' => ClRegion::get()->count(),
+            ]);
+        }
+    }
+
+    public function ads_list_ver(){
+>>>>>>> c3b21c73b1b07300cf6bac1694d067cf1c4f8ebb
         $user_id = \Auth::id();
         $user = User::where('id', $user_id)->first();
         if ($user->user_type == 2 || $user->user_type == 999){ // Предлагащ услуги
@@ -337,8 +403,12 @@ class UserController extends Controller
                     $unanswered[$ad->id]['deadline'] = date('d.m.Y',strtotime($ad->deadline));
                 }
             }
+<<<<<<< HEAD
 
             return view ('ads.ads_list', [
+=======
+            return view ('ads.ads_list_ver', [
+>>>>>>> c3b21c73b1b07300cf6bac1694d067cf1c4f8ebb
                 'unanswered' => $unanswered,
                 'answered' => $answered,
             ]);
