@@ -52,8 +52,16 @@ Route::post('/add-rating',[
     'as' => 'route.add_rating',
     'uses' => 'CmRatingController@add_submit'
     ]);
+Route::post('/article-rating',[
+    'as' => 'route.article_rating',
+    'uses' => 'CmRatingController@submit_article_rating'
+    ])->middleware('auth');
 
 /* --- User Profile --- */
+Route::get('/user-profile',[
+    'as' => 'route.user_profile',
+    'uses' => 'UserController@user_profile'
+    ]);
 Route::get('/user-details',[
     'as' => 'route.edit_user_details',
     'uses' => 'UserController@edit_user_details_form'
@@ -80,6 +88,48 @@ Route::get('/',[
     'as' => 'route.homepage',
     'uses' => 'StaticPagesController@index'
     ]);
+Route::get('/list-static-pages',[
+    'as' => 'route.list_static_pages',
+    'uses' => 'StaticPagesController@list_static_pages'
+    ])->middleware('auth');
+Route::get('/add-static-page',[
+    'as' => 'route.add_static_page',
+    'uses' => 'StaticPagesController@add_static_page'
+    ])->middleware('auth');
+Route::post('/add-static-page',[
+    'as' => 'route.add_static_page_submit',
+    'uses' => 'StaticPagesController@add_static_page_submit'
+    ])->middleware('auth');
+Route::get('/static-page/{cm_static_page}',[
+    'as' => 'route.cm_static_page_id',
+    'uses' => 'StaticPagesController@static_page'
+    ]);
+Route::get('/delete-static-page/{cm_static_page}',[
+    'as' => 'route.delete_static_page',
+    'uses' => 'StaticPagesController@delete_static_page'
+    ])->middleware('auth');
+Route::get('/edit-static-page/{cm_static_page}',[
+    'as' => 'route.edit_static_page',
+    'uses' => 'StaticPagesController@edit_static_page'
+    ])->middleware('auth');
+Route::post('/edit-static-page',[
+    'as' => 'route.edit_static_page_submit',
+    'uses' => 'StaticPagesController@edit_static_page_submit'
+    ])->middleware('auth');
+Route::post('/approve-static-page',[
+    'as' => 'route.approve_static_page_submit',
+    'uses' => 'StaticPagesController@approve_static_page_submit'
+    ])->middleware('auth');
+
+Route::get('/about-roles/',[
+    'as' => 'route.about_roles',
+    'uses' => 'StaticPagesController@about_roles'
+    ]);
+Route::get('/terms-and-conditions/',[
+    'as' => 'route.terms_and_conditions',
+    'uses' => 'StaticPagesController@terms_and_conditions'
+    ]);
+
 
 /* ---Articles--- */
 Route::get('/add-article',[
@@ -102,14 +152,19 @@ Route::post('/approve-article',[
     'as' => 'route.approve_article',
     'uses' => 'CmArticleController@approve_article'
     ])->middleware('auth');
-
-/* ---Contacts--- */
-Route::get('/contact', 'ContactController@index');
-
 Route::get('/articles',[
     'as' => 'route.articles_list',
     'uses' => 'CmArticleController@articles_list'
     ]);
+Route::get('/pending-articles',[
+    'as' => 'route.pending_articles',
+    'uses' => 'CmArticleController@pending_articles'
+    ])->middleware('auth');
+
+/* ---Contacts--- */
+Route::get('/contact', 'ContactController@index');
+
+
 
 Route::post('/contact', 'ContactController@add_submit');
 Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });

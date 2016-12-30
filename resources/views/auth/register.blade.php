@@ -15,7 +15,7 @@
         <div class="container">
 
             <h4>{{trans('register.role')}}</h4>
-            <p class="center">{{trans('register.choice_role')}} <a href="#">{{trans('register.more_for_roles')}}</a>.)</p>
+            <p class="center">{{trans('register.choice_role')}} <a href="{{url('about-roles')}}" target="_blank">{{trans('register.more_for_roles')}}</a>.)</p>
             <ul class="role-select">
         	<li><a href="javascript:void(0)" onClick="$('.supply').hide(); $('.demand').fadeIn(); $('#user_type').val('1');">{{trans('common.btn_seeking')}}</a></li>
                 <li><a href="javascript:void(0)" onClick="$('.demand').hide(); $('.supply').fadeIn(); $('#user_type').val('2');">{{trans('common.btn_supplier')}}</a></li>
@@ -143,7 +143,7 @@
 
                     <div class="checkbox">
                         <input type="checkbox" name="agreement" id="agreement" required {{(old('agreement') == "Agreed with Ptivacy Policy") ? "checked":""  }} value="Agreed with Ptivacy Policy">
-                        <label for="agreement">{{trans('common.have_read')}} <a href="#" target="_blank">{{trans('common.terms_and_conditions')}}</a><span class="red">*</span></label>
+                        <label for="agreement">{{trans('common.have_read')}} <a href="{{url('terms-and-conditions')}}" target="_blank">{{trans('common.terms_and_conditions')}}</a><span class="red">*</span></label>
                     </div>
                 
                     <input type="submit" value="{{trans('common.btn_continue')}}">

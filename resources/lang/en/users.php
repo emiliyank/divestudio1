@@ -30,4 +30,12 @@ return [
     'old_password_confirmation' => 'Confirm Current Password',
     'new_password' => 'New Password',
     'new_password_confirmation' => 'Confirm New Password',
+
+    /*--- My Profile Page ---*/
+    'profile_title' => 'My Profile',
+    'profile_of' => 'Profile of',
+    'registered_as' => 'registered as',
+    'access_to' => 'You can',
+    'description' => 'Description',
+    'can_edit_description_at' => 'You can edit your description at',
 ];

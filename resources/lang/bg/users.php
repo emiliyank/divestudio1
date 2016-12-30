@@ -30,4 +30,13 @@ return [
     'old_password_confirmation' => 'Повтори текуща парола',
     'new_password' => 'Нова парола',
     'new_password_confirmation' => 'Повтори новата парола',
+
+    /*--- My Profile Page ---*/
+    'profile_title' => 'Моят профил',
+    'profile_of' => 'Профил на',
+    'registered_as' => 'регистриран като',
+    'access_to' => 'Можете да',
+    'description' => 'Описание',
+    'can_edit_description_at' => 'Можете да редактирате описанието в',
+
 ];

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'articles_list_title' => 'Статии',
     'add_article_title' => 'Статия',
     'add_article_subtitle' => 'Добавяне на статия',
     'article_type_default' => 'Изберете категория',

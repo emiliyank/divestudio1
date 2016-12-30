@@ -1,4 +1,4 @@
-@extends('layouts.unauthorized')
+@extends('layouts.dashboard')
 
 @section('content')
 <!--Header-->
@@ -11,8 +11,10 @@
 
 <!--Header END-->
 <div class="content"><!--Content Starts-->
-    <section>
+    <section class="profile">
         <div class="container">
+        <div class="boxes layout-left">
+        <div class="box">
             <p class="center">{{trans('contact.text1')}} <a href="#">{{trans('common.asked_questions')}}.</a></p>
             <p class="small center">{{trans('contact.text2')}} (<span class="red">*</span>) {{trans('contact.text3')}}.</p>
             
@@ -57,7 +59,5 @@
                 </form>
             </div>
         </div>
-    </section>
-</div><!--Content Ends-->
 @endsection
 
