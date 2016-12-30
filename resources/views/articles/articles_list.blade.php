@@ -84,7 +84,6 @@
                         
                         <div class="article-content">
                             {!! $cm_article->getTranslation(\Session::get('language'))->content !!}
-<!--                            {!! substr($cm_article->getTranslation(\Session::get('language'))->content, 0, 100) !!} [...]  -->
                         </div>
                         <div class="ellipsis">[...]</div>
                         @else

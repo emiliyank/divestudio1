@@ -118,9 +118,10 @@
                     </span>
                     <p>
                         @if($cm_article->hasTranslation(\Session::get('language')))
-                        <div>
-                            {!! substr($cm_article->getTranslation(\Session::get('language'))->content, 0, 100) !!} [...]
+                        <div class="article-content">
+                            {!! $cm_article->getTranslation(\Session::get('language'))->content !!}
                         </div>
+                        <div class="ellipsis">[...]</div>
                         @else
                             {{trans('common.no_translation')}}
                         @endif
