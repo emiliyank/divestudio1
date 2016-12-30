@@ -12,7 +12,6 @@ function save_rating(rating) {
 
         var csrf_field = $('#csrf_token').val();
         var article_id = $('#article_id').val();
-        alert('csrf_token = ' + csrf_field);
         $.ajax({
             type: "POST",
             url: base_url + '/article-rating',
@@ -115,7 +114,7 @@ function save_rating(rating) {
                         $checked_rating = 0;
                     }
                 ?>
-                <legend>{{trans('articles.rate_article')}} </legend>
+                <legend>{{trans('articles.rate_article')}}: </legend>
                 <!-- If the user has no right to change the status we add the hidden fileds here -->
                 <input type="hidden" name="_token" id="csrf_token" value="{{csrf_token()}}">
                 <input type="hidden" name="article_id" id="article_id" value="{{$cm_article->id}}"/>
@@ -138,7 +137,7 @@ function save_rating(rating) {
                         $checked_rating = 0;
                     }
                 ?>
-                <legend>{{trans('articles.average_rating')}} </legend>
+                <legend>{{trans('articles.average_rating')}}: </legend>
                 <input type="radio" name="rating5" value="5"  {{ ($checked_rating == 5) ? 'checked' : ''}}><label for="4star5" title="Отлично">Отлично</label>
                 <input type="radio" name="rating5" value="4"  {{ ($checked_rating == 4) ? 'checked' : ''}}><label for="4star4" title="Много добро">Много добро</label>
                 <input type="radio" name="rating5" value="3"  {{ ($checked_rating == 3) ? 'checked' : ''}}><label for="4star3" title="Добро">Добро</label>

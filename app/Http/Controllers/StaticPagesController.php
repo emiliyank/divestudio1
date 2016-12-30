@@ -166,4 +166,9 @@ class StaticPagesController extends Controller{
 	{
 		return view('static.terms_and_conditions');
 	}
+
+	public function faq()
+	{
+		return view('static.faq');
+	}
 }

@@ -5,7 +5,7 @@
 
 <div class="header small">
     <div class="overlay">
-        <h2>{{trans('static.terms_and_conditions_title')}}</h2>
+        <h2>{{trans('static.faq_title')}}</h2>
     </div>
 </div>
 

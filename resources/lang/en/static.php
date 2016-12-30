@@ -30,4 +30,5 @@ return [
 
 	'about_roles_title' => 'About the Roles',
 	'terms_and_conditions_title' => 'Terms and Conditions',
+	'faq_title' => 'Frequently Asked Questions',
 ];

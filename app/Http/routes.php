@@ -121,13 +121,17 @@ Route::post('/approve-static-page',[
     'uses' => 'StaticPagesController@approve_static_page_submit'
     ])->middleware('auth');
 
-Route::get('/about-roles/',[
+Route::get('/about-roles',[
     'as' => 'route.about_roles',
     'uses' => 'StaticPagesController@about_roles'
     ]);
-Route::get('/terms-and-conditions/',[
+Route::get('/terms-and-conditions',[
     'as' => 'route.terms_and_conditions',
     'uses' => 'StaticPagesController@terms_and_conditions'
+    ]);
+Route::get('/faq',[
+    'as' => 'route.faq',
+    'uses' => 'StaticPagesController@faq'
     ]);
 
 
