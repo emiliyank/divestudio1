@@ -30,4 +30,5 @@ return [
 
 	'about_roles_title' => 'Повече за ролите',
 	'terms_and_conditions_title' => 'Общи условия',
+	'faq_title' => 'Често задавани въпроси',
 ];
