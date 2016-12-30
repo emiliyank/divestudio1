@@ -41,4 +41,8 @@ return [
     'please_select' => 'Моля изберете',
     'asked_questions' => 'Често задавани въпроси',
     'rating_of' => 'Оценка на',
+
+    'status' => 'Статус',
+    'page_status_draft' => 'чернова',
+    'page_status_public' => 'публична',
 ];

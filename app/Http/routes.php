@@ -52,6 +52,10 @@ Route::post('/add-rating',[
     'as' => 'route.add_rating',
     'uses' => 'CmRatingController@add_submit'
     ]);
+Route::post('/article-rating',[
+    'as' => 'route.article_rating',
+    'uses' => 'CmRatingController@submit_article_rating'
+    ])->middleware('auth');
 
 /* --- User Profile --- */
 Route::get('/user-profile',[
@@ -112,6 +116,20 @@ Route::post('/edit-static-page',[
     'as' => 'route.edit_static_page_submit',
     'uses' => 'StaticPagesController@edit_static_page_submit'
     ])->middleware('auth');
+Route::post('/approve-static-page',[
+    'as' => 'route.approve_static_page_submit',
+    'uses' => 'StaticPagesController@approve_static_page_submit'
+    ])->middleware('auth');
+
+Route::get('/about-roles/',[
+    'as' => 'route.about_roles',
+    'uses' => 'StaticPagesController@about_roles'
+    ]);
+Route::get('/terms-and-conditions/',[
+    'as' => 'route.terms_and_conditions',
+    'uses' => 'StaticPagesController@terms_and_conditions'
+    ]);
+
 
 /* ---Articles--- */
 Route::get('/add-article',[

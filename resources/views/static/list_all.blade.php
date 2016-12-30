@@ -32,6 +32,29 @@
                                     @endif
                                     </strong>
                                 </p>
+                                <p>{{trans('static.menus')}}:
+                                    @if($static_page->is_in_main_menu)
+                                        <span>{{trans('static.is_in_main_menu')}}</span>
+                                    @endif
+                                    @if($static_page->is_in_footer)
+                                        <span>{{trans('static.is_in_footer')}}</span>
+                                    @endif
+                                    @if($static_page->is_in_unauth)
+                                        <span>{{trans('static.is_in_unauth')}}</span>
+                                    @endif
+                                    @if($static_page->is_home_slider)
+                                        <span>{{trans('static.is_home_slider')}}</span>
+                                    @endif
+                                </p>
+                                <p>{{trans('common.status')}}: 
+                                    
+                                        @if($static_page->status == \Config::get('constants.PAGE_STATUS_DRAFT'))
+                                            <span>{{trans('common.page_status_draft')}}</span>
+                                        @else
+                                            <span class="blue">{{trans('common.page_status_public')}}</span>
+                                        @endif
+                                    
+                                </p>
                                 <p>{{trans('static.list_page_created_by')}}: <span class="blue">{{$static_page->createdBy->getTranslation(\Session::get('language'))->name}}</span></p>
                                 <p>{{trans('static.list_page_created_at')}}: <strong>{{$static_page->created_at}}</strong></p>
                                 <p><a href='{{url("/static-page/$static_page->id")}}'> {{trans('static.view_page_link')}}</a></p>

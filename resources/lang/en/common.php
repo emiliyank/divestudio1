@@ -41,4 +41,8 @@ return [
     'please_select' => 'Please select',
     'asked_questions' => 'Frequently asked questions',
     'rating_of' => 'Rating of',
+
+    'status' => 'Status',
+    'page_status_draft' => 'draft',
+    'page_status_public' => 'public',
 ];

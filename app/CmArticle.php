@@ -23,4 +23,9 @@ class CmArticle extends Model
     public function clArticleType(){
         return $this->belongsTo(ClArticleType::class, 'cl_article_type_id');
     }
+
+    public function cmArticleRatings()
+    {
+        return $this->hasMany(CmArticleRating::class);
+    }
 }

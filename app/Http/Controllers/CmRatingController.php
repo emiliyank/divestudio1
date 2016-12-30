@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\CmAd;
 use App\CmOffer;
 use App\CmRating;
+use App\CmArticle;
+use App\CmArticleRating;
 
 class CmRatingController extends Controller{
 
@@ -62,6 +64,14 @@ class CmRatingController extends Controller{
     public function client_rates_given(User $user)
     {
         
+    }
+
+    public function submit_article_rating(Request $request)
+    {
+        $cm_article_rating = CmArticleRating::firstOrNew(['cm_article_id' => $request->cm_article_id, 'created_by' => \Auth::id()]);
+        $cm_article_rating->rating = $request->rating;
+        $cm_article_rating->created_by = \Auth::id();
+        $cm_article_rating->save();
     }
 }
 

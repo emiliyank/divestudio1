@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Mail;
 
 use App\CmArticle;
+use App\CmArticleRating;
 use App\CmArticleTranslation;
 use App\ClArticleType;
 use App\ClArticleTypeTranslation;
@@ -93,7 +94,12 @@ class CmArticleController extends Controller{
 
     public function single_article(CmArticle $cm_article)
     {
-        $cm_article_data = CmArticle::with('clArticleType', 'createdBy')->where('id', $cm_article->id)->first(); 
+        $cm_article_data = CmArticle::with(['clArticleType', 'createdBy'])
+            ->with(['cmArticleRatings' => function ($query){
+                $query->where('created_by', \Auth::id());
+            }])
+            ->where('cm_articles.id', $cm_article->id)->first();        
+
         return view('articles.single_article',[
             'cm_article' => $cm_article_data,
             ]);
@@ -116,7 +122,11 @@ class CmArticleController extends Controller{
 
     public function articles_list()
     {
-        $cm_articles = CmArticle::with('clArticleType', 'createdBy')->where('status', '>', 0)->get();
+        $cm_articles = CmArticle::with('clArticleType', 'createdBy', 'cmArticleRatings')
+            // ->with(['cmArticleRatings' => function($query){
+            //     $query->groupBy('cm_article_id')->avg('rating');
+            // }])
+            ->where('status', '>', 0)->get();
         $cl_article_types = ClArticleType::get();
 
         return view('articles.articles_list',[

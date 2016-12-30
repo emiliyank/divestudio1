@@ -43,6 +43,73 @@
                                     <textarea name="content" id="content" placeholder="{{trans('static.content')}}*" onFocus="focusLink(true)" onBlur="focusLink(false)" required>{{old('content')}}</textarea>
                                 </div>
                             </div>
+                            <p></p>
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <label for="html_class">{{trans('static.html_class')}}:</label>
+                                    <input type="text" name="html_class" id="html_class" placeholder="{{trans('static.html_class')}}" value="{{old('html_class')}}">
+                                </div>
+                            </div> 
+
+                            <div class="form-group">
+                                <div class="checkbox col-sm-6">
+                                    <?php
+                                        if( ! empty(old('is_in_main_menu')))
+                                        {
+                                            $checked = 'checked';
+                                        }else{
+                                            $checked = '';
+                                        }
+                                    ?>
+                                    <input type="checkbox" name="is_in_main_menu" id="is_in_main_menu" value="1" {{$checked}}>
+                                    <label for="is_in_main_menu">{{trans('static.is_in_main_menu')}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="checkbox col-sm-6">
+                                    <?php
+                                        if( ! empty(old('is_in_footer')))
+                                        {
+                                            $checked = 'checked';
+                                        }else{
+                                            $checked = '';
+                                        }
+                                    ?>
+                                    <input type="checkbox" name="is_in_footer" id="is_in_footer" value="1" {{$checked}}>
+                                    <label for="is_in_footer">{{trans('static.is_in_footer')}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="checkbox col-sm-6">
+                                    <?php
+                                        if( ! empty(old('is_in_unauth')))
+                                        {
+                                            $checked = 'checked';
+                                        }else{
+                                            $checked = '';
+                                        }
+                                    ?>
+                                    <input type="checkbox" name="is_in_unauth" id="is_in_unauth" value="1" {{$checked}}>
+                                    <label for="is_in_unauth">{{trans('static.is_in_unauth')}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="checkbox col-sm-6">
+                                    <?php
+                                        if( ! empty(old('is_home_slider')))
+                                        {
+                                            $checked = 'checked';
+                                        }else{
+                                            $checked = '';
+                                        }
+                                    ?>
+                                    <input type="checkbox" name="is_home_slider" id="is_home_slider" value="1" {{$checked}}>
+                                    <label for="is_home_slider">{{trans('static.is_home_slider')}}</label>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <input type="submit" value="{{trans('common.btn_save')}}">

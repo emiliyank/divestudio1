@@ -271,18 +271,12 @@ class UserController extends Controller
 
     Session::flash('updated_data', trans('common.flash_update_success'));
     return redirect("/user-details");
-<<<<<<< HEAD
     }
-
-    public function ads_list()
-    {
-=======
-}
 
     public function ads_list(){
         $user=User::where('id', \Auth::id())->first();
-        if ($user->user_type == 2){ // Предлагащ услуги
-            //==================================================================
+        if ($user->user_type == 2 || $user->user_type == 999){ 
+        // Предлагащ услуги ==================================================================
             $unanswered=array();
             $answered=array();
 //            $cl_services = ClService::get();
@@ -340,7 +334,6 @@ class UserController extends Controller
     }
 
     public function ads_list_ver(){
->>>>>>> c3b21c73b1b07300cf6bac1694d067cf1c4f8ebb
         $user_id = \Auth::id();
         $user = User::where('id', $user_id)->first();
         if ($user->user_type == 2 || $user->user_type == 999){ // Предлагащ услуги
@@ -403,12 +396,8 @@ class UserController extends Controller
                     $unanswered[$ad->id]['deadline'] = date('d.m.Y',strtotime($ad->deadline));
                 }
             }
-<<<<<<< HEAD
 
-            return view ('ads.ads_list', [
-=======
             return view ('ads.ads_list_ver', [
->>>>>>> c3b21c73b1b07300cf6bac1694d067cf1c4f8ebb
                 'unanswered' => $unanswered,
                 'answered' => $answered,
             ]);

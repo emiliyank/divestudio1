@@ -2,6 +2,9 @@
 
 @section('content')
 <!--Slider-->
+<?php
+    //use App\CmStaticPage;
+?>
 <div class="slider">
 
     <div class="slide">
@@ -9,7 +12,7 @@
             <div class="slide-left">
                 <h2 class="sl-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0.5s">Открийте вашия <strong>счетоводител</strong></h2>
                 <p class="sl-animation" data-os-animation="fadeInLeft" data-os-animation-delay="1s">Намерете подходящия за вас счетоводител в най-голямата база данни в България</p>
-                <p class="sl-animation button" data-os-animation="fadeInLeft" data-os-animation-delay="1.5s"><a href="#">Научете как</a></p>
+                <p class="sl-animation button" data-os-animation="fadeInLeft" data-os-animation-delay="1.5s"><a href='{{url("static-page/$slider_page_id")}}'>Научете как</a></p>
             </div>
             <div class="slide-right">
                <p class="sl-animation" data-os-animation="fadeInUp" data-os-animation-delay="0.1s"><img src="{{asset('design/img/pic/slide_01.png')}}" alt="Открийте Вашия счетоводител"></p>   
@@ -21,7 +24,7 @@
             <div class="slide-left">
                 <h2 class="sl-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0.5s"><strong>Всички</strong> услуги на едно място</h2>
                 <p class="sl-animation" data-os-animation="fadeInLeft" data-os-animation-delay="1s">Всичко за Вашето счетоводство на Schetovodno.com - прозрачно и конкурентно</p>
-                <p class="sl-animation button" data-os-animation="fadeInLeft" data-os-animation-delay="1.5s"><a href="#">Научете как</a></p>
+                <p class="sl-animation button" data-os-animation="fadeInLeft" data-os-animation-delay="1.5s"><a href="{{url('static-page/$slider_page_id')}}">Научете как</a></p>
             </div>
             <div class="slide-right">
                 <p class="sl-animation" data-os-animation="fadeInUp" data-os-animation-delay="0.1s"><img src="{{asset('/design/img/pic/slide_02.png')}}" alt="Всички услуги на едно място"></p>
@@ -33,7 +36,7 @@
             <div class="slide-left">
                 <h2 class="sl-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0.5s"><strong>Предложете</strong> счетоводна услуга</h2>
                 <p class="sl-animation" data-os-animation="fadeInLeft" data-os-animation-delay="1s">Включете се в Schetovodno.com и предложете услугите си на бъдещите си клиенти</p>
-                <p class="sl-animation button" data-os-animation="fadeInLeft" data-os-animation-delay="1.5s"><a href="#">Научете как</a></p>
+                <p class="sl-animation button" data-os-animation="fadeInLeft" data-os-animation-delay="1.5s"><a href="{{url('static-page/$slider_page_id')}}">Научете как</a></p>
             </div>
             <div class="slide-right">
                 <p class="sl-animation" data-os-animation="fadeInUp" data-os-animation-delay="0.1s"><img src="{{asset('/design/img/pic/slide_03.png')}}" alt="Предложи счетоводна услуга"></p>
