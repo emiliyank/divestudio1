@@ -22,6 +22,7 @@ return [
     'no_translation' => 'Няма наличен превод на български език. Моля превключете на Английски език.',
     'created_at' => 'От дата:',
     'published_by' => 'Публикувано от:',
+    'validate_page_deletion' => 'Наистина ли искате да изтриете тази страница?',
     'btn_seeking' => 'Търсещ',
     'btn_supplier' => 'Предлагащ',
     
@@ -39,4 +40,9 @@ return [
 
     'please_select' => 'Моля изберете',
     'asked_questions' => 'Често задавани въпроси',
+    'rating_of' => 'Оценка на',
+
+    'status' => 'Статус',
+    'page_status_draft' => 'чернова',
+    'page_status_public' => 'публична',
 ];

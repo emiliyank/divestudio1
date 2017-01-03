@@ -53,11 +53,14 @@
             <div class="float-left">
                 <ul class="footer-nav">
                     <li><a href="#">Начало</a></li>
-                    <li><a href="#">Как работи</a></li>
-                    <li><a href="#">Статии</a></li>
-                    <li><a href="#">Регистрация</a></li>
-                    <li><a href="#">Вход</a></li>
-                    <li><a href="#">За нас</a></li>
+                    @foreach($footer_static_pages as $static_page)
+                        <li><a href='{{url("/static-page/$static_page->id")}}'>{{$static_page->getTranslation(\Session::get('language'))->topic}}</a></li>
+                    @endforeach
+                    <li><a href="{{url('/articles')}}">Статии</a></li>
+                    @if( ! Auth::check())
+                        <li><a href="{{url('/register')}}">Регистрация</a></li>
+                        <li><a href="{{url('/login')}}">Вход</a></li>
+                    @endif
                     <li><a href="{{url('/contact')}}">Контакти</a></li>
                     <li><a href="#">Общи условия</a></li>
                 </ul>
@@ -73,7 +76,7 @@
     
     <div class="container">
     	<div class="float-left">
-        	<h4><a href="#">Schetovodno.com</a></h4>
+        	<h4><a href="{{url('/')}}">Schetovodno.com</a></h4>
         </div>
         <div class="float-right">
         	<p class="copyright">Schetovodno.com &copy; 2016 | <a href="http://www.dive-studio.com" target="_blank" title="Web design by DIVE Studio">Webdesign</a> by DIVE Studio</p>

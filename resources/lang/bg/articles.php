@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'articles_list_title' => 'Статии',
     'add_article_title' => 'Статия',
     'add_article_subtitle' => 'Добавяне на статия',
     'article_type_default' => 'Изберете категория',
@@ -14,7 +15,8 @@ return [
     'private_article' => 'Само за регистрирани потребители',
     'public_article' => 'Видима за всички',  
     'waiting_approval_status' => 'Очаква одобрение от администратор',  
-    'rate_article' => 'Оцени статията:',
+    'rate_article' => 'Оцени статията',
+    'average_rating' => 'Среден рейтинг',
     'similar_articles' => 'подобни статии',
     'btn_to_all_articles' => 'към всички статии',
     'btn_approve' => 'Промени статута на статията',

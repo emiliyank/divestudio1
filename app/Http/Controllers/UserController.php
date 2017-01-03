@@ -17,16 +17,36 @@ use App\UserTranslation;
 use App\ConUserService;
 use App\ConUserRegion;
 use App\ConUserLanguage;
+use App\ConRoleAccess;
 use App\ClService;
 use App\ClRegion;
 use App\ClLanguage;
 use App\ClOrganizationType;
+use App\CmAd;
 
 class UserController extends Controller
 {
 	public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function user_profile()
+    {
+        $user_id = \Auth::id();
+        $user = User::with('userType')->where('id', $user_id)->first();
+        $user_accesses = ConRoleAccess::with(array('clRoles', 'clAccesses'))
+            ->where('cl_role_id', $user->user_type)->get();
+
+        //TODO: translation NOT working because of different primary key: code instead of id
+        // var_dump($user);
+        // echo '<hr><br/>';
+        // var_dump($user->userType->getTranslation(\Session::get('language'))->role);
+
+        return view ('users.profile', [
+            'user' => $user,
+            'user_accesses' => $user_accesses,
+            ]);
     }
 
     public function edit_account_info_form()
@@ -251,5 +271,153 @@ class UserController extends Controller
 
     Session::flash('updated_data', trans('common.flash_update_success'));
     return redirect("/user-details");
-}
+    }
+
+    public function ads_list(){
+        $user=User::where('id', \Auth::id())->first();
+        if ($user->user_type == 2 || $user->user_type == 999){ 
+        // Предлагащ услуги ==================================================================
+            $unanswered=array();
+            $answered=array();
+//            $cl_services = ClService::get();
+//            $cl_regions = ClRegion::get();
+            $cl_languages = ClLanguage::get();
+            $languages = [];
+            foreach ($cl_languages as $language){
+                $languages[$language->language] = $language->locale_code;
+            }
+            //==================================================================
+            $user_services_data = $user->conUserServices()->get();
+            $user_services = [];
+            foreach ($user_services_data as $user_service) {
+                $user_services[$user_service->cl_service_id] = $user_service->min_budget;
+            }
+            $user_regions_data = $user->conUserRegions()->get();
+            $user_regions = [];
+            foreach ($user_regions_data as $user_region) {
+                $user_regions[$user_region->cl_region_id] = $user_region->cl_region_id;
+            }
+            $user_languages_data = $user->conUserLanguages()->get();
+            $user_languages = [];
+            foreach ($user_languages_data as $user_language) {
+                $user_languages[$languages[$user_language->cl_language_id]] = $user_language->cl_language_id;
+            }
+            //==================================================================
+            $all_ads = CmAd::with(array('createdBy','clRegions','clService'))
+                    ->whereNull('date_accepted')
+                    ->whereNull('date_deleted')
+                    ->where([['created_by', '<>', \Auth::id()],
+                             ['deadline','>=',date('Y-m-d').' 00:00:00']])
+                    ->whereIn('service_id', array_keys($user_services))
+                    ->orderBy('cm_ads.id', 'desc')
+                    ->get();
+            //==================================================================
+            foreach ($all_ads as $ad){
+                $ad_regions = array();
+                foreach($ad->clRegions as $region){
+                    $ad_regions[] = $region['id'];
+                }
+                $ad_locale = $ad->getTranslation()['locale'];
+                if (isset($user_languages[$ad_locale]) &&
+                    $ad->budget >= $user_services[$ad->service_id] && 
+                    array_intersect($user_regions,$ad_regions)){
+                    $unanswered[] = $ad;
+                }
+            }
+            //==================================================================
+            return view ('ads.ads_list', [
+                'unanswered' => $unanswered,
+                'answered' => $answered,
+                'count_all_regions' => ClRegion::get()->count(),
+            ]);
+        }
+    }
+
+    public function ads_list_ver(){
+        $user_id = \Auth::id();
+        $user = User::where('id', $user_id)->first();
+        if ($user->user_type == 2 || $user->user_type == 999){ // Предлагащ услуги
+            $user_services_data = $user->conUserServices()->get();
+            $user_services = [];
+            foreach ($user_services_data as $user_service) {
+                $user_services[$user_service->cl_service_id] = $user_service->min_budget;
+            }
+            $user_regions_data = $user->conUserRegions()->get();
+            $user_regions = [];
+            foreach ($user_regions_data as $user_region) {
+                $user_regions[$user_region->cl_region_id] = $user_region->cl_region_id;
+            }
+            $cl_languages = ClLanguage::get();
+            $languages = [];
+            foreach ($cl_languages as $language){
+                $languages[$language->language] = $language->locale_code;
+            }
+            $user_languages_data = $user->conUserLanguages()->get();
+            $user_languages = [];
+            foreach ($user_languages_data as $user_language) {
+                $user_languages[$languages[$user_language->cl_language_id]] = $user_language->cl_language_id;
+            }
+//            $cl_services = ClService::get();
+//            $cl_regions = ClRegion::get();
+            $all_ads = CmAd::with(array('createdBy','clRegions'))
+                    ->whereNull('date_accepted')
+                    ->whereNull('date_deleted')
+                    ->where([
+                                ['created_by', '<>', \Auth::id()],
+                                ['deadline','>=',date('Y-m-d').' 00:00:00']])
+                    ->whereIn('service_id', array_keys($user_services))
+                    //->whereIn('locale', array_keys($user_languages))
+                    ->orderBy('cm_ads.id', 'desc')
+                    ->get();
+            $unanswered = array();
+            $answered = array();
+            foreach ($all_ads as $ad){
+                $ad_regions = array();
+                foreach($ad->clRegions as $region){
+                    $ad_regions[] = $region['id'];
+                }
+                if ($ad->budget >= $user_services[$ad->service_id] && 
+                        array_intersect($user_regions,$ad_regions)
+                ){
+                    if($ad->hasTranslation('bg')){
+                        $unanswered[$ad->id]['title'] = $ad->getTranslation('bg')->title;
+                    }
+                    else{
+                        $unanswered[$ad->id]['title'] = $ad->getTranslation('en')->title;
+                    }
+                    if ($ad->createdBy->getTranslation(\Session::get('language'))->org_name){
+                        $unanswered[$ad->id]['from'] = $ad->createdBy->getTranslation(\Session::get('language'))->org_name.' - '.
+                                                       $ad->createdBy->getTranslation(\Session::get('language'))->name;
+                    }
+                    else{
+                        $unanswered[$ad->id]['from'] = $ad->createdBy->getTranslation(\Session::get('language'))->name;
+                    }
+                    $unanswered[$ad->id]['budget'] = $ad->budget;
+                    $unanswered[$ad->id]['deadline'] = date('d.m.Y',strtotime($ad->deadline));
+                }
+            }
+
+            return view ('ads.ads_list_ver', [
+                'unanswered' => $unanswered,
+                'answered' => $answered,
+            ]);
+//            echo "<pre>";
+//            print_r($user);
+//            echo "=============<br/>";
+//            print_r($user_services);
+//            echo "=============<br/>";
+//            print_r($user_regions);
+//            echo "=============<br/>";
+//            print_r($user_languages);
+// //            echo implode(',',array_keys($user_languages));
+//            echo "=============<br/>";
+//            print_r($all_ads);
+//            echo "=====================================================<br/>";
+//            print_r($unanswered);
+//            echo "</pre>";
+        }else{
+            echo "За да имате получени обяви трябва да сте регистриран като потребител Предлагащ услуги, а вие не сте. 
+            Нямате получени обяви!";
+        }
+    }
 }

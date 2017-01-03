@@ -29,6 +29,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function userType()
+    {
+        return $this->belongsTo(ClRole::class, 'user_type', 'code');
+    }
+
+    public function clAccesses(){
+        return $this->belongsToMany(ClAccess::class, 'con_role_access');
+    }
     
     public function ads(){
         return $this->hasMany(Ad::class);

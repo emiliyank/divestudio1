@@ -148,6 +148,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -157,6 +158,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Illuminate\Foundation\Providers\ComposerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Dimsav\Translatable\TranslatableServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
