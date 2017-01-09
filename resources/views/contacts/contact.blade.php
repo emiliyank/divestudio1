@@ -30,15 +30,27 @@
                     {{ csrf_field() }}
                 
                     <label for="contact-name">{{trans('users.name')}}<span class="red">*</span>:</label>
+<?php
+  $name=old('name');
+  $email=old('email');
+  $phone=old('phone');
+  if ($user){
+      if (!$name && $user->hasTranslation(\Session::get('language'))){
+          $name=$user->getTranslation(\Session::get('language'))->name;
+      }
+      if (!$email){ $email=$user->email; }
+      if (!$phone){ $phone=$user->phone; }
+  }
+?>
 @if ($errors->has('name'))<strong>{{ $errors->first('name') }}</strong>@endif
-                    <input type="text" name="name" id="name" required placeholder="{{trans('users.name')}}*" value="{{ old('name') }}">
+                    <input type="text" name="name" id="name" required placeholder="{{trans('users.name')}}*" value="{{$name}}">
                     
                     <label for="email">Email<span class="red">*</span>:</label>
 @if ($errors->has('email'))<strong>{{$errors->first('email')}}</strong>@endif
-                    <input type="email" name="email" id="email" required placeholder="Email*" value="{{ old('email') }}">
+                    <input type="email" name="email" id="email" required placeholder="Email*" value="{{$email}}">
                 
                     <label for="phone">{{trans('users.phone')}}:</label>
-                    <input type="tel" name="phone" id="phone" placeholder="{{trans('users.phone')}}" value="{{ old('phone') }}">
+                    <input type="tel" name="phone" id="phone" placeholder="{{trans('users.phone')}}" value="{{$phone}}">
                     
                     <label for="cl_feedback_topic_id">{{trans('contact.theme')}}:</label>
 @if ($errors->has('cl_feedback_topic_id'))<strong>{{ $errors->first('cl_feedback_topic_id') }}</strong>@endif

@@ -8,5 +8,7 @@ return [
     'theme' => 'Theme',
     'feedback' => 'Message',
     'success'=> 'Your message was sent successfully',
+    'received_contacts' => 'Received contacts',
+    'status' => 'Status',
 ];
 

@@ -46,11 +46,7 @@
                     
                     <label for="password_confirmation">{{trans('common.password_confirmation')}}<span class="red">*</span>:</label>
                     <input type="password" name="password_confirmation" id="password_confirmation" class="password" required placeholder="{{trans('common.password_confirmation')}}*">
-                    
-                    <label for="username">{{trans('common.username')}}<span class="red">*</span>:</label>
-@if ($errors->has('username'))<strong>{{ $errors->first('username') }}</strong>@endif
-                    <input type="text" name="username" id="username" class="username" required placeholder="{{trans('common.username')}}*" value="{{ old('username') }}">
-                    
+
                     <p>{{trans('register.additional_information')}}:</p>
                     
                     <label for="name">{{trans('users.name')}}<span class="red">*</span>:</label>
