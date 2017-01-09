@@ -68,6 +68,7 @@
                 (Session::get('user_type') == Config::get('constants.USER_ROLE_ADMIN')))
                 <li><a href="{{url('/pending-articles')}}">Статии чакащи потвърждение</a></li>
                 <li><a href="{{url('/list-static-pages')}}">Статични страници</a></li>
+                <li><a href="{{url('/contacts-list')}}">Въпроси от контакти</a></li>
             @endif
             <li><a href="{{url('/ads')}}">Моите обяви</a></li>
             <li><a href="#">Съобщения</a></li>
