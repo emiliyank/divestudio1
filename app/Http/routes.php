@@ -178,4 +178,3 @@ Route::get('/faq',[
     'as' => 'route.faq',
     'uses' => 'StaticPagesController@faq'
     ]);
-
