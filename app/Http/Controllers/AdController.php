@@ -70,15 +70,14 @@ class AdController extends Controller
         $ad->service_id = $request->service_id;
         $ad->deadline = date('Y-m-d',strtotime($request->deadline));
         $ad->budget = $request->budget;
-        //$ad->save();
-        //$ad_id = $ad->id;
-        $ad_id = 0;
+        $ad->save();
+        $ad_id = $ad->id;
 
         $translation = $ad->getNewTranslation(\Session::get('language'));
         $translation->cm_ad_id = $ad_id;
         $translation->title = $request->title;
         $translation->content = $request->content;
-        //$translation->save();
+        $translation->save();
 
         $regions_list = array();
         foreach ($request->regions as $region) {
@@ -86,14 +85,19 @@ class AdController extends Controller
             $con_ad_region = new ConAdRegion;
             $con_ad_region->cm_ad_id = $ad_id;
             $con_ad_region->cl_region_id = $region;
-            //$con_ad_region->save();
+            $con_ad_region->save();
         }
 
-        //TODO send email to appropriate suppliers
+        $this->send_emails_to_suppliers($regions_list, $request->service_id, $request->budget, $ad_id);   
+        return redirect('/ads');
+    }
+
+    protected function send_emails_to_suppliers($regions_list, $service_id, $budget, $ad_id)
+    {
         $users_for_email = User::
-            with(['conUserServices' => function($query) use($request){
-                $query->where('cl_service_id', $request->service_id)
-                    ->where('min_budget', '<', $request->budget);
+            with(['conUserServices' => function($query) use($service_id, $budget){
+                $query->where('cl_service_id', $service_id)
+                    ->where('min_budget', '<', $budget);
             }])
             ->where('is_receiving_emails', 1)
             ->whereIn('user_type', [\Config::get('constants.USER_ROLE_SUPPLIER'), \Config::get('constants.USER_ROLE_ADMIN')])
@@ -127,8 +131,6 @@ class AdController extends Controller
                 $m->to($email)->subject('Счетоводство.com - получена обява');
             });
         }
-        
-        //return redirect('/ads');
     }
     
     protected function single_ad(CmAd $cm_ad){

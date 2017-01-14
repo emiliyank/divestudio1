@@ -11,6 +11,7 @@
 |
 */
 
+/* ---Common--- */
 Route::auth();
 Route::get('user/activation/{token}', 'Auth\AuthController@activateUser')->name('user.activate');
 
@@ -21,20 +22,15 @@ Route::get('/ads', 'AdController@index');
 Route::get('/ad', 'AdController@add_form');
 Route::post('/ad', 'AdController@add_submit');
 Route::get('/ad/{cm_ad}', 'AdController@single_ad');
-
 Route::get('/ads',[
     'as' => 'route.ads_list',
     'uses' => 'AdController@index'
 	]);
-
 Route::get('/show_ad/{cm_ad}', 'AdController@show_ad')->name('ads.show_ad');
 
 /* ---Offers--- */
-//Route::get('/ad_offers/{cm_ad}', 'CmOfferController@ad_offers_list');
-//Route::get('/offer/{cm_ad}', 'CmOfferController@add_form');
 Route::post('/offer', 'CmOfferController@add_submit');
 Route::get('/approve_offer/{cm_offer}', 'CmOfferController@approve_offer');
-
 Route::get('/offer-translate/{cm_ad}/{cm_offer}',[
     'as' => 'route.offer_translate',
     'uses' => 'CmOfferController@add_translation_form'
@@ -88,13 +84,49 @@ Route::post('/account',[
 Route::get('/admin-settings', 'UserController@admin_settings_form');
 Route::post('/admin-settings', 'UserController@admin_settings_submit');
 
-Route::get('/ads_list', 'UserController@ads_list_ver'); //Кратък списък
+Route::get('/ads_list', 'UserController@ads_list_ver'); //Short list
 Route::get('/ads-list', 'UserController@ads_list');
 
 Route::get('/list-users', 'UserController@list_all_users');
 Route::delete('/delete-user', 'UserController@delete_user');
 Route::get('/add-user', 'UserController@add_admin_user_form');
 Route::post('/add-user', 'UserController@add_admin_user_submit');
+
+/* ---Articles--- */
+Route::get('/add-article',[
+    'as' => 'route.add_article',
+    'uses' => 'CmArticleController@add_form'
+    ])->middleware('auth');
+Route::post('/add-article',[
+    'as' => 'route.add_article',
+    'uses' => 'CmArticleController@add_submit'
+    ])->middleware('auth');
+Route::get('/user-articles',[
+    'as' => 'route.user_articles',
+    'uses' => 'CmArticleController@user_articles'
+    ])->middleware('auth');
+Route::get('/single-article/{cm_article}',[
+    'as' => 'route.single_article',
+    'uses' => 'CmArticleController@single_article'
+    ]);
+Route::post('/approve-article',[
+    'as' => 'route.approve_article',
+    'uses' => 'CmArticleController@approve_article'
+    ])->middleware('auth');
+Route::get('/articles',[
+    'as' => 'route.articles_list',
+    'uses' => 'CmArticleController@articles_list'
+    ]);
+Route::get('/pending-articles',[
+    'as' => 'route.pending_articles',
+    'uses' => 'CmArticleController@pending_articles'
+    ])->middleware('auth');
+
+/* ---Contacts--- */
+Route::get('/contact', 'ContactController@index');
+Route::post('/contact', 'ContactController@add_submit');
+Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });
+Route::post('/contact/ok', function(){ return redirect('/'); });
 
 /* --- Static Pages --- */
 Route::get('/',[
@@ -146,44 +178,4 @@ Route::get('/faq',[
     'as' => 'route.faq',
     'uses' => 'StaticPagesController@faq'
     ]);
-
-
-/* ---Articles--- */
-Route::get('/add-article',[
-    'as' => 'route.add_article',
-    'uses' => 'CmArticleController@add_form'
-    ])->middleware('auth');
-Route::post('/add-article',[
-    'as' => 'route.add_article',
-    'uses' => 'CmArticleController@add_submit'
-    ])->middleware('auth');
-Route::get('/user-articles',[
-    'as' => 'route.user_articles',
-    'uses' => 'CmArticleController@user_articles'
-    ])->middleware('auth');
-Route::get('/single-article/{cm_article}',[
-    'as' => 'route.single_article',
-    'uses' => 'CmArticleController@single_article'
-    ]);
-Route::post('/approve-article',[
-    'as' => 'route.approve_article',
-    'uses' => 'CmArticleController@approve_article'
-    ])->middleware('auth');
-Route::get('/articles',[
-    'as' => 'route.articles_list',
-    'uses' => 'CmArticleController@articles_list'
-    ]);
-Route::get('/pending-articles',[
-    'as' => 'route.pending_articles',
-    'uses' => 'CmArticleController@pending_articles'
-    ])->middleware('auth');
-
-/* ---Contacts--- */
-Route::get('/contact', 'ContactController@index');
-
-
-
-Route::post('/contact', 'ContactController@add_submit');
-Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });
-Route::post('/contact/ok', function(){ return redirect('/'); });
 

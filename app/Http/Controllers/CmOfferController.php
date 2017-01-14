@@ -24,32 +24,6 @@ class CmOfferController extends Controller{
         $this->middleware('auth');
     }
 
-    // public function ad_offers_list(CmAd $cm_ad)
-    // {
-    //     $cl_region = $cm_ad->clRegion()->first();
-    //     $cl_service = $cm_ad->clService()->first();
-    //     $cm_offers = $cm_ad->cmOffers()->get();
-        
-    //     return view('offers.ad_offers', [
-    //         'cm_ad' => $cm_ad,
-    //         'cm_offers' => $cm_offers,
-    //         'region' => $cl_region,
-    //         'service' => $cl_service,
-    //         ]);
-    // }
-
-    // public function add_form(CmAd $cm_ad)
-    // {
-    //     $cl_region = $cm_ad->clRegion()->first();
-    //     $cl_service = $cm_ad->clService()->first();
-
-    //     return view('offers.add_offer',[
-    //         'cm_ad' => $cm_ad,
-    //         'region' => $cl_region,
-    //         'service' => $cl_service,
-    //         ]);
-    // }
-
     public function add_submit(Request $request){
         $this->validate($request, [
             'price' => 'required|integer|min:1',
@@ -65,31 +39,13 @@ class CmOfferController extends Controller{
         $offer->user_type = $logged_user->user_type;
         $offer->created_by = \Auth::id();
         $offer->save();
-
-        // $translation = $offer->getNewTranslation(\Session::get('language'));
-        // $translation->cm_offer_id = $offer->id;
-        // $translation->comment = $request->comment;
-        //  $translation->save();
-        
-
-        //Send notification email to the client
-        // $to = $logged_user->email;
-        // $data = array('from' => "You have new offer!");
-        // Mail::queue('emails.offer_sent', $data, function ($message) use ($to){
-        //     $message->from('no-reply@divestudio.com', 'Inveitix');
-        //     $message->to($to);
-        //     $message->subject('DiveStudio Platform');
-        // });
-        //TODO for windows&xampp: https://laracasts.com/discuss/channels/general-discussion/curl-error-60-ssl-certificate-problem-unable-to-get-local-issuer-certificate/replies/37017
-        
+   
         \Session::flash('offer_sent', trans('offers.flash_offer_sent'));
         return redirect("/show_ad/$request->cm_ad_id");
     }
 
     public function approve_offer(CmOffer $cm_offer, Request $request)
     {
-        //$cm_offer = CmOffer::where('id', $request->cm_offer_id)->first();
-
         $cm_offer->is_approved = 1;
         $cm_offer->updated_at = date('Y-m-d H:i:s');
         $cm_offer->updated_by = \Auth::id();
@@ -119,8 +75,6 @@ class CmOfferController extends Controller{
         $this->validate($request, [
             'comment' => 'required|max:200',
             ]);
-
-        //$cm_offer = CmOffer::where('id', $request->cm_offer_id)->get();
 
         $lang = \Session::get('language');
 
