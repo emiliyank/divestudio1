@@ -18,14 +18,13 @@ Route::get('user/activation/{token}', 'Auth\AuthController@activateUser')->name(
 Route::get('/postChangeLanguage/{language}', 'CommonController@postChangeLanguage');
 
 /* ---Ads--- */
-Route::get('/ads', 'AdController@index');
-Route::get('/ad', 'AdController@add_form');
-Route::post('/ad', 'AdController@add_submit');
-Route::get('/ad/{cm_ad}', 'AdController@single_ad');
 Route::get('/ads',[
     'as' => 'route.ads_list',
     'uses' => 'AdController@index'
-	]);
+    ]);
+Route::get('/ad', 'AdController@add_form');
+Route::post('/ad', 'AdController@add_submit');
+Route::get('/ad/{cm_ad}', 'AdController@single_ad');
 Route::get('/show_ad/{cm_ad}', 'AdController@show_ad')->name('ads.show_ad');
 
 /* ---Offers--- */

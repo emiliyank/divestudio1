@@ -26,7 +26,7 @@ return [
     'add_rating_btn' => 'Добави рейтинг',
     'rate_deal' => 'Рейтинг за приключената сделка',
     'btn_rating' => 'Оцени сделката',
-
+    'view_ad' => 'Подробности за обявата',
 
     'placeholder_title' => 'Име на обявата*:',
     'placeholder_service' => 'Изберете категория*:',

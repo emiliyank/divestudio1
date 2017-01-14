@@ -20,7 +20,6 @@
             
             @foreach($ads as $cm_ad)
             @if($cm_ad->hasTranslation(\Session::get('language')))
-            <a href='{{url("show_ad/$cm_ad->id")}}'>
             <div class="user-box">
                 <div class="header">
                     <h5>
@@ -44,6 +43,7 @@
                     </p>
                     <p class="due-date">{{trans('ads.deadline')}} <span>{{$cm_ad->deadline}}</span></p>
                     <hr>
+                    <p class="reply center"><a href='{{url("show_ad/$cm_ad->id")}}'>{{trans('ads.view_ad')}}</a></p>
                     <p class="view-profile center"><a href='{{url("/view-profile/$cm_ad->created_by")}}' target="_blank">{{trans('common.view_profile')}}</a></p>
                     <p class="send-message center"><a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper_{{$cm_ad->id}}').slideToggle(200, function() {equalheight('.boxes .box');});">{{trans('common.write_msg')}}</a></p>
                     <div id="conversation-reply-wrapper_{{$cm_ad->id}}" style="display: none;">
@@ -86,14 +86,11 @@
                         @endif
                     </p>
                 </div>
-            </div> 
-            </a>
+            </div>
             @endif
             @endforeach
         </div>
             
-
-    
 @endsection
 
 
