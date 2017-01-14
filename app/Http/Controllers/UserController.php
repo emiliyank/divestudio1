@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
+use App\ActivationService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Mail\Mailer;
+use Illuminate\Mail\Message;
 
 use Session;
 use Config;
@@ -23,12 +27,23 @@ use App\ClRegion;
 use App\ClLanguage;
 use App\ClOrganizationType;
 use App\CmAd;
+use App\ClRole;
+use App\SystemSetting;
 
 class UserController extends Controller
 {
-	public function __construct()
+    protected $activationService;
+
+    protected $activationRepo;
+
+    protected $mailer;
+
+	public function __construct(ActivationService $activationService, App\ActivationRepository $activationRepo, Mailer $mailer)
     {
         $this->middleware('auth');
+        $this->activationService = $activationService;
+        $this->activationRepo = $activationRepo;
+        $this->mailer = $mailer;
     }
 
     public function user_profile()
@@ -38,12 +53,19 @@ class UserController extends Controller
         $user_accesses = ConRoleAccess::with(array('clRoles', 'clAccesses'))
             ->where('cl_role_id', $user->user_type)->get();
 
-        //TODO: translation NOT working because of different primary key: code instead of id
-        // var_dump($user);
-        // echo '<hr><br/>';
-        // var_dump($user->userType->getTranslation(\Session::get('language'))->role);
-
         return view ('users.profile', [
+            'user' => $user,
+            'user_accesses' => $user_accesses,
+            ]);
+    }
+
+    public function show_user_profile($user_id)
+    {
+        $user = User::with('userType')->where('id', $user_id)->first();
+        $user_accesses = ConRoleAccess::with(array('clRoles', 'clAccesses'))
+            ->where('cl_role_id', $user->user_type)->get();
+
+        return view ('users.view_profile', [
             'user' => $user,
             'user_accesses' => $user_accesses,
             ]);
@@ -128,7 +150,6 @@ class UserController extends Controller
       $cl_regions = ClRegion::get();
       $cl_languages = ClLanguage::get();
 
-
       return view ('users.edit_details', [
           'user' => $user,
           'cl_services' => $cl_services,
@@ -147,7 +168,9 @@ class UserController extends Controller
         'description_bg' => 'required',
         ]);
 
-    $user = User::where('id', $request->user_id)->first();
+    $user = User::where('id', \Auth::id())->first();
+    $user->is_receiving_emails = $request->is_receiving_emails;
+    $user->save();
 
     $translation_bg = $user->translateOrNew(\Config::get('constants.LANGUAGE_BG'));
     $translation_bg->user_id = \Auth::id();
@@ -178,9 +201,16 @@ class UserController extends Controller
             if( ! empty ($user_services[$new_service_id]))
             {
                     //the item was already in the DB
+                if($user_services[$new_service_id] != $request->min_budget[$new_service_id])
+                {
+                    $con_user_service = ConUserService::where('user_id', \Auth::id())->where('cl_service_id', $new_service_id)->first();
+                    $con_user_service->min_budget = $request->min_budget[$new_service_id];
+                    $con_user_service->save();
+                }
+                
                 unset($user_services[$new_service_id]);
             }else{
-                    //selected new\ teim => insert into DB
+                    //selected new\ item => insert into DB
                 $con_user_service = new ConUserService();
                 $con_user_service->user_id = \Auth::id();
                 $con_user_service->cl_service_id = $new_service_id;
@@ -230,7 +260,7 @@ class UserController extends Controller
     {
         foreach($user_regions as $old_region_id)
         {
-                    //old regions that were not submited => must be removed from DB
+            //old regions that were not submited => must be removed from DB
             $old_user_region = ConUserRegion::where('user_id', \Auth::id())->where('cl_region_id', $old_region_id)->first();
             $old_user_region->delete();
         }
@@ -269,8 +299,8 @@ class UserController extends Controller
         }
     }
 
-    Session::flash('updated_data', trans('common.flash_update_success'));
-    return redirect("/user-details");
+        Session::flash('updated_data', trans('common.flash_update_success'));
+        return redirect("/user-details");
     }
 
     public function ads_list(){
@@ -419,5 +449,99 @@ class UserController extends Controller
             echo "За да имате получени обяви трябва да сте регистриран като потребител Предлагащ услуги, а вие не сте. 
             Нямате получени обяви!";
         }
+    }
+
+    public function admin_settings_form()
+    {
+        $system_settings = SystemSetting::first();
+        
+        return view ('users.admin_settings', [
+            'system_settings' => $system_settings,
+            ]);
+    }
+
+    public function admin_settings_submit(Request $request)
+    {
+        $this->validate($request, [
+            'default_ad_days_deadline' => 'required|numeric',
+        ]);
+
+        $system_settings = SystemSetting::first();
+        $system_settings->default_ad_days_deadline = $request->default_ad_days_deadline;
+        $system_settings->rating_period = $request->rating_period;
+        $system_settings->updated_by = \Auth::id();
+        $system_settings->save();
+        
+        Session::flash('updated_data', trans('common.flash_update_success'));
+        return redirect("/admin-settings");
+    }
+
+    public function list_all_users()
+    {
+        $all_users = User::with('userType')->whereNull('deleted_at')->get();
+        $cl_roles = ClRole::all();
+
+        return view ('users.list_all_users', [
+            'all_users' => $all_users,
+            'cl_roles' => $cl_roles,
+            ]);
+    }
+
+    public function delete_user(Request $request)
+    {
+        $dt = new \DateTime();
+        $now = $dt->format('Y-m-d H:i:s');
+
+        $user = User::where('id', $request->user_id)->first();
+        $user->deleted_at = $now;
+        $user->deleted_by = \Auth::id();
+        $user->save();
+
+        Session::flash('deleted_user', trans('common.flash_deleted_user'));
+        return redirect("/list-users");
+    }
+
+    public function add_admin_user_form()
+    {
+        return view('users.add_admin', [
+
+            ]);
+    }
+
+    public function add_admin_user_submit(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email|unique:users',
+            'name' => 'required',
+        ]);
+
+        $user = new User();
+        $user->email = $request->email;
+        $user->user_type =  \Config::get('constants.USER_ROLE_ADMIN');
+        $password = str_random(8);
+        $user->password = bcrypt($password);
+        $user->save();
+
+        $user_translation = $user->translateOrNew(\Session::get('language'));
+        $user_translation->user_id = $user->id;
+        $user_translation->name = $request->name;
+        $user_translation->save();
+
+        $token = $this->activationRepo->createActivation($user);
+        $link = route('user.activate', $token);
+        $message = sprintf("
+            Моля активирайте акаунта си \r\n  
+            потребителско име: $user->email \r\n  парола: $password \r\n<a href='%s'>%s</a>\r\n\r\n 
+            Please, activate account with \r\n  
+            username: $user->email\r\n  password: $password \r\n<a href='%s'>%s</a>", 
+            $link, $link, $link, $link
+            );
+
+        $this->mailer->raw($message, function (Message $m) use ($user) {
+            $m->to($user->email)->subject('Счетоводство.com - Активиране на акаунт / Activation mail');
+        });
+
+        Session::flash('created_user', trans('common.flash_created_user'));
+        return redirect("/list-users");
     }
 }

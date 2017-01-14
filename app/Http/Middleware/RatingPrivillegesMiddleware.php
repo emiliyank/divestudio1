@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\ClSystemSetting;
+use App\SystemSetting;
 
 class RatingPrivillegesMiddleware
 {
@@ -22,7 +22,7 @@ class RatingPrivillegesMiddleware
             return redirect('ad/' . $cm_ad->id)->with('rating_ad_privillege', "You do NOT have privilleges to rate this ad!");
         }
 
-        $days_setting = ClSystemSetting::first();
+        $days_setting = SystemSetting::first();
         $days_interval = $days_setting->rating_period;
         $now = date('Y-m-d H:i:s');
         

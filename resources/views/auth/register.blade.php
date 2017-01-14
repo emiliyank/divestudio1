@@ -46,7 +46,6 @@
                     
                     <label for="password_confirmation">{{trans('common.password_confirmation')}}<span class="red">*</span>:</label>
                     <input type="password" name="password_confirmation" id="password_confirmation" class="password" required placeholder="{{trans('common.password_confirmation')}}*">
-
                     <p>{{trans('register.additional_information')}}:</p>
                     
                     <label for="name">{{trans('users.name')}}<span class="red">*</span>:</label>

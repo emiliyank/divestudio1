@@ -3,16 +3,16 @@
 namespace App;
 
 use App\User;
-use Dimsav\Translatable\Translatable;
+//use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 
 class CmOffer extends Model
 {
-	use Translatable;
-	public $translatedAttributes = ['comment','type'];
+	// use Translatable;
+	// public $translatedAttributes = ['comment','type'];
 
-    protected $fillable = ['price', 'deadline', 'is_approved'];
+    protected $fillable = ['price', 'comment', 'user_type', 'is_approved'];
     
     public function createdBy(){
         return $this->belongsTo(User::class,'created_by');

@@ -7,21 +7,9 @@
         <div class="form-group form-horizontal">
             <label class="col-sm-3 control-label">{{trans('ads.title')}}</label>
             <div class="col-sm-6">
-                {{$cm_ad->title}}
+                {{$cm_ad->getTranslation(\Session::get('language'))->title}}
             </div>
-        </div><br/><br/>
-        <div class="form-group form-horizontal">
-            <label class="col-sm-3 control-label">{{trans('ads.service')}}</label>
-            <div class="col-sm-6">
-                {{$service->getTranslation(\Session::get('language'))->service}}
-            </div>
-        </div><br/><br/>
-        <div class="form-group form-horizontal">
-            <label class="col-sm-3 control-label">{{trans('ads.region')}}</label>
-            <div class="col-sm-6">
-                {{$region->getTranslation(\Session::get('language'))->region}}
-            </div>
-        </div><br/><br/>
+        </div><br/><br/>        
         <div class="form-group form-horizontal">
             <label class="col-sm-3 control-label">{{trans('ads.content')}}</label>
             <div class="col-sm-6">

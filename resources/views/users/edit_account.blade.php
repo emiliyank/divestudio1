@@ -18,8 +18,6 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
-                    <h4>{{trans('users.account_subtitle')}}</h4>
-
                     @if (Session::has('updated_data'))
                     <div class="row">
                         <div class="col-lg-12">
@@ -45,6 +43,7 @@
 
                     <form action="{{ url('/account') }}" method="post">
                         <fieldset>
+                            <h4>{{trans('users.account_subtitle')}}</h4>
                             {{ csrf_field() }}
                             <input type="hidden" name="user_id" value="{{$user->id}}"/>
 

@@ -12,12 +12,12 @@ class ClRole extends Model
 	public $translationForeignKey = 'cl_role_id';
 
 	public function Users(){
-        return $this->hasMany(User::class, 'code', 'user_type');
+        return $this->hasMany(User::class, 'id', 'user_type');
     }
 
     public function conRoleAccesses()
     {
-    	return $this->hasMany(ConRoleAccess::class, 'code');
+    	return $this->hasMany(ConRoleAccess::class, 'id');
     }
 }
 

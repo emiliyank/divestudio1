@@ -16,6 +16,22 @@
             <div class="boxes layout-left">
                 <div class="box">
                     <div class="user-box">
+                        @if (Session::has('offer_sent'))
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="alert alert-info">{{ Session::get('offer_sent') }}</div>
+                            </div>
+                        </div>
+                        @endif
+                        
+                        @if($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                            @endforeach
+                        </div>
+                        @endif
+
                         <div class="header">
                             <h5>{{$ad->title}}</h5>
                         </div>
@@ -65,71 +81,103 @@
                             <p class="view-profile center">
                                 <a href="#">{{trans('ads.view_profile')}}</a>
                             </p>
-@if (true)
-                            <p class="send-message center">
-                                <a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper1').slideToggle(200, function() {equalheight('.boxes .box');});">
-                                    {{trans('ads.write_message')}}
-                                </a>
-                            </p>
-                            <div id="conversation-reply-wrapper1" style="display: none;">
-                                <form id="reply-form1" method="post" action="/">
-                                <fieldset>
-                                    <textarea name="conversation-reply1" id="conversation-reply1" placeholder="{{trans('contact.feedback')}}" onFocus="focusLink(true)" onBlur="focusLink(false)"></textarea>
-                                    <input type="submit" value="{{trans('ads.btn_sned')}}">
-                                </fieldset>
-                                </form>
-                            </div>
-@endif
+                            
+                            @if($is_ad_accepted)
+                                <p class="is-accepted center">
+                                    <a href="#" disabled>
+                                        {{trans('ads.ad_accepted')}}
+                                    </a>
+                                </p>
+                            @else
+                                <p class="send-message center">
+                                    <a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper1').slideToggle(200, function() {equalheight('.boxes .box');});">
+                                        {{trans('ads.write_message')}}
+                                    </a>
+                                </p>
+                                <div id="conversation-reply-wrapper1" style="display: none;">
+                                    <form id="reply-form1" method="post" action="{{url('/offer')}}">
+                                    <fieldset>
+                                        {{csrf_field()}}
+                                        <input type="hidden" name="cm_ad_id" value="{{$ad->id}}"/>
+
+                                        <label for="price">{{trans('offers.price')}}</label>
+                                        <input type="number" name="price" class="budget" id="price" value="{{old('price')}}" required placeholder="{{trans('offers.price')}}"/>
+                                        
+                                        <label for="comment">{{trans('offers.comment')}}</label>
+                                        <textarea name="comment" id="comment" required placeholder="{{trans('offers.comment')}}">{{old('comment')}}</textarea>
+                                        
+                                        <input type="submit" value="{{trans('ads.btn_offer')}}">
+                                    </fieldset>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
 @if (true)
                         <div class="messages">
                             <h5>{{trans('ads.messages')}}</h5>
                             <hr>
 <!-- ******************************************* -->
-                            <p class="center"><em><strong>Имате 1 непрочетени съобщения.</strong></em></p>
                             <div class="conversation single">
-                                <div class="conversation-me">
-                                    <p class="conversation-sender"><a href="#">Бетон интелект ООД</a></p>
-                                    <p class="conversation-message">Здравейте. Мога да ви консултирам по казуса. Консултацията ще струва 150 лв.</p>
-                                    <p class="conversation-date">01.12.2016, 20:01</p>
-				</div>
-                                <div class="conversation-other-side">
-                                    <p class="conversation-sender"><a href="#">Металика ЕООД</a></p>
-                                    <p class="conversation-message deal"><i class="fa fa-handshake-ofa fa-thumbs-o-up" aria-hidden="true"></i> Желание за сключване на сделка</p>
-                                    <p class="conversation-date">01.12.2016, 20:02</p>
+                            @foreach($ad_offers as $offer)
+                                @if($offer->created_by == \Auth::id())
+                                    <div class="conversation-other-side">
+                                @else
+                                    <div class="conversation-me">
+                                @endif
+
+                                @if($offer->is_approved)
+                                    <p class="conversation-message accept"><i class="fa fa-handshake-o" aria-hidden="true"></i> {{trans('offers.status_approved')}}</p>
+                                    <p class="conversation-date">{{$offer->updated_at}}</p>
+                                    @if($has_rating_privilleges)
+                                        <p class="is-accepted center">
+                                            <a href="javascript:void(0)" onClick="$('#conversation-rating-wrapper1').slideToggle(200, function() {equalheight('.boxes .box');});">
+                                                {{trans('ads.add_rating_btn')}}
+                                            </a>
+                                        </p>
+                                        <div id="conversation-rating-wrapper1" style="display: none;">
+                                            <form id="rating-form1" method="post" action="{{url('/rating')}}">
+                                                <fieldset>
+                                                    {{csrf_field()}}
+                                                    <input type="hidden" name="cm_ad_id" value="{{$ad->id}}"/>
+                                                    <input type="hidden" name="cm_offer_id" value="{{$offer->id}}"/>
+                                                    <input type="hidden" name="user_graded_id" value="{{$offer->created_by}}"/>
+
+                                                    <legend>{{trans('ads.rate_deal')}}: </legend>
+                                                    @for($i = 1; $i <= 5; $i++)
+                                                        <input type="radio" name="rating" value="{{$i}}">{{$i}}
+                                                    @endfor
+                                                    
+                                                    <label for="comment">{{trans('offers.comment')}}</label>
+                                                    <textarea name="comment" id="comment" required placeholder="{{trans('offers.comment')}}">{{old('comment')}}</textarea>
+                                                    
+                                                    <input type="submit" value="{{trans('ads.btn_rating')}}">
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    @endif
+                                @endif
+                                    <p class="conversation-sender"><a href='{{url("/view-profile/$offer->created_by")}}' target="_blank">
+                                        @if($offer->createdBy->hasTranslation(\Session::get('language')))
+                                            {{$offer->createdBy->getTranslation(\Session::get('language'))->org_name}}  
+                                        @else
+                                            {{trans('common.no_translation')}}
+                                        @endif
+                                        &lt;{{$offer->createdBy->email}}&gt;
+                                    </a></p>
+                                    <p class="conversation-message">{{$offer->comment}}</p>
+                                    <p class="conversation-date"><span class="budget">{{$offer->price}} лв.</span> {{$offer->created_at}}</p>
+
+                                    @if($has_user_approve_privilleges && $offer->created_by != \Auth::id())
+                                    <ul class="conversation-nav">
+                                        <li><a href='{{url("/view-profile/$offer->created_by")}}' target="_blank">Покажи профила</a></li>
+                                        <li><a href='{{url("/approve_offer/$offer->id")}}'>{{trans('ads.btn_approve')}}</a></li>
+                                    </ul>
+                                    @endif
                                 </div>
-                                <div class="conversation-me">
-                                    <p class="conversation-sender"><a href="#">Бетон интелект ООД</a></p>
-                                    <p class="conversation-message accept"><i class="fa fa-handshake-o" aria-hidden="true"></i> Сделката е приета</p>
-                                    <p class="conversation-date">01.12.2016, 20:09</p>
-                                    <p class="conversation-message">Дайте моля имейл, на който да ви изпратя проформа.</p>
-                                    <p class="conversation-date">01.12.2016, 20:09</p>
-				</div>
-                                <div class="conversation-other-side">
-                                    <p class="conversation-sender"><a href="#">Металика ЕООД</a></p>
-                                    <p class="conversation-message unread">info@metclub.com</p>
-                                    <p class="conversation-date">01.12.2016, 20:16</p>
-                                </div>
+                            @endforeach
                             </div>
-<!-- ******************************************* -->
-                            <p class="reply">
-                                <a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper2').slideToggle(200, function() {equalheight('.boxes .box');});">
-                                    {{trans('ads.btn_reply')}}
-                                </a>
-                            </p>
-                            <div id="conversation-reply-wrapper2" style="display: none;">
-                                <form id="reply-form2" method="post" action="/">
-                                <fieldset>
-                                    <textarea name="conversation-reply2" id="conversation-reply2" placeholder="{{trans('ads.btn_reply')}}" onFocus="focusLink(true)" onBlur="focusLink(false)"></textarea>
-                                    <input type="submit" value="{{trans('ads.btn_sned')}}">
-                                </fieldset>
-                                </form>
-                            </div>
-                        </div>
 @endif
-                    </div>
-
-                    <p class="back center"><a href="{{url('/ads_list')}}">Към получени обяви</a></p>
+                        </div>
                 </div>
-
+            </div>
 @endsection

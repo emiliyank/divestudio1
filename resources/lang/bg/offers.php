@@ -22,10 +22,15 @@ return [
     'btn_approve' => 'Потвърди',
     'btn_cancel' => 'Откажи',
     'approved' => 'Потвърдена',
+    'status_approved' => 'Сделката е приета',
     
     'offer_title' => 'Оферта',
     'price' => 'Цена',
     'comment' => 'Коментар',
     'deadline' => 'Краен срок',
     'btn_add' => 'Добави',
+
+    'price' => 'Бюджет',
+    'comment' => 'Коментар',
+    'flash_offer_sent' => 'Офертата беше изпратена успешно!',
 ];

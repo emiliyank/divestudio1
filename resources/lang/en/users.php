@@ -38,4 +38,7 @@ return [
     'access_to' => 'You can',
     'description' => 'Description',
     'can_edit_description_at' => 'You can edit your description at',
+
+    'activation_email_sent' => 'We sent you an activation code. Check your email.',
+    'confirm_email_warning' => 'You need to confirm your account. We have sent you an activation code, please check your email.',
 ];

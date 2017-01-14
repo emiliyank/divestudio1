@@ -98,7 +98,7 @@ class CmArticleController extends Controller{
             ->with(['cmArticleRatings' => function ($query){
                 $query->where('created_by', \Auth::id());
             }])
-            ->where('cm_articles.id', $cm_article->id)->first();        
+            ->where('cm_articles.id', $cm_article->id)->first();
 
         return view('articles.single_article',[
             'cm_article' => $cm_article_data,

@@ -26,7 +26,7 @@
                 <h4>Нова обява</h4>
                 <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                     <div class="col-sm-6">
-                        <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" placeholder="{{trans('ads.placeholder_title')}}">
+                        <input type="text" name="title" id="title" class="form-control" required value="{{ old('title') }}" placeholder="{{trans('ads.placeholder_title')}}">
                         @if ($errors->has('title'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('title') }}</strong>
@@ -37,7 +37,7 @@
 
                 <div class="form-group{{ $errors->has('service_id') ? ' has-error' : '' }}">
                     <div class="col-md-6">
-                        <select id="service_id" class="form-control" name="service_id" placeholder="{{trans('ads.placeholder_service')}}">
+                        <select id="service_id" class="form-control" name="service_id" required placeholder="{{trans('ads.placeholder_service')}}">
                             <option value="">{{trans('ads.placeholder_service')}} </option>
                             @foreach($cl_services as $service)
                                 <option value="{{$service->id}}" {{(old('service_id') == $service->id) ? "selected":""}}>{{$service->getTranslation(\Session::get('language'))->service}}</option>
@@ -53,7 +53,7 @@
                 
                 <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
                     <div class="col-md-6">
-                        <textarea id="content" class="form-control" name="content" placeholder="{{trans('ads.placeholder_content')}}">{{old('content')}}</textarea>
+                        <textarea id="content" class="form-control" name="content" required placeholder="{{trans('ads.placeholder_content')}}">{{old('content')}}</textarea>
                         @if ($errors->has('content'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('content') }}</strong>
@@ -99,7 +99,15 @@
                             
                         </script>
                         <label for="date">Крайна дата за получаване на оферти:</label>
-                        <input type="text" name="deadline" id="deadline" class="date-picker" value="{{ old('deadline') }}" placeholder="{{trans('ads.placeholder_deadline')}}">
+                        <?php
+                        if( ! empty (old('deadline'))){
+                            $deadline_val = old('deadline');
+                        }
+                        else{
+                            $deadline_val = $default_ad_deadline;
+                        }
+                        ?>
+                        <input type="text" name="deadline" id="deadline" class="date-picker" required value="{{ $deadline_val }}" placeholder="{{trans('ads.placeholder_deadline')}}">
                         @if ($errors->has('deadline'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('deadline') }}</strong>
