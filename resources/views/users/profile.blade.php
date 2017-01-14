@@ -18,8 +18,15 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
-                    <h4>{{trans('users.profile_of')}} {{$user->getTranslation(\Session::get('language'))->org_name}}</h4>
-                    <p>{{trans('users.registered_as')}} <strong><u>{{$user->userType->code}}</u></strong>. {{trans('users.access_to')}}:</p>
+                    <h4>
+                        {{trans('users.profile_of')}} 
+                        @if($user->hasTranslation(\Session::get('language')))
+                            {{$user->getTranslation(\Session::get('language'))->org_name}}
+                        @else
+                            {{trans('users.no_translation')}}
+                        @endif
+                    </h4>
+                    <p>{{trans('users.registered_as')}} <strong><u>{{$user->userType->getTranslation(\Session::get('language'))->role}}</u></strong>. {{trans('users.access_to')}}:</p>
                     <ul>
                         @foreach($user_accesses as $access)
                             <li> {{$access->clAccesses->getTranslation(\Session::get('language'))->access}} </li>
@@ -30,13 +37,23 @@
                     <h5>{{trans('users.description')}}</h5>
 
                     <blockquote>
-                        {{$user->getTranslation(\Session::get('language'))->description}}
+                        @if($user->hasTranslation(\Session::get('language')))
+                            {{$user->getTranslation(\Session::get('language'))->description}}
+                        @else
+                            {{trans('users.no_translation')}}
+                        @endif
                     </blockquote>
                     <p><em>{{trans('users.can_edit_description_at')}} <a href="<?php echo url('user-details') ?>">Моите настройки</a></em></p>
 
                     <hr>
 
-                    <p><strong>{{trans('common.rating_of')}} {{$user->getTranslation(\Session::get('language'))->org_name}}</strong></p>
+                    <p><strong>{{trans('common.rating_of')}} 
+                        @if($user->hasTranslation(\Session::get('language')))
+                            {{$user->getTranslation(\Session::get('language'))->org_name}}
+                        @else
+                            {{trans('users.no_translation')}}
+                        @endif
+                    </strong></p>
 
                     <div class="rate-form" style="margin: -10px 0 30px 0;">
                         <fieldset class="rating">

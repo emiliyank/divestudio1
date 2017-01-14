@@ -52,7 +52,7 @@
     	<div class="container">
             <div class="float-left">
                 <ul class="footer-nav">
-                    <li><a href="#">Начало</a></li>
+                    <li><a href="{{url('/')}}">Начало</a></li>
                     @foreach($footer_static_pages as $static_page)
                         <li><a href='{{url("/static-page/$static_page->id")}}'>{{$static_page->getTranslation(\Session::get('language'))->topic}}</a></li>
                     @endforeach
@@ -62,7 +62,7 @@
                         <li><a href="{{url('/login')}}">Вход</a></li>
                     @endif
                     <li><a href="{{url('/contact')}}">Контакти</a></li>
-                    <li><a href="#">Общи условия</a></li>
+                    <li><a href="{{url('terms-and-conditions')}}">Общи условия</a></li>
                 </ul>
             </div>
             <div class="float-right">

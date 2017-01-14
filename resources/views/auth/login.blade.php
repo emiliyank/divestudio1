@@ -18,6 +18,17 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-body">
+                    @if (session('activation_email'))
+                        <div class="alert alert-success">
+                            {{ session('activation_email') }}
+                        </div>
+                    @endif
+                    @if (session('confirm_email_warning'))
+                        <div class="alert alert-warning">
+                            {{ session('confirm_email_warning') }}
+                        </div>
+                    @endif
+
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                     <fieldset>
                         {{ csrf_field() }}

@@ -13,6 +13,10 @@ use App\ConUserService;
 use App\ConUserLanguage;
 use App\UserTranslation;
 
+use Illuminate\Http\Request;
+use App\ActivationService;
+use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
     /*
@@ -35,14 +39,52 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/ads';
 
+    protected $activationService;
+
     /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ActivationService $activationService)
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->activationService = $activationService;
+    }
+
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+        $user = $this->create($request->all());
+
+        $this->activationService->sendActivationMail($user);
+
+        return redirect('/login')->with('activation_email', trans('users.activation_email_sent'));
+    }
+
+    public function authenticated(Request $request, $user)
+    {
+        if ( ! $user->activated_at) {
+            $this->activationService->sendActivationMail($user);
+            auth()->logout();
+            return back()->with('confirm_email_warning', trans('users.confirm_email_warning'));
+        }
+        session()->put('user_type', Auth::guard($this->getGuard())->user()->user_type);
+        return redirect()->intended($this->redirectPath());
+    }
+
+    public function activateUser($token)
+    {
+        if ($user = $this->activationService->activateUser($token)) {
+            return redirect($this->redirectPath());
+        }
+        abort(404);
     }
 
     /**
@@ -56,7 +98,6 @@ class AuthController extends Controller
         return Validator::make($data, [
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-            'username' => 'required|max:255',
             'name' => 'required|max:255',
             'phone' => 'required|max:45',
             'cl_organization_type_id' => 'required',
@@ -78,7 +119,6 @@ class AuthController extends Controller
             'user_type' => $data['user_type'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'username' => $data['username'],
             'phone' => $data['phone'],
             'cl_organization_type_id' => $data['cl_organization_type_id'],
             'reg_number' => $data['reg_number'],

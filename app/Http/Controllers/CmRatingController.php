@@ -30,25 +30,20 @@ class CmRatingController extends Controller{
     }
 
     public function add_form(CmAd $cm_ad, CmOffer $cm_offer)
-    {        
-        $cl_region = $cm_ad->clRegion()->first();
-        $cl_service = $cm_ad->clService()->first();
-
+    {
         return view('ratings.add_rating', [
             'cm_ad' => $cm_ad,
             'cm_offer' => $cm_offer,
-            'region' => $cl_region,
-            'service' => $cl_service,
             ]);
     }
 
     public function add_submit(Request $request){
         $this->validate($request, [
-            'grade' => 'required|integer|min:1|max:5',
+            'rating' => 'required|integer|min:1|max:5',
             ]);
         
         $cm_rating = new CmRating;
-        $cm_rating->grade = $request->grade;
+        $cm_rating->rating = $request->rating;
         $cm_rating->comment = $request->comment;
 
         $cm_rating->created_by = \Auth::id();
@@ -57,8 +52,9 @@ class CmRatingController extends Controller{
         $cm_rating->user_graded_id = $request->user_graded_id;
         
         $cm_rating->save();
-        
-        return redirect('/ads');//TODO
+
+        \Session::flash('rating_sent', trans('ratings.flash_rating_sent'));
+        return redirect("/show_ad/$request->cm_ad_id");
     }
     
     public function client_rates_given(User $user)

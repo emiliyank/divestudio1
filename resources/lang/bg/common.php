@@ -45,4 +45,10 @@ return [
     'status' => 'Статус',
     'page_status_draft' => 'чернова',
     'page_status_public' => 'публична',
+
+    'flash_update_success' => 'Информацията беше успешно обновена!',
+
+    'delete_btn' => 'Изтрий',
+    'flash_deleted_user' => 'Потребителят беше успешно изтрит!',
+    'read_msgs' => 'Прочети съобщенията',
 ];

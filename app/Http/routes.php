@@ -12,6 +12,7 @@
 */
 
 Route::auth();
+Route::get('user/activation/{token}', 'Auth\AuthController@activateUser')->name('user.activate');
 
 Route::get('/postChangeLanguage/{language}', 'CommonController@postChangeLanguage');
 
@@ -26,13 +27,13 @@ Route::get('/ads',[
     'uses' => 'AdController@index'
 	]);
 
-Route::get('/show_ad/{cm_ad}', 'AdController@show_ad');
+Route::get('/show_ad/{cm_ad}', 'AdController@show_ad')->name('ads.show_ad');
 
 /* ---Offers--- */
-Route::get('/ad_offers/{cm_ad}', 'CmOfferController@ad_offers_list');
-Route::get('/offer/{cm_ad}', 'CmOfferController@add_form');
+//Route::get('/ad_offers/{cm_ad}', 'CmOfferController@ad_offers_list');
+//Route::get('/offer/{cm_ad}', 'CmOfferController@add_form');
 Route::post('/offer', 'CmOfferController@add_submit');
-Route::post('/approve_offer/{cm_offer}', 'CmOfferController@approve_offer');
+Route::get('/approve_offer/{cm_offer}', 'CmOfferController@approve_offer');
 
 Route::get('/offer-translate/{cm_ad}/{cm_offer}',[
     'as' => 'route.offer_translate',
@@ -48,7 +49,7 @@ Route::get('/add-rating/{cm_ad}/{cm_offer}',[
     'as' => 'route.add_rating',
     'uses' => 'CmRatingController@add_form'
     ])->middleware('ratingPrivilleges');
-Route::post('/add-rating',[
+Route::post('/rating',[
     'as' => 'route.add_rating',
     'uses' => 'CmRatingController@add_submit'
     ]);
@@ -58,9 +59,13 @@ Route::post('/article-rating',[
     ])->middleware('auth');
 
 /* --- User Profile --- */
-Route::get('/user-profile',[
+Route::get('/user-profile/{user_id?}',[
     'as' => 'route.user_profile',
     'uses' => 'UserController@user_profile'
+    ]);
+Route::get('/view-profile/{user_id}',[
+    'as' => 'route.show_user_profile',
+    'uses' => 'UserController@show_user_profile'
     ]);
 Route::get('/user-details',[
     'as' => 'route.edit_user_details',
@@ -80,8 +85,16 @@ Route::post('/account',[
     'uses' => 'UserController@edit_account_submit'
     ]);
 
+Route::get('/admin-settings', 'UserController@admin_settings_form');
+Route::post('/admin-settings', 'UserController@admin_settings_submit');
+
 Route::get('/ads_list', 'UserController@ads_list_ver'); //Кратък списък
 Route::get('/ads-list', 'UserController@ads_list');
+
+Route::get('/list-users', 'UserController@list_all_users');
+Route::delete('/delete-user', 'UserController@delete_user');
+Route::get('/add-user', 'UserController@add_admin_user_form');
+Route::post('/add-user', 'UserController@add_admin_user_submit');
 
 /* --- Static Pages --- */
 Route::get('/',[

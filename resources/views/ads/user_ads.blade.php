@@ -20,6 +20,7 @@
             
             @foreach($ads as $cm_ad)
             @if($cm_ad->hasTranslation(\Session::get('language')))
+            <a href='{{url("show_ad/$cm_ad->id")}}'>
             <div class="user-box">
                 <div class="header">
                     <h5>
@@ -43,9 +44,9 @@
                     </p>
                     <p class="due-date">{{trans('ads.deadline')}} <span>{{$cm_ad->deadline}}</span></p>
                     <hr>
-                    <p class="view-profile center"><a href="#">{{trans('common.view_profile')}}</a></p>
-                    <p class="send-message center"><a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper1').slideToggle(200, function() {equalheight('.boxes .box');});">{{trans('common.write_msg')}}</a></p>
-                    <div id="conversation-reply-wrapper1" style="display: none;">
+                    <p class="view-profile center"><a href='{{url("/view-profile/$cm_ad->created_by")}}' target="_blank">{{trans('common.view_profile')}}</a></p>
+                    <p class="send-message center"><a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper_{{$cm_ad->id}}').slideToggle(200, function() {equalheight('.boxes .box');});">{{trans('common.write_msg')}}</a></p>
+                    <div id="conversation-reply-wrapper_{{$cm_ad->id}}" style="display: none;">
                         <form id="reply-form1" method="post" action="/">
                         <fieldset>
                             <textarea name="conversation-reply1" id="conversation-reply1" placeholder="Съобщение" onFocus="focusLink(true)" onBlur="focusLink(false)"></textarea>
@@ -56,9 +57,37 @@
                 </div>
                 <div class="messages">
                     <hr>
-                    <p class="center"><em>{{trans('common.no_msgs')}}</em></p>
+                    <p class="center">
+                        @if( count($cm_ad->cmOffers) > 0)
+                            <a href="javascript:void(0)" onClick='$("#offers-wrapper_{{$cm_ad->id}}").slideToggle(200, function() {equalheight(".boxes .box");});'>
+                                {{trans('common.read_msgs')}}
+                            </a>
+                        
+                            <div id="offers-wrapper_{{$cm_ad->id}}" style="display: none;">
+                                <div class="conversation single">
+                                @foreach($cm_ad->cmOffers as $offer)
+                                <div class="conversation-me">
+                                    <p class="conversation-sender"><a href='{{url("/view-profile/$offer->created_by")}}' target="_blank">
+                                        @if($offer->createdBy->hasTranslation(\Session::get('language')))
+                                            {{$offer->createdBy->getTranslation(\Session::get('language'))->org_name}}  
+                                        @else
+                                            {{trans('common.no_translation')}}
+                                        @endif
+                                        {{$offer->createdBy->email}}
+                                    </a></p>
+                                    <p class="conversation-message">{{$offer->comment}}</p>
+                                    <p class="conversation-date"><span class="budget">{{$offer->price}} лв.</span> {{$offer->created_at}}</p>
+                                </div>
+                                @endforeach
+                                </div>
+                            </div>
+                        @else
+                            {{trans('common.no_msgs')}}
+                        @endif
+                    </p>
                 </div>
             </div> 
+            </a>
             @endif
             @endforeach
         </div>

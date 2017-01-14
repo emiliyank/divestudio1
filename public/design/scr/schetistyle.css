@@ -422,12 +422,13 @@ ul.user-nav li.logout a:hover, ul.user-nav li.logout a:active { background: #e41
 	.user-box p.language span { background: #ffc539; }
 	.user-box p.deals span { background: #b0d24e; }
 .user-box p.edit, .user-box p.reply { text-align: center; }
-.user-box p.edit a, .user-box p.reply a, .user-box p.send-message a, .user-box p.view-profile a { display: inline-block; text-transform: uppercase; padding: 10px 20px; margin-bottom: 10px !important; border: #242424 1px solid; background: #fff; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; color: #242424;  }
-	.user-box p.edit a:before, .user-box p.reply a:before, .user-box p.send-message a:before, .user-box p.view-profile a:before { content: "\f044"; font-family: fontAwesome; display: inline-block; margin: 0 10px 0 0; }
+.user-box p.edit a, .user-box p.reply a, .user-box p.send-message a, .user-box p.is-accepted a, .user-box p.view-profile a { display: inline-block; text-transform: uppercase; padding: 10px 20px; margin-bottom: 10px !important; border: #242424 1px solid; background: #fff; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; color: #242424;  }
+	.user-box p.edit a:before, .user-box p.reply a:before, .user-box p.send-message a:before, .user-box p.is-accepted a:before, .user-box p.view-profile a:before { content: "\f044"; font-family: fontAwesome; display: inline-block; margin: 0 10px 0 0; }
 		.user-box p.reply a:before { content: "\f112"; }
 		.user-box p.send-message a:before { content: "\f003";}
+		.user-box p.is-accepted a:before { content: "\f112";}
 		.user-box p.view-profile a:before { content: "\f007";}
-	.user-box p.edit a:hover, .user-box p.reply a:hover, .user-box p.send-message a:hover, .user-box p.view-profile a:hover { color: #fff; background: #242424;  }
+	.user-box p.edit a:hover, .user-box p.reply a:hover, .user-box p.send-message a:hover,.user-box p.is-accepted a:hover, .user-box p.view-profile a:hover { color: #fff; background: #242424;  }
 
 .conversation { border-top: #009fe3 3px solid; position: relative; }
 	.conversation:before { content: "\f0e0"; font-family: fontAwesome; display: block; background: #e4e4e4; color: #009fe3; text-align: center; line-height: 40px; width: 40px; height: 40px; position: absolute; right: 20px; top: -20px; }

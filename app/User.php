@@ -32,7 +32,7 @@ class User extends Authenticatable
 
     public function userType()
     {
-        return $this->belongsTo(ClRole::class, 'user_type', 'code');
+        return $this->belongsTo(ClRole::class, 'user_type', 'id');
     }
 
     public function clAccesses(){

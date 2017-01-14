@@ -17,6 +17,11 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
+                    @if (session('updated_data'))
+                        <h3 class="alert alert-success">
+                            {{ session('updated_data') }}
+                        </h3>
+                    @endif
 
                     @if($errors->any())
                     <div class="alert alert-danger">
@@ -29,7 +34,6 @@
                     <form action="{{ url('user-details') }}" method="POST" class="form-horizontal">
                         <fieldset>
                             {{ csrf_field() }}
-                            <input type="hidden" name="user_id" value="{{$user->id}}"/>
 
                             <h4>{{trans('users.details_subtitle')}}</h4>
                             <p>{{trans('users.services_label')}}<br>
@@ -78,6 +82,18 @@
                                     @endforeach
                                 </div>
 
+                                <?php
+                                    $selected = '';
+                                    if( ! empty($user->is_receiving_emails))
+                                    {
+                                        $selected = 'checked';
+                                    }
+                                ?>
+                                <div class="checkbox">
+                                    <input type="checkbox" name="is_receiving_emails" id="is_receiving_emails" value="1" {{$selected}}>
+                                    <label for="is_receiving_emails">{{trans('users.is_receiving_emails')}}</label>
+                                </div>
+
                                 <p>{{trans('users.language_label')}}</p>
                                 <hr>
 
@@ -98,7 +114,7 @@
                                 @endforeach
 
                                 <script type="text/javascript">
-                                $('#languages_1').change(function() {
+                                $('#languages_2').change(function() {
                                     $('#supply-english-description-wrapper').slideToggle(200, function() {equalheight('.boxes .box');});
                                 });
                                 </script>
@@ -110,7 +126,7 @@
 
                                 <div id="supply-english-description-wrapper">
                                     <label for="description_en">{{trans('users.description_en')}}<span class="red">*</span>:</label>
-                                    <textarea name="description_en" id="description_en" placeholder="{{trans('users.description_en')}}">@if($user->hasTranslation(\Config::get('constants.LANGUAGE_EN'))){{$user->getTranslation(\Config::get('constants.LANGUAGE_EN'))->description}}@endif </textarea>
+                                    <textarea name="description_en" id="description_en" placeholder="{{trans('users.description_en')}}">@if($user->hasTranslation(\Config::get('constants.LANGUAGE_EN'))){{$user->getTranslation(\Config::get('constants.LANGUAGE_EN'))->description}}@endif</textarea>
                                 </div>
 
                                 <input type="submit" value="{{trans('common.btn_save')}}">
