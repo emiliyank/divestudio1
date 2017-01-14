@@ -23,7 +23,7 @@
                                 <p class="big">{{trans('ads.ad_title')}}: <strong>{{$cm_ad['title']}}</strong></p>
                                 <p>{{trans('ads.author')}} <span class="blue">{{$cm_ad['from']}}</span></p>
                                 <p>{{trans('ads.budget')}} <span class="red">BGN {{number_format($cm_ad['budget'],2)}}</span></p>
-                                <p>{{trans('ads.deadline')}}: <strong>{{$cm_ad['deadline']}}</strong></p>
+                                <p>{{trans('ads.deadline')}} <strong>{{$cm_ad['deadline']}}</strong></p>
                             </div>
                         </a>
                     </div>

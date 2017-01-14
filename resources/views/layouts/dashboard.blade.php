@@ -63,6 +63,7 @@
                 (Session::get('user_type') == Config::get('constants.USER_ROLE_SUPPLIER') || Session::get('user_type') == Config::get('constants.USER_ROLE_ADMIN')))
             <li><a href="{{url('/user-details')}}">Моите настройки</a></li>
             <li><a href="{{url('/ads_list')}}">Получени обяви</a></li>
+            <li><a href="{{url('/add-article')}}">Напиши статия</a></li>
             @endif
             @if(Session::has('user_type') && 
                 (Session::get('user_type') == Config::get('constants.USER_ROLE_ADMIN')))
@@ -73,7 +74,6 @@
                 <li><a href="{{url('/contacts-list')}}">Въпроси от контакти</a></li>
             @endif
             <li><a href="{{url('/ads')}}">Моите обяви</a></li>
-            <li><a href="#">Съобщения</a></li>
             <li class="logout"><a href="{{url('/logout')}}">Изход</a></li>
         </ul>
     </div>

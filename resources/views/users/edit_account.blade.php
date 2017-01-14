@@ -21,7 +21,7 @@
                     @if (Session::has('updated_data'))
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="alert alert-info">{{ Session::get('updated_data') }}</div>
+                            <div class="alert alert-success">{{ Session::get('updated_data') }}</div>
                         </div>
                     </div>
                     @endif
