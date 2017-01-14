@@ -38,8 +38,6 @@
                             {{trans('users.no_translation')}}
                         @endif
                     </blockquote>
-                    <p><em>{{trans('users.can_edit_description_at')}} <a href="<?php echo url('user-details') ?>">Моите настройки</a></em></p>
-
                     <hr>
 
                     <p><strong>{{trans('common.rating_of')}} 

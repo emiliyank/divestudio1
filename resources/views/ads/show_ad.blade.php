@@ -79,7 +79,7 @@
                             </p>
                             <hr>
                             <p class="view-profile center">
-                                <a href="#">{{trans('ads.view_profile')}}</a>
+                                <a href='{{url("/view-profile/$ad->created_by")}}'>{{trans('ads.view_profile')}}</a>
                             </p>
                             
                             @if($is_ad_accepted)

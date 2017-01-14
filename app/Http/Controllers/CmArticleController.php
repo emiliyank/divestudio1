@@ -99,9 +99,11 @@ class CmArticleController extends Controller{
                 $query->where('created_by', \Auth::id());
             }])
             ->where('cm_articles.id', $cm_article->id)->first();
+        $average_ratings = $cm_article->cmArticleRatings();
 
         return view('articles.single_article',[
             'cm_article' => $cm_article_data,
+            'average_ratings' => $average_ratings,
             ]);
     }
 

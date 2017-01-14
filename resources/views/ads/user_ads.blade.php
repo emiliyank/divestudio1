@@ -45,12 +45,20 @@
                     <hr>
                     <p class="reply center"><a href='{{url("show_ad/$cm_ad->id")}}'>{{trans('ads.view_ad')}}</a></p>
                     <p class="view-profile center"><a href='{{url("/view-profile/$cm_ad->created_by")}}' target="_blank">{{trans('common.view_profile')}}</a></p>
-                    <p class="send-message center"><a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper_{{$cm_ad->id}}').slideToggle(200, function() {equalheight('.boxes .box');});">{{trans('common.write_msg')}}</a></p>
+                    <p class="send-message center"><a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper_{{$cm_ad->id}}').slideToggle(200, function() {equalheight('.boxes .box');});">{{trans('ads.write_message')}}</a></p>
                     <div id="conversation-reply-wrapper_{{$cm_ad->id}}" style="display: none;">
-                        <form id="reply-form1" method="post" action="/">
+                        <form id="reply-form1" method="post" action="{{url('/offer')}}">
                         <fieldset>
-                            <textarea name="conversation-reply1" id="conversation-reply1" placeholder="Съобщение" onFocus="focusLink(true)" onBlur="focusLink(false)"></textarea>
-                            <input type="submit" value="Изпрати">
+                            {{csrf_field()}}
+                            <input type="hidden" name="cm_ad_id" value="{{$cm_ad->id}}"/>
+
+                            <label for="price">{{trans('offers.price')}}</label>
+                            <input type="number" name="price" class="budget" id="price" value="{{old('price')}}" required placeholder="{{trans('offers.price')}}"/>
+                            
+                            <label for="comment">{{trans('offers.comment')}}</label>
+                            <textarea name="comment" id="comment" required placeholder="{{trans('offers.comment')}}">{{old('comment')}}</textarea>
+                            
+                            <input type="submit" value="{{trans('ads.btn_offer')}}">
                         </fieldset>
                         </form>
                     </div>

@@ -32,8 +32,6 @@
                     <form action="{{ url('/add-article') }}" method="post" enctype="multipart/form-data">
                         <fieldset>
                             {{ csrf_field() }}
-                            <label for="cl_article_type_id">{{trans('articles.article_type')}}</label>
-                            <select name="cl_article_type_id" id="cl_article_type_id" required>
                             <h4>{{trans('articles.add_article_subtitle')}}</h4>
                             <label for="demand-objectype">{{trans('articles.article_type')}}</label>
                             <select name="cl_article_type_id" id="demand-objectype" required>

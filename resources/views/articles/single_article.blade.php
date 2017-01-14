@@ -130,100 +130,23 @@ function save_rating(rating) {
         <div class="rate-form">
             <fieldset class="rating">
                 <?php
-                    if( count($cm_article->cmArticleRatings) > 0)
+                    if( count($average_ratings) > 0)
                     {
-                        $checked_rating = $cm_article->cmArticleRatings[0]->rating;
-                    }else{
+                        $avg_rating = $average_ratings->avg('rating');
+                        $checked_rating = (int)$avg_rating;
+                    }else
+                    {
+                        $avg_rating = 'No rating';
                         $checked_rating = 0;
                     }
                 ?>
-                <legend>{{trans('articles.average_rating')}}: </legend>
-                <input type="radio" name="rating5" value="5"  {{ ($checked_rating == 5) ? 'checked' : ''}}><label for="4star5" title="Отлично">Отлично</label>
-                <input type="radio" name="rating5" value="4"  {{ ($checked_rating == 4) ? 'checked' : ''}}><label for="4star4" title="Много добро">Много добро</label>
-                <input type="radio" name="rating5" value="3"  {{ ($checked_rating == 3) ? 'checked' : ''}}><label for="4star3" title="Добро">Добро</label>
-                <input type="radio" name="rating5" value="2"  {{ ($checked_rating == 2) ? 'checked' : ''}}><label for="4star2" title="Средно">Средно</label>
-                <input type="radio" name="rating5" value="1"  {{ ($checked_rating == 1) ? 'checked' : ''}}><label for="4star1" title="Слабо">Слабо</label>
+                <legend>{{trans('articles.average_rating')}}: {{$avg_rating}}</legend>
             </fieldset>
-            <span id="ajaxResponse"></span>
         </div>
         @endif
     </article>
 
     <hr>
-    <h3>{{trans('articles.similar_articles')}}</h3>
-    <div class="boxes boxes-articles">
-
-     <div class="box">
-         <a href="#">
-             <div class="image-wrap">
-                 <img src="img/pic/demo_pic_01.jpg" alt="">
-             </div>
-             <div class="rate-form">
-                <fieldset class="rating">
-                    <input type="radio" id="1star5" name="rating1" value="5" checked><label for="1star5" title="Отлично">Отлично</label>
-                    <input type="radio" id="1star4" name="rating1" value="4"><label for="1star4" title="Много добро">Много добро</label>
-                    <input type="radio" id="1star3" name="rating1" value="3"><label for="1star3" title="Добро">Добро</label>
-                    <input type="radio" id="1star2" name="rating1" value="2"><label for="1star2" title="Средно">Средно</label>
-                    <input type="radio" id="1star1" name="rating1" value="1"><label for="1star1" title="Слабо">Слабо</label>
-                </fieldset>
-            </div>
-            <h2>Кога се подава декларация по чл.55?</h2>
-            <p class="date">01.12.2016</p>
-            <p class="author">Публикувана от: <strong>Бетон Интелект ООД</strong></p>
-            <p class="status">Статут: <span class="public">Видима за всички</span></p>
-            <p class="tags"><span>Данъци</span><span>Декларации</span></p>
-            <p>Според ЗДДФЛ чл.55, ал.1 обект на деклариране от юридическите лица и самоосигуряващите се лица – платци на доходи, са: 1. Дължимите окончателни данъци в полза на чуждестранни физически лица по реда на чл. 37 и чл.38 от ЗДДФЛ; 2. Окончателните данъци, дължими върху доходи на местни лица по реда на чл.38 от ЗДДФЛ, като доходи от: дивиденти и ликвидационни дялове, [...]</p>
-        </a>
-    </div>
-
-    <div class="box">
-     <a href="#">
-         <div class="image-wrap">
-             <img src="img/pic/demo_pic_03.jpg" alt="">
-         </div>
-         <div class="rate-form">
-            <fieldset class="rating">
-                <input type="radio" id="2star5" name="rating2" value="5"><label for="2star5" title="Отлично">Отлично</label>
-                <input type="radio" id="2star4" name="rating2" value="4" checked><label for="2star4" title="Много добро">Много добро</label>
-                <input type="radio" id="2star3" name="rating2" value="3"><label for="2star3" title="Добро">Добро</label>
-                <input type="radio" id="2star2" name="rating2" value="2"><label for="2star2" title="Средно">Средно</label>
-                <input type="radio" id="2star1" name="rating2" value="1"><label for="2star1" title="Слабо">Слабо</label>
-            </fieldset>
-        </div>
-        <h2>Касова отчетност на ДДС</h2>
-        <p class="date">01.12.2016</p>
-        <p class="author">Публикувана от: <strong>Бетон Интелект ООД</strong></p>
-        <p class="status">Статут: <span class="public">Видима за всички</span></p>
-        <p class="tags"><span>Данъци</span></p>
-        <p>Специалният режим  за касова отчетност на данък  върху  добавената стойност има за цел  да подпомогне регистрирани по Закона за данък  върху добавената стойност (ЗДДС) лица с облагаем оборот до 500 000 евро. Какво предимство дава касовата отчетност на ДДС? Същността на този специален режим се състои в това, че ДДС за доставка става изискуем  на датата на получаване на цялостно или частично плащане по доставката. [...]</p>
-    </a>
-</div>
-
-<div class="box">
- <a href="#">
-     <div class="image-wrap">
-         <img src="img/pic/demo_pic_01.jpg" alt="">
-     </div>
-     <div class="rate-form">
-        <fieldset class="rating">
-            <input type="radio" id="3star5" name="rating3" value="5"><label for="3star5" title="Отлично">Отлично</label>
-            <input type="radio" id="3star4" name="rating3" value="4"><label for="3star4" title="Много добро">Много добро</label>
-            <input type="radio" id="3star3" name="rating3" value="3"><label for="3star3" title="Добро">Добро</label>
-            <input type="radio" id="3star2" name="rating3" value="2" checked><label for="3star2" title="Средно">Средно</label>
-            <input type="radio" id="3star1" name="rating3" value="1"><label for="3star1" title="Слабо">Слабо</label>
-        </fieldset>
-    </div>
-    <h2>Възстановяване на ДДС от държави-членки на ЕС</h2>
-    <p class="date">01.12.2016</p>
-    <p class="author">Публикувана от: <strong>Бетон Интелект ООД</strong></p>
-    <p class="status">Статут: <span class="private">Само за регистрирани потребители</span></p>
-    <p class="tags"><span>Декларации</span></p>
-    <p>Данъчно задължено лице,  установено на територията на страната, което иска да му бъде възстановен данък върху добавената стойност от друга държава членка на Общността, начислен му за закупени от него стоки, получени услуги или осъществен внос на територията на същата, следва да отговаря на условията, предвидени в  държавата членка по възстановяване. Правата и ограниченията на лицата и периодите за упражняване [...]</p>
-</a>
-</div>
-
-</div>
-
 <div class="article-navigation">
  <div class="back"><a href="<?php echo url('articles'); ?>">{{trans('articles.btn_to_all_articles')}}</a></div>
 </div><!--Content Ends-->

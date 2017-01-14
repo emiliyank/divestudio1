@@ -124,6 +124,8 @@ Route::get('/pending-articles',[
 /* ---Contacts--- */
 Route::get('/contact', 'ContactController@index');
 Route::post('/contact', 'ContactController@add_submit');
+Route::get('/contacts-list', 'ContactController@contacts_list');
+Route::post('/contact-status', 'ContactController@contacts_status');
 Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });
 Route::post('/contact/ok', function(){ return redirect('/'); });
 
