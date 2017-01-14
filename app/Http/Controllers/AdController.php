@@ -103,23 +103,13 @@ class AdController extends Controller
             ->whereIn('user_type', [\Config::get('constants.USER_ROLE_SUPPLIER'), \Config::get('constants.USER_ROLE_ADMIN')])
             ->get();
         $emails_list = array();
-        echo 'regions list:';
-        var_dump($regions_list);
-        echo '<hr>';
         foreach ($users_for_email as $user_for_email) 
         {
-            echo "user: $user_for_email->email: ";
-            var_dump($user_for_email->conUserRegions->pluck('cl_region_id')->toArray());
-            echo "<br/> services: $user_for_email->conUserServices";
             if(count($user_for_email->conUserServices) > 0 && array_intersect($regions_list, $user_for_email->conUserRegions->pluck('cl_region_id')->toArray()))
             {
-                echo '<br/> true => goes to the array <br/>';
                 $emails_list[] = $user_for_email->email;
             }
-            echo '<hr>';
         }
-        echo 'finals list:';
-        print_r($emails_list);
         $link = route('ads.show_ad', $ad_id);
         $message = sprintf("
             Има получена обява подходяща за вас \r\n<a href='%s'>%s</a>", 
