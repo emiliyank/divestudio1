@@ -37,7 +37,6 @@
                     <li><a href="{{url('/articles')}}">Статии</a></li>
                     <li class="contract"><a href="{{url('/ad')}}">Нова обява</a></li>
                     <li class="login"><a href="{{url('/user-profile')}}">Моят профил</a></li>
-                    <li class="message"><a href="#"><span class="temp-hide">Нови съобщения: </span>1</a></li>
                 @else
                     @foreach($unauth_static_pages as $static_page)
                         <li class="{{$static_page->html_class}}"><a href='{{url("/static-page/$static_page->id")}}'>{{$static_page->getTranslation(\Session::get('language'))->topic}}</a></li>

@@ -34,9 +34,7 @@ class ActivationService
         $message = sprintf('Моля активирайте акаунта си / Please, activate account <a href="%s">%s</a>', $link, $link);
 
         $this->mailer->raw($message, function (Message $m) use ($user) {
-            
-            $m->from('no-reply@счетоводство.com', 'Счетоводство.com')
-            ->to($user->email)
+            $m->to($user->email)
             ->subject('Счетоводство.com - Активиране на акаунт / Activation mail');
         });
     }

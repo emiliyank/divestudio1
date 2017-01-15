@@ -14,6 +14,7 @@
 /* ---Common--- */
 Route::auth();
 Route::get('user/activation/{token}', 'Auth\AuthController@activateUser')->name('user.activate');
+Route::get('/home', 'AdController@index');
 
 Route::get('/postChangeLanguage/{language}', 'CommonController@postChangeLanguage');
 

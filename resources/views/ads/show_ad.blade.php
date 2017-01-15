@@ -5,7 +5,7 @@
 
 <div class="header small">
     <div class="overlay">
-        <h2>{{trans('ads.received_ads')}}</h2>
+        <h2>{{trans('ads.single_ad_title')}}</h2>
     </div>
 </div>
 
