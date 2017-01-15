@@ -43,4 +43,6 @@ return [
     'btn_send' => 'Изпрати',
     'btn_reply' => 'Отговор',
     'user_ads_title' => 'Моите обяви',
+
+    'single_ad_title' => 'Единична обява',
 ];
