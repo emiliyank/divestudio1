@@ -107,12 +107,12 @@
                         <p>{{trans('users.language_label')}}</p>
 @if ($errors->has('cl_languages'))<strong>{{$errors->first('cl_languages')}}</strong>@endif
                         <hr>
-@foreach($cl_languages as $language)
+                        @foreach($cl_languages as $language)
                         <div class="checkbox">
                             <input type="checkbox" name="cl_languages[{{$language->locale_code}}]" id="cl_language_{{$language->locale_code}}" value="{{$language->language}}" onchange="toggle_description('{{$language->locale_code}}')" {{(old('cl_languages.'.$language->locale_code) == $language->language) || $language->locale_code == 'bg' ? "checked":""}}>
                             <label for="cl_language_{{$language->locale_code}}">{{$language->language}}</label>
                         </div>
-@endforeach
+                        @endforeach
                         <p>{{trans('users.description_label')}}</p>
                         <label for="description_bg">{{trans('users.description_bg')}}<span class="red">*</span>:</label>
                         <textarea name="description[bg]" id="description_bg" placeholder="{{trans('users.description_bg')}}*" onFocus="focusLink(true)" onBlur="focusLink(false)">{{old('description.bg')}}</textarea>

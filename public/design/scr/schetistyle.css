@@ -405,6 +405,9 @@ ul.user-nav li.act a { background: #0fa3e4; color: #fff; }
 ul.user-nav li.logout a:before { content: "\f08b"; font-family: fontAwesome; display: inline-block; margin-right: 7px; } 
 ul.user-nav li.logout a:hover, ul.user-nav li.logout a:active { background: #e41420; color: #fff;}
 
+.msg-sent { color: #fff; background: #0fa3e4; }
+.msg-sent .header h5:before { content: "\f0e0"; font-family: fontAwesome; display: inline-block; margin-right: 10px; color: #939393;  text-align:center; line-height: 40px; width: 40px; height: 40px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; background: rgba(255,255,255,.3);}
+
 .user-box {border: #a9a9a9 1px solid; margin: 0 0 30px 0; overflow: hidden; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }
 .user-box .container { padding: 10px 20px !important; }
 .user-box .header { padding: 5px 20px; background: #ffc539; height: auto !important; min-height: auto !important;  }

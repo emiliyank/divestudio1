@@ -9,9 +9,9 @@ class ClAccess extends Model
 	use Translatable;
 	public $translatedAttributes = ['access'];
 
-    public function conRoleAccesses()
+    public function conUserAccesses()
     {
-    	return $this->hasMany(ConRoleAccess::class, 'id');
+    	return $this->hasMany(ConUserAccess::class);
     }
 }
 

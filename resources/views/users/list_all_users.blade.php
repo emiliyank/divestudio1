@@ -50,6 +50,7 @@
                     <td> {{trans('users.th_email')}}</td>
                     <td> {{trans('users.th_role')}}</td>
                     <td> </td>
+                    <td> </td>
                 </tr>
                 @foreach($all_users as $user)
                     <tr class="user-data" data-type="{{$user->user_type}}">
@@ -62,6 +63,11 @@
                         </td>
                         <td> {{$user->email}}</td>
                         <td> <?php print_r($user->userType->getTranslation(\Session::get('language'))->role); ?></td>
+                        <td>
+                            @if($user->userType->id == Config::get('constants.USER_ROLE_ADMIN'))
+                                <a href='{{url("/edit-user-access/$user->id")}}'> {{trans('users.edit_access_link')}}</a>
+                            @endif
+                        </td>
                         <td>
                             <form action="{{url('/delete-user')}}" method="post" onsubmit="return confirm('Наистина ли искате да изтриете този потребител?');">
                                 {{ csrf_field('DELETE') }}

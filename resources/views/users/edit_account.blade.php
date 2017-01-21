@@ -28,7 +28,7 @@
                     @if (Session::has('password_changed'))
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="alert alert-warning">{{ Session::get('password_changed') }}</div>
+                            <div class="alert alert-success">{{ Session::get('password_changed') }}</div>
                         </div>
                     </div>
                     @endif
@@ -51,7 +51,7 @@
                             <input type="text" name="name" id="supply-name" class="name" required placeholder="{{trans('users.name')}}*" value="@if($user->hasTranslation(\Session::get('language'))){{$user->getTranslation(\Session::get('language'))->name}}@endif">
 
                             <label for="supply-phone">{{trans('users.phone')}}<span class="red">*</span>:</label>
-                            <input type="tel" name="phone" id="supply-phone" class="telephone" required placeholder="{{trans('users.phone')}}*" value="{{$user->phone}}">
+                            <input type="tel" name="phone" id="supply-phone" class="telephone" placeholder="{{trans('users.phone')}}" value="{{$user->phone}}">
 
                             <label for="demand-objectype">{{trans('users.org_type')}}</label>
                             <select name="cl_organization_type_id" id="demand-objectype">
@@ -79,6 +79,18 @@
 
                             <label for="supply-address">{{trans('users.address')}}</label>
                             <input type="text" name="address" id="supply-address" class="address" placeholder="{{trans('users.address')}}" value="@if($user->hasTranslation(\Session::get('language'))){{$user->getTranslation(\Session::get('language'))->address}}@endif">
+
+                            <?php
+                                $selected = '';
+                                if( ! empty($user->is_receiving_emails))
+                                {
+                                    $selected = 'checked';
+                                }
+                            ?>
+                            <div class="checkbox">
+                                <input type="checkbox" name="is_receiving_emails" id="is_receiving_emails" value="1" {{$selected}}>
+                                <label for="is_receiving_emails">{{trans('users.is_receiving_emails')}}</label>
+                            </div>
 
                             <p>{{trans('users.change_password')}}</p>
 

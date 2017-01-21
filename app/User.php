@@ -57,4 +57,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(ConUserLanguage::class);
     }
+
+    public function cmRatings()
+    {
+        return $this->hasMany(CmRating::class, 'user_graded_id');
+    }
+
+    public function cmArticles()
+    {
+        return $this->hasMany(CmArticle::class, 'created_by');
+    }
+
+    public function conUserAccesses()
+    {
+        return $this->hasMany(ConUserAccess::class);
+    }
 }

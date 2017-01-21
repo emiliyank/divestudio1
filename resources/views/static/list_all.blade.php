@@ -5,7 +5,7 @@
 
 <div class="header small">
     <div class="overlay">
-        <h2>Статични страници</h2>
+        <h2>Предложения</h2>
     </div>
 </div>
 

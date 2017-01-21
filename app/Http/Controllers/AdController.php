@@ -14,6 +14,8 @@ use App\CmOffer;
 use App\CmRating;
 use App\ClRegion;
 use App\ClService;
+use App\ClLanguage;
+use App\ClOrganizationType;
 use App\ConAdRegion;
 use App\SystemSetting;
 use App\User;
@@ -28,13 +30,12 @@ class AdController extends Controller
         $this->mailer = $mailer;
     }
 
-    public function index(){
-        
+    public function index()
+    {    
         $ads = CmAd::with(array('clRegions', 'clService', 'createdBy', 'cmOffers'))->where('created_by', \Auth::id())->get();
         
         return view('ads.user_ads', [
             'ads' => $ads,
-
         ]);
     }
 
@@ -143,12 +144,6 @@ class AdController extends Controller
             $has_user_approve_privilleges = true;
         }
 
-        $is_ad_accepted = false;
-        if( ! empty($cm_ad->date_accepted))
-        {
-            $is_ad_accepted = true;
-        }
-
         $has_rating_privilleges = false;
         $cm_ratings = CmRating::where('cm_ad_id', $cm_ad->id)->first();
         $system_settings = SystemSetting::first();
@@ -169,10 +164,140 @@ class AdController extends Controller
             'service' => $cl_service[0],
             'count_all_regions' => ClRegion::get()->count(),
             'ad_offers' => $ad_offers,
-            'is_ad_accepted' => $is_ad_accepted,
             'has_user_approve_privilleges' => $has_user_approve_privilleges,
             'has_rating_privilleges' => $has_rating_privilleges,
          ]);
+    }
+
+    public function ads_list(Request $request = null){
+        $user=User::where('id', \Auth::id())->first();
+        if ($user->user_type == 2 || $user->user_type == 999){ 
+        // Предлагащ услуги ==================================================================
+            $unanswered=array();
+            $answered=array();
+//            $cl_services = ClService::get();
+//            $cl_regions = ClRegion::get();
+            $cl_languages = ClLanguage::get();
+            $languages = [];
+            foreach ($cl_languages as $language){
+                $languages[$language->language] = $language->locale_code;
+            }
+            //==================================================================
+            $user_services_data = $user->conUserServices()->get();
+            $user_services = [];
+            foreach ($user_services_data as $user_service) {
+                $user_services[$user_service->cl_service_id] = $user_service->min_budget;
+            }
+            $user_regions_data = $user->conUserRegions()->get();
+            $user_regions = [];
+            foreach ($user_regions_data as $user_region) {
+                $user_regions[$user_region->cl_region_id] = $user_region->cl_region_id;
+            }
+            $user_languages_data = $user->conUserLanguages()->get();
+            $user_languages = [];
+            foreach ($user_languages_data as $user_language) {
+                $user_languages[$languages[$user_language->cl_language_id]] = $user_language->cl_language_id;
+            }
+            //==================================================================
+            $received_ads = (new CmAd)->newQuery(); 
+            $received_ads->with(array('clService'));
+
+            $applied_filters = '';
+            if($request->has('filter_region_id'))
+            {
+                $received_ads->with(['clRegions' => function($query) use($request){
+                    $query->where('cl_region_id', $request->filter_region_id);
+                }]);
+
+                $selected_region = ClRegion::where('id', $request->filter_region_id)->first();
+                $region_name = $selected_region->getTranslation(\Session::get('language'))->region;
+                $applied_filters .= trans('ads.filtered_by_region') . $region_name;
+            }
+            else
+            {
+                $received_ads->with('clRegions');
+            }
+
+            if($request->has('filter_organization_type_id'))
+            {
+                $received_ads->with(['createdBy' => function($query) use($request){
+                    $query->where('cl_organization_type_id', $request->filter_organization_type_id);
+                }]);
+
+                $selected_org_type = ClOrganizationType::where('id', $request->filter_organization_type_id)->first();
+                $org_type_name = $selected_org_type->getTranslation(\Session::get('language'))->organization_type;
+                $applied_filters .= trans('ads.filtered_by_org_type') . $org_type_name;
+            }
+            else
+            {
+                $received_ads->with('createdBy');
+            }
+
+            if($request->has('filter_service_id'))
+            {
+                $received_ads->where('service_id', $request->filter_service_id);
+
+                $selected_service = ClService::where('id', $request->filter_service_id)->first();
+                $service_name = $selected_service->getTranslation(\Session::get('language'))->service;
+                $applied_filters .= trans('ads.filtered_by_service') . $service_name;
+            }
+
+            if($request->has('filter_by_min_budget'))
+            {
+                $received_ads->where('budget', '>=', $request->filter_by_min_budget);
+                $applied_filters .= trans('ads.filtered_by_min_budget') . $request->filter_by_min_budget;
+            }
+
+            if($request->has('filter_by_max_budget'))
+            {
+                $received_ads->where('budget', '<=', $request->filter_by_max_budget);
+                $applied_filters .= trans('ads.filtered_by_max_budget') . $request->filter_by_max_budget;
+            }
+
+            if($request->has('filter_by_content'))
+            {
+                $received_ads->with(['translations' => function($query) use($request){
+                    $query->where('title', 'LIKE', "% $request->filter_organization_type_id %");
+                }]);
+
+                $applied_filters .= trans('ads.filtered_by_content') . $request->filter_by_content;
+            }
+
+            $received_ads->whereNull('date_accepted')
+                    ->whereNull('date_deleted')
+                    ->where([['created_by', '<>', \Auth::id()],
+                             ['deadline','>=',date('Y-m-d').' 00:00:00']])
+                    ->whereIn('service_id', array_keys($user_services))
+                    ->orderBy('cm_ads.id', 'desc');
+            $all_ads = $received_ads->get();
+            //==================================================================
+            $unanswered = $all_ads;
+            // foreach ($all_ads as $ad){
+            //     $ad_regions = array();
+            //     foreach($ad->clRegions as $region){
+            //         $ad_regions[] = $region['id'];
+            //     }
+            //     $ad_locale = $ad->getTranslation()['locale'];
+            //     if (isset($user_languages[$ad_locale]) &&
+            //         $ad->budget >= $user_services[$ad->service_id] && 
+            //         array_intersect($user_regions,$ad_regions)){
+            //         $unanswered[] = $ad;
+            //     }
+            // }
+            //==================================================================
+            $all_services = ClService::all();
+            $all_regions = ClRegion::all();
+            $all_org_types = ClOrganizationType::all();
+            return view ('ads.ads_list', [
+                'unanswered' => $unanswered,
+                'answered' => $answered,
+                'count_all_regions' => ClRegion::get()->count(),
+                'all_services' => $all_services,
+                'all_regions' => $all_regions,
+                'all_org_types' => $all_org_types,
+                'applied_filters' => $applied_filters,
+            ]);
+        }
     }
     
 }

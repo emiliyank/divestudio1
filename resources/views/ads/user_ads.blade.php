@@ -17,7 +17,28 @@
     <div class="container">
         <div class="boxes layout-left">
         <div class="box">
-            
+            @if (Session::has('offer_sent'))
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="alert alert-success">{{ Session::get('offer_sent') }}</div>
+                </div>
+            </div>
+            @endif
+            @if (Session::has('offer_approve'))
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="alert alert-success">{{ Session::get('offer_approve') }}</div>
+                </div>
+            </div>
+            @endif
+            @if($errors->any())
+            <div class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                <p>{{ $error }}</p>
+                @endforeach
+            </div>
+            @endif
+
             @foreach($ads as $cm_ad)
             @if($cm_ad->hasTranslation(\Session::get('language')))
             <div class="user-box">
@@ -45,6 +66,13 @@
                     <hr>
                     <p class="reply center"><a href='{{url("show_ad/$cm_ad->id")}}'>{{trans('ads.view_ad')}}</a></p>
                     <p class="view-profile center"><a href='{{url("/view-profile/$cm_ad->created_by")}}' target="_blank">{{trans('common.view_profile')}}</a></p>
+                    @if(! empty($cm_ad->date_accepted))
+                        <p class="is-accepted center">
+                            <a href="#" disabled>
+                                {{trans('ads.ad_accepted')}}
+                            </a>
+                        </p>
+                    @else
                     <p class="send-message center"><a href="javascript:void(0)" onClick="$('#conversation-reply-wrapper_{{$cm_ad->id}}').slideToggle(200, function() {equalheight('.boxes .box');});">{{trans('ads.write_message')}}</a></p>
                     <div id="conversation-reply-wrapper_{{$cm_ad->id}}" style="display: none;">
                         <form id="reply-form1" method="post" action="{{url('/offer')}}">
@@ -62,6 +90,7 @@
                         </fieldset>
                         </form>
                     </div>
+                    @endif
                 </div>
                 <div class="messages">
                     <hr>
@@ -70,24 +99,47 @@
                             <a href="javascript:void(0)" onClick='$("#offers-wrapper_{{$cm_ad->id}}").slideToggle(200, function() {equalheight(".boxes .box");});'>
                                 {{trans('common.read_msgs')}}
                             </a>
-                        
+                            <?php
+                                $has_user_approve_privilleges = false;
+                                if($cm_ad->created_by == \Auth::id() && empty($cm_ad->date_accepted))
+                                {
+                                    $has_user_approve_privilleges = true;
+                                }
+
+                            ?>
                             <div id="offers-wrapper_{{$cm_ad->id}}" style="display: none;">
                                 <div class="conversation single">
-                                @foreach($cm_ad->cmOffers as $offer)
-                                <div class="conversation-me">
+                            @foreach($cm_ad->cmOffers as $offer)
+                                @if($offer->created_by == \Auth::id())
+                                    <div class="conversation-other-side">
+                                @else
+                                    <div class="conversation-me">
+                                @endif
                                     <p class="conversation-sender"><a href='{{url("/view-profile/$offer->created_by")}}' target="_blank">
                                         @if($offer->createdBy->hasTranslation(\Session::get('language')))
                                             {{$offer->createdBy->getTranslation(\Session::get('language'))->org_name}}  
                                         @else
                                             {{trans('common.no_translation')}}
                                         @endif
-                                        {{$offer->createdBy->email}}
+                                        &lt;{{$offer->createdBy->email}}&gt;
                                     </a></p>
                                     <p class="conversation-message">{{$offer->comment}}</p>
                                     <p class="conversation-date"><span class="budget">{{$offer->price}} лв.</span> {{$offer->created_at}}</p>
+
+                                    @if($offer->is_approved)
+                                        <p class="conversation-message accept"><i class="fa fa-handshake-o" aria-hidden="true"></i> {{trans('offers.status_approved')}}</p>
+                                        <p class="conversation-date">{{$offer->updated_at}}</p>
+                                    @endif
+
+                                    @if($has_user_approve_privilleges && $offer->created_by != \Auth::id())
+                                    <ul class="conversation-nav">
+                                        <li><a href='{{url("/view-profile/$offer->created_by")}}' target="_blank">Покажи профила</a></li>
+                                        <li><a href='{{url("/approve_offer/$offer->id")}}'>{{trans('ads.btn_approve')}}</a></li>
+                                    </ul>
+                                    @endif
                                 </div>
-                                @endforeach
-                                </div>
+                            @endforeach
+                            </div>
                             </div>
                         @else
                             {{trans('common.no_msgs')}}

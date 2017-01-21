@@ -15,23 +15,28 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
+                    @if (Session::has('offer_sent'))
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="alert alert-success">{{ Session::get('offer_sent') }}</div>
+                        </div>
+                    </div>
+                    @endif
+                    @if (Session::has('offer_approve'))
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="alert alert-success">{{ Session::get('offer_approve') }}</div>
+                        </div>
+                    </div>
+                    @endif
+                    @if($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
                     <div class="user-box">
-                        @if (Session::has('offer_sent'))
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-info">{{ Session::get('offer_sent') }}</div>
-                            </div>
-                        </div>
-                        @endif
-                        
-                        @if($errors->any())
-                        <div class="alert alert-danger">
-                            @foreach($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                            @endforeach
-                        </div>
-                        @endif
-
                         <div class="header">
                             <h5>{{$ad->title}}</h5>
                         </div>
@@ -82,9 +87,9 @@
                                 <a href='{{url("/view-profile/$ad->created_by")}}'>{{trans('ads.view_profile')}}</a>
                             </p>
                             
-                            @if($is_ad_accepted)
+                            @if(! empty($ad->date_accepted))
                                 <p class="is-accepted center">
-                                    <a href="#" disabled>
+                                    <a href="#approved" disabled>
                                         {{trans('ads.ad_accepted')}}
                                     </a>
                                 </p>
@@ -112,7 +117,7 @@
                                 </div>
                             @endif
                         </div>
-@if (true)
+
                         <div class="messages">
                             <h5>{{trans('ads.messages')}}</h5>
                             <hr>
@@ -124,39 +129,14 @@
                                 @else
                                     <div class="conversation-me">
                                 @endif
-
-                                @if($offer->is_approved)
-                                    <p class="conversation-message accept"><i class="fa fa-handshake-o" aria-hidden="true"></i> {{trans('offers.status_approved')}}</p>
-                                    <p class="conversation-date">{{$offer->updated_at}}</p>
-                                    @if($has_rating_privilleges)
-                                        <p class="is-accepted center">
-                                            <a href="javascript:void(0)" onClick="$('#conversation-rating-wrapper1').slideToggle(200, function() {equalheight('.boxes .box');});">
-                                                {{trans('ads.add_rating_btn')}}
-                                            </a>
-                                        </p>
-                                        <div id="conversation-rating-wrapper1" style="display: none;">
-                                            <form id="rating-form1" method="post" action="{{url('/rating')}}">
-                                                <fieldset>
-                                                    {{csrf_field()}}
-                                                    <input type="hidden" name="cm_ad_id" value="{{$ad->id}}"/>
-                                                    <input type="hidden" name="cm_offer_id" value="{{$offer->id}}"/>
-                                                    <input type="hidden" name="user_graded_id" value="{{$offer->created_by}}"/>
-
-                                                    <legend>{{trans('ads.rate_deal')}}: </legend>
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        <input type="radio" name="rating" value="{{$i}}">{{$i}}
-                                                    @endfor
-                                                    
-                                                    <label for="comment">{{trans('offers.comment')}}</label>
-                                                    <textarea name="comment" id="comment" required placeholder="{{trans('offers.comment')}}">{{old('comment')}}</textarea>
-                                                    
-                                                    <input type="submit" value="{{trans('ads.btn_rating')}}">
-                                                </fieldset>
-                                            </form>
-                                        </div>
-                                    @endif
-                                @endif
-                                    <p class="conversation-sender"><a href='{{url("/view-profile/$offer->created_by")}}' target="_blank">
+                                <?php
+                                    $approved_anchor = '';
+                                    if($offer->is_approved)
+                                    {
+                                        $approved_anchor = 'approved';
+                                    }
+                                ?>
+                                    <p class="conversation-sender" id="{{$approved_anchor}}""><a href='{{url("/view-profile/$offer->created_by")}}' target="_blank">
                                         @if($offer->createdBy->hasTranslation(\Session::get('language')))
                                             {{$offer->createdBy->getTranslation(\Session::get('language'))->org_name}}  
                                         @else
@@ -167,6 +147,38 @@
                                     <p class="conversation-message">{{$offer->comment}}</p>
                                     <p class="conversation-date"><span class="budget">{{$offer->price}} лв.</span> {{$offer->created_at}}</p>
 
+                                    @if($offer->is_approved)
+                                        <p class="conversation-message accept"><i class="fa fa-handshake-o" aria-hidden="true"></i> {{trans('offers.status_approved')}}</p>
+                                        <p class="conversation-date">{{$offer->updated_at}}</p>
+                                        @if($has_rating_privilleges)
+                                            <p class="is-accepted center">
+                                                <a href="javascript:void(0)" onClick="$('#conversation-rating-wrapper1').slideToggle(200, function() {equalheight('.boxes .box');});">
+                                                    {{trans('ads.add_rating_btn')}}
+                                                </a>
+                                            </p>
+                                            <div id="conversation-rating-wrapper1" style="display: none;">
+                                                <form id="rating-form1" method="post" action="{{url('/rating')}}">
+                                                    <fieldset>
+                                                        {{csrf_field()}}
+                                                        <input type="hidden" name="cm_ad_id" value="{{$ad->id}}"/>
+                                                        <input type="hidden" name="cm_offer_id" value="{{$offer->id}}"/>
+                                                        <input type="hidden" name="user_graded_id" value="{{$offer->created_by}}"/>
+
+                                                        <legend>{{trans('ads.rate_deal')}}: </legend>
+                                                        @for($i = 1; $i <= 5; $i++)
+                                                            <input type="radio" name="rating" value="{{$i}}">{{$i}}
+                                                        @endfor
+                                                        
+                                                        <label for="comment">{{trans('offers.comment')}}</label>
+                                                        <textarea name="comment" id="comment" required placeholder="{{trans('offers.comment')}}">{{old('comment')}}</textarea>
+                                                        
+                                                        <input type="submit" value="{{trans('ads.btn_rating')}}">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    @endif
+
                                     @if($has_user_approve_privilleges && $offer->created_by != \Auth::id())
                                     <ul class="conversation-nav">
                                         <li><a href='{{url("/view-profile/$offer->created_by")}}' target="_blank">Покажи профила</a></li>
@@ -176,7 +188,7 @@
                                 </div>
                             @endforeach
                             </div>
-@endif
+
                         </div>
                 </div>
             </div>

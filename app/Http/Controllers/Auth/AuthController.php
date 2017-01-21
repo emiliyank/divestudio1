@@ -12,6 +12,7 @@ use App\ConUserRegion;
 use App\ConUserService;
 use App\ConUserLanguage;
 use App\UserTranslation;
+use App\ConUserAccess;
 
 use Illuminate\Http\Request;
 use App\ActivationService;
@@ -76,6 +77,18 @@ class AuthController extends Controller
             return back()->with('confirm_email_warning', trans('users.confirm_email_warning'));
         }
         session()->put('user_type', Auth::guard($this->getGuard())->user()->user_type);
+        if(\Session::get('user_type') == \Config::get('constants.USER_ROLE_ADMIN'))
+        {
+            $user_accesses = ConUserAccess::select('cl_access_id')->where('user_id', Auth::id())->get();
+            if(session()->has('admin_accesses')) 
+            {
+                session()->forget('admin_accesses');
+            }
+            foreach ($user_accesses as $access) {
+                session()->push('admin_accesses', $access->cl_access_id);
+            }
+        }
+
         return redirect()->intended($this->redirectPath());
     }
 

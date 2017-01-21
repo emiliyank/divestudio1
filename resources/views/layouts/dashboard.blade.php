@@ -37,6 +37,7 @@
                     <li><a href="{{url('/articles')}}">Статии</a></li>
                     <li class="contract"><a href="{{url('/ad')}}">Нова обява</a></li>
                     <li class="login"><a href="{{url('/user-profile')}}">Моят профил</a></li>
+                    <li class="message"><a href="{{url('/user-messages')}}"><span class="temp-hide">Нови съобщения: </span></a></li>
                 @else
                     @foreach($unauth_static_pages as $static_page)
                         <li class="{{$static_page->html_class}}"><a href='{{url("/static-page/$static_page->id")}}'>{{$static_page->getTranslation(\Session::get('language'))->topic}}</a></li>
@@ -61,18 +62,36 @@
             @if(Session::has('user_type') && 
                 (Session::get('user_type') == Config::get('constants.USER_ROLE_SUPPLIER') || Session::get('user_type') == Config::get('constants.USER_ROLE_ADMIN')))
             <li><a href="{{url('/user-details')}}">Моите настройки</a></li>
-            <li><a href="{{url('/ads_list')}}">Получени обяви</a></li>
+            <li><a href="{{url('/ads-list')}}">Получени обяви</a></li>
             <li><a href="{{url('/add-article')}}">Напиши статия</a></li>
             @endif
             @if(Session::has('user_type') && 
                 (Session::get('user_type') == Config::get('constants.USER_ROLE_ADMIN')))
-                <li><a href="{{url('/pending-articles')}}">Статии чакащи потвърждение</a></li>
-                <li><a href="{{url('/list-static-pages')}}">Статични страници</a></li>
-                <li><a href="{{url('/admin-settings')}}">Системни настройки</a></li>
-                <li><a href="{{url('/list-users')}}">Списък с потребители</a></li>
-                <li><a href="{{url('/contacts-list')}}">Въпроси от контакти</a></li>
+                @if(Session::has('admin_accesses') && in_array(Config::get('constants.ADMIN_ACCESS_ARTICLES'), Session::get('admin_accesses')))
+                    <li><a href="{{url('/pending-articles')}}">Статии чакащи потвърждение</a></li>
+                @endif
+                @if(Session::has('admin_accesses') && in_array(Config::get('constants.ADMIN_ACCESS_STATIC_PAGES'), Session::get('admin_accesses')))
+                    <li><a href="{{url('/list-static-pages')}}">Статични страници</a></li>
+                @endif
+                @if(Session::has('admin_accesses') && in_array(Config::get('constants.ADMIN_ACCESS_SETTINGS'), Session::get('admin_accesses')))
+                    <li><a href="{{url('/admin-settings')}}">Системни настройки</a></li>
+                @endif
+                @if(Session::has('admin_accesses') && in_array(Config::get('constants.ADMIN_ACCESS_USERS'), Session::get('admin_accesses')))
+                    <li><a href="{{url('/list-users')}}">Списък с потребители</a></li>
+                @endif
+                @if(Session::has('admin_accesses') && in_array(Config::get('constants.ADMIN_ACCESS_FEEDBACK'), Session::get('admin_accesses')))
+                    <li><a href="{{url('/contacts-list')}}">Въпроси от контакти</a></li>
+                @endif
+                @if(Session::has('admin_accesses') && in_array(Config::get('constants.ADMIN_ACCESS_SERVICES'), Session::get('admin_accesses')))
+                    <li><a href="{{url('/services')}}">Категории</a></li>
+                @endif
+                @if(Session::has('admin_accesses') && in_array(Config::get('constants.ADMIN_ACCESS_STATS'), Session::get('admin_accesses')))
+                    <li><a href="{{url('/admin-statistics')}}">Активност на потребителите</a></li>
+                @endif
             @endif
             <li><a href="{{url('/ads')}}">Моите обяви</a></li>
+            <li><a href="{{url('/user-offers')}}">Предложения</a></li>
+            <li><a href="{{url('/user-messages')}}">Съобщения</a></li>
             <li class="logout"><a href="{{url('/logout')}}">Изход</a></li>
         </ul>
     </div>

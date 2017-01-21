@@ -28,7 +28,6 @@ class RatingPrivillegesMiddleware
         
         $deadline_date = new \DateTime("$cm_ad->date_accepted");
         $deadline_date = $deadline_date->add(new \DateInterval("P$days_interval" . 'D'));
-        //TODO - add working period: Deadline by the client or by the supplier?
 
         if($deadline_date->format('Y-m-d H:i:s') < $now)
         {

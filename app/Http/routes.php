@@ -29,6 +29,7 @@ Route::get('/ad/{cm_ad}', 'AdController@single_ad');
 Route::get('/show_ad/{cm_ad}', 'AdController@show_ad')->name('ads.show_ad');
 
 /* ---Offers--- */
+Route::get('/user-offers/{date?}/{price?}', 'CmOfferController@index');
 Route::post('/offer', 'CmOfferController@add_submit');
 Route::get('/approve_offer/{cm_offer}', 'CmOfferController@approve_offer');
 Route::get('/offer-translate/{cm_ad}/{cm_offer}',[
@@ -81,16 +82,29 @@ Route::post('/account',[
     'uses' => 'UserController@edit_account_submit'
     ]);
 
-Route::get('/admin-settings', 'UserController@admin_settings_form');
-Route::post('/admin-settings', 'UserController@admin_settings_submit');
+Route::get('/admin-settings', 'UserController@admin_settings_form')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_SETTINGS')]);
+Route::post('/admin-settings', 'UserController@admin_settings_submit')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_SETTINGS')]);
+Route::get('/admin-statistics', 'UserController@admin_statistics')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_STATS')]);
 
 Route::get('/ads_list', 'UserController@ads_list_ver'); //Short list
-Route::get('/ads-list', 'UserController@ads_list');
+Route::get('/ads-list', 'AdController@ads_list');
+Route::post('/ads-list', 'AdController@ads_list');
 
-Route::get('/list-users', 'UserController@list_all_users');
-Route::delete('/delete-user', 'UserController@delete_user');
-Route::get('/add-user', 'UserController@add_admin_user_form');
-Route::post('/add-user', 'UserController@add_admin_user_submit');
+Route::get('/list-users', 'UserController@list_all_users')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_USERS')]);
+Route::delete('/delete-user', 'UserController@delete_user')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_USERS')]);
+Route::get('/add-user', 'UserController@add_admin_user_form')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_USERS')]);
+Route::post('/add-user', 'UserController@add_admin_user_submit')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_USERS')]);
+Route::get('/edit-user-access/{user}', 'UserController@edit_user_accesses_form')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_USERS')]);
+Route::post('/edit-user-access', 'UserController@edit_user_accesses_submit')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_USERS')]);
 
 /* ---Articles--- */
 Route::get('/add-article',[
@@ -120,12 +134,13 @@ Route::get('/articles',[
 Route::get('/pending-articles',[
     'as' => 'route.pending_articles',
     'uses' => 'CmArticleController@pending_articles'
-    ])->middleware('auth');
+    ])->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_ARTICLES')]);
 
 /* ---Contacts--- */
 Route::get('/contact', 'ContactController@index');
 Route::post('/contact', 'ContactController@add_submit');
-Route::get('/contacts-list', 'ContactController@contacts_list');
+Route::get('/contacts-list', 'ContactController@contacts_list')
+    ->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_FEEDBACK')]);
 Route::post('/contact-status', 'ContactController@contacts_status');
 Route::get('/contact/ok', function(){ return View::make("contacts.ok"); });
 Route::post('/contact/ok', function(){ return redirect('/'); });
@@ -138,7 +153,7 @@ Route::get('/',[
 Route::get('/list-static-pages',[
     'as' => 'route.list_static_pages',
     'uses' => 'StaticPagesController@list_static_pages'
-    ])->middleware('auth');
+    ])->middleware(['auth', "adminAccess:" . Config::get('constants.ADMIN_ACCESS_STATIC_PAGES')]);
 Route::get('/add-static-page',[
     'as' => 'route.add_static_page',
     'uses' => 'StaticPagesController@add_static_page'
@@ -179,4 +194,20 @@ Route::get('/terms-and-conditions',[
 Route::get('/faq',[
     'as' => 'route.faq',
     'uses' => 'StaticPagesController@faq'
+    ]);
+
+/*--- Services ---*/
+Route::get('/services',[
+    'as' => 'route.services',
+    'uses' => 'ClServiceController@index'
+    ]);
+
+/*--- Messages ---*/
+Route::get('/user-messages',[
+    'as' => 'route.user_message',
+    'uses' => 'CmMessageController@index'
+    ]);
+Route::post('/message',[
+    'as' => 'route.message_submit',
+    'uses' => 'CmMessageController@add_submit'
     ]);

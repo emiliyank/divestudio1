@@ -22,11 +22,15 @@ use App\ConUserService;
 use App\ConUserRegion;
 use App\ConUserLanguage;
 use App\ConRoleAccess;
+use App\ConUserAccess;
 use App\ClService;
 use App\ClRegion;
 use App\ClLanguage;
 use App\ClOrganizationType;
+use App\ClAccess;
 use App\CmAd;
+use App\CmMessage;
+use App\CmRating;
 use App\ClRole;
 use App\SystemSetting;
 
@@ -49,19 +53,34 @@ class UserController extends Controller
     public function user_profile()
     {
         $user_id = \Auth::id();
-        $user = User::with('userType')->where('id', $user_id)->first();
+        $user = User::with('userType')
+        ->with(['cmRatings' => function ($query){
+                $query->where('user_graded_id', \Auth::id());
+            }])
+        ->where('id', $user_id)->first();
         $user_accesses = ConRoleAccess::with(array('clRoles', 'clAccesses'))
             ->where('cl_role_id', $user->user_type)->get();
+        $admin_accesses = array();
+        if(\Session::get('user_type') == \Config::get('constants.USER_ROLE_ADMIN'))
+        {
+            $admin_accesses = ConUserAccess::with('clAccesses')
+                ->where('user_id', $user->id)->get();
+        }
 
         return view ('users.profile', [
             'user' => $user,
             'user_accesses' => $user_accesses,
+            'admin_accesses' => $admin_accesses,
             ]);
     }
 
     public function show_user_profile($user_id)
     {
-        $user = User::with('userType')->where('id', $user_id)->first();
+        $user = User::with('userType')
+        ->with(['cmRatings' => function ($query) use($user_id){
+                $query->where('user_graded_id', $user_id);
+            }])
+        ->where('id', $user_id)->first();
         $user_accesses = ConRoleAccess::with(array('clRoles', 'clAccesses'))
             ->where('cl_role_id', $user->user_type)->get();
 
@@ -87,8 +106,6 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'phone' => 'required',
-            'cl_organization_type_id' => 'required',
             'new_password' => 'min:6',
             'new_password_confirmation' => 'min:6|same:new_password',
             ]);
@@ -99,7 +116,7 @@ class UserController extends Controller
         $user->phone = $request->phone;
         $user->reg_number = $request->reg_number;
         $user->vat_number = $request->vat_number;
-        
+        $user->is_receiving_emails = $request->is_receiving_emails;
 
         $user_translation = $user->translateOrNew(\Session::get('language'));
         $user_translation->user_id = $user_id;
@@ -169,9 +186,6 @@ class UserController extends Controller
         ]);
 
     $user = User::where('id', \Auth::id())->first();
-    $user->is_receiving_emails = $request->is_receiving_emails;
-    $user->save();
-
     $translation_bg = $user->translateOrNew(\Config::get('constants.LANGUAGE_BG'));
     $translation_bg->user_id = \Auth::id();
     $translation_bg->description = $request->description_bg;
@@ -214,7 +228,10 @@ class UserController extends Controller
                 $con_user_service = new ConUserService();
                 $con_user_service->user_id = \Auth::id();
                 $con_user_service->cl_service_id = $new_service_id;
-                $con_user_service->min_budget = $request->min_budget[$new_service_id];
+                if( ! empty($request->min_budget[$new_service_id]))
+                {
+                    $con_user_service->min_budget = $request->min_budget[$new_service_id];    
+                }
                 $con_user_service->save();
             }
         }   
@@ -543,5 +560,101 @@ class UserController extends Controller
 
         Session::flash('created_user', trans('common.flash_created_user'));
         return redirect("/list-users");
+    }
+
+    public function admin_statistics()
+    {
+        $contracts_made = CmAd::with('createdBy')->whereNotNull('date_accepted')->get();
+        $now = date('Y-m-d H:i:s');
+        $active_ads = CmAd::with('createdBy')
+            ->whereNull('date_accepted')
+            ->where('deadline', '>', $now)
+            ->whereNull('deleted_by')
+            ->get();
+
+        $offers_on_active_ads = array();
+        $offers_count = 0;
+        $i = 0;
+        foreach ($active_ads as $cm_ad) {
+            if(count($cm_ad->cmOffers()->get()) > 0)
+            {
+                $offers_on_active_ads[$i] = $cm_ad->cmOffers()->get();
+                $offers_count += count($offers_on_active_ads[$i]);
+                $i++;
+            }
+        }
+
+        $all_messages = CmMessage::all();
+        $user_ratings = CmRating::all();
+
+        return view('users.admin_statistics', [
+            'contracts_made' => $contracts_made,
+            'active_ads' => $active_ads,
+            'offers_on_active_ads' => $offers_on_active_ads,
+            'offers_count' => $offers_count,
+            'all_messages' => $all_messages,
+            'user_ratings' => $user_ratings,
+        ]);
+    }
+
+    public function edit_user_accesses_form(User $user)
+    {
+        $user_data = User::with(['conUserAccesses', 'conUserAccesses.clAccesses'])->where('id', $user->id)->first();
+        $all_accesses = ClAccess::where('is_admin_access', 1)->get();
+
+        $user_access_ids = array();
+        if(count($user_data->conUserAccesses) > 0)
+        {
+            foreach ($user_data->conUserAccesses as $access) 
+            {
+                $user_access_ids[] = $access->clAccesses->id;
+            }
+        }
+        
+        return view('users.edit_user_access', [
+            'user_id' => $user_data->id,
+            'user_email' => $user_data->email,
+            'user_access_ids' => $user_access_ids,
+            'all_accesses' => $all_accesses,
+        ]);
+    }
+
+    public function edit_user_accesses_submit(Request $request)
+    {
+        $user_data = User::with(['conUserAccesses', 'conUserAccesses.clAccesses'])->where('id', $request->user_id)->first();
+        $user_access_ids = array();
+        if(count($user_data->conUserAccesses) > 0)
+        {
+            foreach ($user_data->conUserAccesses as $access) 
+            {
+                $user_access_ids[$access->clAccesses->id] = $access->clAccesses->id;
+            }
+        }
+
+        foreach ($request->cl_access_id as $cl_access_id) 
+        {
+            if(in_array($cl_access_id, $user_access_ids))
+            {
+                //item was already in DB
+                unset($user_access_ids[$cl_access_id]);
+            }
+            else
+            {
+                //new item selected => insert intro DB
+                $con_user_access = new ConUserAccess();
+                $con_user_access->user_id = $request->user_id;
+                $con_user_access->cl_access_id = $cl_access_id;
+                $con_user_access->save();
+            }
+        }
+
+        if( ! empty($user_access_ids) > 0)
+        {
+            ConUserAccess::where('user_id', $request->user_id)
+                ->whereIn('cl_access_id', $user_access_ids)->delete();
+        }
+
+        Session::flash('updated_user_access', trans('users.updated_user_access'));
+        return redirect("/edit-user-access/$request->user_id");
     }
 }

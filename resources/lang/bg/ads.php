@@ -45,4 +45,22 @@ return [
     'user_ads_title' => 'Моите обяви',
 
     'single_ad_title' => 'Единична обява',
+
+    //filters
+    'add_filters' => 'Добави филтри',
+    'filter_by_service_placeholder' => 'Филтрирай по категория',
+    'filter_by_regions_placeholder' => 'Филтрирай по регион',
+    'filter_by_org_types_placeholder' => 'Филтрирай по вид правен субект',
+    'filter_by_min_budget_placeholder' => 'Филтрирай по минимален бюджет',
+    'filter_by_max_budget_placeholder' => 'Филтрирай по максимален бюджет',
+    'filter_by_content' => 'Филтрирай по съдържание',
+    'btn_filter' => 'Филтрирай',
+    'filtered_by' => 'Филтрирано по',
+    'filtered_by_region' => ' Регион - ',
+    'filtered_by_org_type' => ' Вид правен субект - ',
+    'filtered_by_service' => ' Категория - ',
+    'filtered_by_min_budget' => ' Минимален бюджет - ',
+    'filtered_by_max_budget' => ' Максимален бюджет - ',
+    'filtered_by_content' => ' Съдържание - ',
+    'date_accepted' => 'Дата на сключване на сделката',
 ];

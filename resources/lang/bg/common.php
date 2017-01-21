@@ -18,9 +18,11 @@ return [
     'btn_continue' => 'Продължи',
     'btn_add_translation' => 'Добави превод',
     'btn_go_to_login' => 'Влез в системата',
+    'filter_all' => 'Всички',
 
     'no_translation' => 'Няма наличен превод на български език. Моля превключете на Английски език.',
-    'created_at' => 'От дата:',
+    'created_at' => 'От дата',
+    'created_by' => 'От потребител',
     'published_by' => 'Публикувано от:',
     'validate_page_deletion' => 'Наистина ли искате да изтриете тази страница?',
     'btn_seeking' => 'Търсещ',
@@ -33,6 +35,7 @@ return [
     'username' => 'Потребителско име',
     'have_read' => 'Прочел съм и съм съгласен с',
     'terms_and_conditions' => 'Общите условия',
+    'password_changed_success' => 'Паролата беше успешно променена',
 
     'view_profile' => 'Прегледай профила',
     'write_msg' => 'Напиши съобщение',
@@ -51,4 +54,6 @@ return [
     'delete_btn' => 'Изтрий',
     'flash_deleted_user' => 'Потребителят беше успешно изтрит!',
     'read_msgs' => 'Прочети съобщенията',
+    'average_rating' => 'Среден рейтинг',
+    'articles_count' => 'Брой статии',
 ];

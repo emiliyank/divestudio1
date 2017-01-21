@@ -18,6 +18,33 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
+                    @if (Session::has('message_sent'))
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="alert alert-success">{{ Session::get('message_sent') }}</div>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="user-box">
+                        <p class="send-message center">
+                            <a href="javascript:void(0)" onClick="$('#conversation-msg').slideToggle(200, function() {equalheight('.boxes .box');});">
+                                {{trans('messages.write_message')}}
+                            </a>
+                        </p>
+                        <div id="conversation-msg" style="display: none;">
+                            <form id="send-msg" method="post" action="{{url('/message')}}">
+                            <fieldset>
+                                {{csrf_field()}}
+                                <input type="hidden" name="to_user_id" value="{{$user->id}}"/>
+
+                                <label for="message">{{trans('messages.message')}}</label>
+                                <textarea name="message" id="message" required placeholder="{{trans('messages.message')}}">{{old('message')}}</textarea>
+                                
+                                <input type="submit" value="{{trans('messages.btn_send')}}">
+                            </fieldset>
+                            </form>
+                        </div>
+                    </div>
                     <h4>
                         {{trans('users.profile_of')}} 
                         @if($user->hasTranslation(\Session::get('language')))
@@ -38,8 +65,18 @@
                             {{trans('users.no_translation')}}
                         @endif
                     </blockquote>
+                    
                     <hr>
-
+                    <?php
+                    $ratings_count = count($user->cmRatings);
+                    if( $ratings_count > 0)
+                    {
+                        $avg_rating = $user->cmRatings->avg('rating');
+                    }else
+                    {
+                        $avg_rating = 'Няма оценки';
+                    }
+                    ?>
                     <p><strong>{{trans('common.rating_of')}} 
                         @if($user->hasTranslation(\Session::get('language')))
                             {{$user->getTranslation(\Session::get('language'))->org_name}}
@@ -47,19 +84,8 @@
                             {{trans('users.no_translation')}}
                         @endif
                     </strong></p>
-
-                    <div class="rate-form" style="margin: -10px 0 30px 0;">
-                        <fieldset class="rating">
-                            <input type="radio" id="4star5" name="rating4" value="5" disabled><label for="4star5" title="Отлично">Отлично</label>
-                            <input type="radio" id="4star4" name="rating4" value="4" disabled><label for="4star4" title="Много добро">Много добро</label>
-                            <input type="radio" id="4star3" name="rating4" value="3" disabled checked><label for="4star3" title="Добро">Добро</label>
-                            <input type="radio" id="4star2" name="rating4" value="2" disabled><label for="4star2" title="Средно">Средно</label>
-                            <input type="radio" id="4star1" name="rating4" value="1" disabled><label for="4star1" title="Слабо">Слабо</label>
-                        </fieldset>
-                    </div>
-
-                    <p><em>Оценили са ви 3 потребителя</em></p>
-
+                    <legend>{{trans('articles.average_rating')}}: {{$avg_rating}}</legend>
+                    <p><em>Оценен от {{$ratings_count}} потребителя</em></p>
                     <hr>
                 </div>
 

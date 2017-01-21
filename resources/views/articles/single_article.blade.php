@@ -136,7 +136,7 @@ function save_rating(rating) {
                         $checked_rating = (int)$avg_rating;
                     }else
                     {
-                        $avg_rating = 'No rating';
+                        $avg_rating = 'Няма оценки';
                         $checked_rating = 0;
                     }
                 ?>

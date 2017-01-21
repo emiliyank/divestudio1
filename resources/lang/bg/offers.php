@@ -33,4 +33,11 @@ return [
     'price' => 'Бюджет',
     'comment' => 'Коментар',
     'flash_offer_sent' => 'Офертата беше изпратена успешно!',
+    'flash_offer_approve' => 'Сделката беша сключена успешно!',
+
+    'order_default' => 'По подразбиране',
+    'order_by_date' => 'По дата',
+    'order_by_price' => 'По цена',
+    'ordered_asc' => 'нарастащ',
+    'ordered_desc' => 'намаляващ',
 ];

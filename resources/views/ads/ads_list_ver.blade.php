@@ -16,7 +16,8 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
-@foreach($unanswered as $ad_id => $cm_ad)
+                    
+                    @foreach($unanswered as $ad_id => $cm_ad)
                     <div class="user-box archive announcement">
                         <a href="{{url('/show_ad/'.$ad_id)}}">
                             <div class="container">
@@ -27,7 +28,7 @@
                             </div>
                         </a>
                     </div>
-@endforeach
+                    @endforeach
                 </div>
 
 @endsection

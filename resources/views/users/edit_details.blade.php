@@ -44,7 +44,7 @@
                                 @foreach($cl_services as $service)
                                 <?php
                                 $i++;
-                                if( ! empty($user_services[$service->id]))
+                                if( array_key_exists($service->id, $user_services))
                                 {
                                     $selected = 'checked';
                                     $display_budget = '';
@@ -69,7 +69,7 @@
                                 <hr>
                                 <p style="font-size: 26px;"><a href="javascript:void(0)" onclick="$('.checkboxes-group :checkbox').prop('checked', true); $(this).blur()"><i class="fa fa-check-square"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <a href="javascript:void(0)" onclick="$('.checkboxes-group :checkbox').prop('checked', false); $(this).blur()"><i class="fa fa-square"></i></a></p>
-                                    <div class="checkboxes-group">
+                                <div class="checkboxes-group">
                                      @foreach($cl_regions as $region)
                                      <?php
                                      $selected = '';
@@ -80,19 +80,7 @@
                                     ?>
                                     <input type="checkbox" name="regions[{{$region->id}}]" id="regions[{{$region->id}}]" value="{{$region->id}}" {{$selected}} ><label for="regions[{{$region->id}}]">{{$region->getTranslation(\Session::get('language'))->region}}</label><br>
                                     @endforeach
-                                </div>
-
-                                <?php
-                                    $selected = '';
-                                    if( ! empty($user->is_receiving_emails))
-                                    {
-                                        $selected = 'checked';
-                                    }
-                                ?>
-                                <div class="checkbox">
-                                    <input type="checkbox" name="is_receiving_emails" id="is_receiving_emails" value="1" {{$selected}}>
-                                    <label for="is_receiving_emails">{{trans('users.is_receiving_emails')}}</label>
-                                </div>
+                                </div>                                
 
                                 <p>{{trans('users.language_label')}}</p>
                                 <hr>
@@ -102,9 +90,14 @@
                                 <?php
                                 $i++;
                                 $selected = '';
+                                $en_description_style = 'display:none';
                                 if( ! empty($user_languages[$language->language]))
                                 {
                                     $selected = 'checked';
+                                }
+                                if($language->locale_code == 'en' && array_key_exists('English', $user_languages))
+                                {
+                                    $en_description_style = 'display:block';
                                 }
                                 ?>
                                 <div class="checkbox">
@@ -124,7 +117,7 @@
                                 <label for="description_bg"><span class="red">*</span>:</label>
                                 <textarea name="description_bg" id="description_bg" placeholder="{{trans('users.description_bg')}}" onFocus="focusLink(true)" onBlur="focusLink(false)">@if($user->hasTranslation(\Config::get('constants.LANGUAGE_BG'))){{$user->getTranslation(\Config::get('constants.LANGUAGE_BG'))->description}}@endif</textarea>
 
-                                <div id="supply-english-description-wrapper">
+                                <div id="supply-english-description-wrapper" style="{{$en_description_style}}">
                                     <label for="description_en">{{trans('users.description_en')}}<span class="red">*</span>:</label>
                                     <textarea name="description_en" id="description_en" placeholder="{{trans('users.description_en')}}">@if($user->hasTranslation(\Config::get('constants.LANGUAGE_EN'))){{$user->getTranslation(\Config::get('constants.LANGUAGE_EN'))->description}}@endif</textarea>
                                 </div>
