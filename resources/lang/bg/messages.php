@@ -16,4 +16,5 @@ return [
     'message_respond' => 'Отговори',
     'btn_respond' => 'Отговор',
     'to_user' => 'До',
+    'no_messages' => 'Нямате получени съобщения',
 ];

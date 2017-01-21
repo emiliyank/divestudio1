@@ -39,6 +39,7 @@
             </div>
             @endif
 
+            @if(count($ads) > 0)
             @foreach($ads as $cm_ad)
             @if($cm_ad->hasTranslation(\Session::get('language')))
             <div class="user-box">
@@ -149,6 +150,12 @@
             </div>
             @endif
             @endforeach
+
+            @else
+            <div id="warning">
+                <p>{{trans('ads.no_mine_ads')}}</p>
+            </div>
+            @endif
         </div>
             
 @endsection

@@ -16,6 +16,7 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
+                    @if(count($all_user_messages) > 0)
                     @foreach($all_user_messages as $key => $user_message)
                     <div class="user-box">
                         <div class="header profile">
@@ -118,6 +119,12 @@
                         </div>
                     </div>
                     @endforeach
+
+                    @else
+                    <div id="warning">
+                        <p>{{trans('messages.no_messages')}}</p>
+                    </div>
+                    @endif
                 </div>
                 
 @endsection

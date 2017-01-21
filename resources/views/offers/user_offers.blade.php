@@ -17,6 +17,7 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
+                    @if(count($received_offers) > 0)
                     <div class="article-filter center">
                         <?php
                             $new_date_order = 'desc';
@@ -101,6 +102,12 @@
                             </div>
                     </div>
                 @endforeach
+
+                @else
+                <div id="warning">
+                    <p>{{trans('offers.no_received_offers')}}</p>
+                </div>
+                @endif
                 </div>
 @endsection
 

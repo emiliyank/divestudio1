@@ -16,6 +16,7 @@
         <div class="container">
             <div class="boxes layout-left">
                 <div class="box">
+                    @if(count($unanswered) > 0 || count($answered) > 0)
                     <div class="user-box">
                         <p class="send-message center">
                             <a href="javascript:void(0)" onClick="$('#filter-wrapper').slideToggle(200, function() {equalheight('.boxes .box');});">
@@ -133,6 +134,12 @@
                         </div>
                     </div>
 @endforeach
+    @else
+    <div id="warning">
+        <p>{{trans('ads.no_received_ads')}}</p>
+    </div>
+    @endif
+
                 </div>
 
 @endsection

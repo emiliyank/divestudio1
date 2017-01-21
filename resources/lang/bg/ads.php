@@ -43,6 +43,8 @@ return [
     'btn_send' => 'Изпрати',
     'btn_reply' => 'Отговор',
     'user_ads_title' => 'Моите обяви',
+    'no_received_ads' => 'Нямате получени обяви!',
+    'no_mine_ads' => 'Нямате свои обяви!',
 
     'single_ad_title' => 'Единична обява',
 

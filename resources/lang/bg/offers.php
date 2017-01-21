@@ -40,4 +40,6 @@ return [
     'order_by_price' => 'По цена',
     'ordered_asc' => 'нарастащ',
     'ordered_desc' => 'намаляващ',
+
+    'no_received_offers' => 'Нямате получени оферти!',
 ];
